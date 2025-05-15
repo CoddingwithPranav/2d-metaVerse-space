@@ -11,17 +11,17 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = "postgresql://postgres:mysecretpassword@localhost:5432/mydb"
 }
 
 model User {
   id       String  @id @unique @default(cuid())
   username String  @unique
-  password String  @unique
-  avatarId String
+  password String
+  avatarId String?
   role     Role
   spaces   Space[]
-  avatar   Avatar  @relation(fields: [avatarId], references: [id])
+  avatar   Avatar? @relation(fields: [avatarId], references: [id])
 }
 
 model Space {

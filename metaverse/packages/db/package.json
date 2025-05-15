@@ -10,10 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@prisma/client": "^6.5.0"
-  },
-  "prisma": {
-    "seed": "tsx prisma/seed/seed.ts"
+    "@prisma/client": "^6.5.0",
+    "dotenv": "^16.5.0"
   },
   "exports": {
     "./client": "./src/index.ts"
