@@ -11,7 +11,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = "postgresql://postgres:mysecretpassword@localhost:5432/mydb"
 }
 
 model User {
@@ -52,6 +52,7 @@ model Element {
   width    Int
   height   Int
   imageUrl String
+  static   Boolean 
   spaces   spaceElements[]
   map      mapElements[]
 }
@@ -61,6 +62,7 @@ model Map {
   width    Int
   height   Int
   name     String
+  thumbnail String
   elements mapElements[]
 }
 
