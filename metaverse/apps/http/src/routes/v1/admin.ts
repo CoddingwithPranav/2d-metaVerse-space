@@ -51,8 +51,9 @@ adminRouter.put("/element/:elementId",async (req,res)=>{
         res.status(400).json({message: "Element not found"})
     }
 })
-adminRouter.get("/avatar",AdminMiddleware , async (req,res)=>{
+adminRouter.post("/avatar",AdminMiddleware , async (req,res)=>{
   try {
+    
     const parsedData = CreateAvatarSchema.safeParse(req.body);
     if (!parsedData.success) {
         return res.status(400).json({message: "Validation failed"})
@@ -72,7 +73,7 @@ adminRouter.get("/avatar",AdminMiddleware , async (req,res)=>{
     res.status(400).json({message: "Avatar already exists"})
   }
 })
-adminRouter.put("/:map",AdminMiddleware,async (req,res)=>{
+adminRouter.post("/map",AdminMiddleware,async (req,res)=>{
    try {
     const parsedData = CreateMapSchema.safeParse(req.body);
     if (!parsedData.success) {

@@ -9,6 +9,7 @@ export const userMiddleware = (
 ) => {
   const header = req.headers["authorization"];
   const token = header && header.split(" ")[1];
+  console.log("token", token);
   if (!token) {
     return res.status(401).json({
       message: "Unauthorized",
@@ -17,9 +18,11 @@ export const userMiddleware = (
   try {
     const decoded = jwt.verify(token, JWT_PASSWORD) as {
       role: string;
-      userId: string;
+      id: string;
     };
-    req.userId = decoded.userId;
+
+    req.userId = decoded.id;
+    console.log("req.userId", req.userId);
     next();
   } catch (err) {
     return res.status(401).json({

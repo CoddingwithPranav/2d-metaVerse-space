@@ -17,14 +17,14 @@ export const AdminMiddleware = (
   try {
     const decoded = jwt.verify(token, JWT_PASSWORD) as {
       role: string;
-      userId: string;
+      id: string;
     };
     if(decoded.role !== "Admin") {
       return res.status(403).json({
         message: "Forbidden",
       });
     }
-    req.userId = decoded.userId;
+    req.userId = decoded.id;
     next();
   } catch (err) {
     return res.status(401).json({

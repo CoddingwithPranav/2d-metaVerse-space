@@ -8,7 +8,6 @@ spaceRouter.post("/", userMiddleware, async (req, res) => {
     try {
         const parsedData = CreateSpaceSchema.safeParse(req.body)
     if (!parsedData.success) {
-        console.log(JSON.stringify(parsedData))
         res.status(400).json({message: "Validation failed"})
         return
     }
@@ -35,13 +34,10 @@ spaceRouter.post("/", userMiddleware, async (req, res) => {
             height: true
         }
     })
-    console.log("after")
     if (!map) {
         res.status(400).json({message: "Map not found"})
         return
     }
-    console.log("map.mapElements.length")
-    console.log(map.elements.length)
     let space = await dbClient.$transaction(async () => {
         const space = await dbClient.space.create({
             data: {
@@ -64,7 +60,6 @@ spaceRouter.post("/", userMiddleware, async (req, res) => {
         return space;
 
     })
-    console.log("space crated")
     res.json({spaceId: space.id})
     } catch (error) {
         res.status(500).json({message: "Internal server error"});
@@ -72,9 +67,8 @@ spaceRouter.post("/", userMiddleware, async (req, res) => {
 })
 
 
-spaceRouter.delete("/element", userMiddleware, async (req, res) => {
+spaceRouter.delete("/element",userMiddleware, async (req, res) => {
   try {
-    console.log("spaceElement?.space1 ")
     const parsedData = DeleteElementSchema.safeParse(req.body)
     if (!parsedData.success) {
         res.status(400).json({message: "Validation failed"})
@@ -88,8 +82,6 @@ spaceRouter.delete("/element", userMiddleware, async (req, res) => {
             space: true
         }
     })
-    console.log(spaceElement?.space)
-    console.log("spaceElement?.space")
     if (!spaceElement?.space.creatorId || spaceElement.space.creatorId !== req.userId) {
         res.status(403).json({message: "Unauthorized"})
         return
@@ -108,7 +100,6 @@ spaceRouter.delete("/element", userMiddleware, async (req, res) => {
 
 spaceRouter.delete("/:spaceId", userMiddleware, async(req, res) => {
    try {
-    console.log("req.params.spaceId", req.params.spaceId)
     const space = await dbClient.space.findUnique({
         where: {
             id: req.params.spaceId
@@ -117,7 +108,7 @@ spaceRouter.delete("/:spaceId", userMiddleware, async(req, res) => {
         }
     })
     if (!space) {
-        res.status(400).json({message: "Space not found"})
+        res.status(401).json({message: "Space not found"})
         return
     }
 

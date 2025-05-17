@@ -11,7 +11,7 @@ export const router = Router();
 
 router.post("/signup",async (req, res)=>{
     const parsedData = SignupSchema.safeParse(req.body)
-    if(!parsedData.success){    console.log(parsedData)
+    if(!parsedData.success){  
 
         return res.status(400).json({message:"Validation Failed"})
     }
@@ -22,7 +22,7 @@ router.post("/signup",async (req, res)=>{
         data:{
             username: parsedData.data.username,
             password: hashedPassword,
-            role: parsedData.data.type === "admin" ? "Admin" : "User",
+            role: parsedData.data.role === "admin" ? "Admin" : "User",
         }
      })
      res.json({
@@ -58,6 +58,7 @@ router.post("/signin", async (req, res)=>{
         const token = jwt.sign({
             id: user.id,
             username: user.username,
+            role: user.role,
         }, JWT_PASSWORD as string, {
             expiresIn: "10h"
         })
