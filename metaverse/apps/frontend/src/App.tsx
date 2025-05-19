@@ -123,18 +123,25 @@ export default function App() {
 
   // Movement controls via canvas keydown
   const handleKeyDown = (e: React.KeyboardEvent<HTMLCanvasElement>) => {
-    debugger
     if (!connected || !selfId) return;
-    const me = users[selfId]; if (!me) return;
-    let { x, y } = me;
-    if (e.key === 'ArrowUp') y--;
-    if (e.key === 'ArrowDown') y++;
-    if (e.key === 'ArrowLeft') x--;
-    if (e.key === 'ArrowRight') x++;
-    const moveMsg: OutgoingMessage = { type: 'move', payload: { x, y } };
+    // get current position
+    const me = users[selfId]!;
+    let newX = me.x;
+    let newY = me.y;
+    if (e.key === 'ArrowUp')    newY--;
+    if (e.key === 'ArrowDown')  newY++;
+    if (e.key === 'ArrowLeft')  newX--;
+    if (e.key === 'ArrowRight') newX++;
+    // optimistic local update
+    setUsers(prev => ({ ...prev, [selfId]: { id: selfId, x: newX, y: newY } }));
+    // send to server
+    const moveMsg: OutgoingMessage = { type: 'move', payload: { x: newX, y: newY } };
+    wsRef.current?.send(JSON.stringify(moveMsg));
+    e.preventDefault();
     wsRef.current?.send(JSON.stringify(moveMsg));
     e.preventDefault();
   };
+  
 
   return (
     <div className="flex flex-col items-center gap-6 p-6">
