@@ -7,7 +7,6 @@ import { HomePage } from '../pages/home/HomePage';
 import { UserDashboard } from '../pages/user/Dashboard';
 import { Profile } from '../pages/user/Profile';
 import { AdminDashboard } from '../pages/admin/Dashboard';
-import { Users } from '../pages/admin/Users';
 import { ElementsPage } from '../pages/admin/Elements';
 import { MapPage } from '../pages/admin/Map';
 import { ManageUsersPage } from '../pages/admin/ManageUsers';
