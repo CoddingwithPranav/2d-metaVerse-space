@@ -42,7 +42,6 @@ const useAuth = () => {
 
   useEffect(() => {
     const storedToken = localStorage.getItem('authToken');
-    debugger
 
     if (storedToken) {
       try {

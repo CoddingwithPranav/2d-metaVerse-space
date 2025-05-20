@@ -8,11 +8,13 @@ import { UserDashboard } from '../pages/user/Dashboard';
 import { Profile } from '../pages/user/Profile';
 import { AdminDashboard } from '../pages/admin/Dashboard';
 import { ElementsPage } from '../pages/admin/Elements';
-import { MapPage } from '../pages/admin/Map';
 import { ManageUsersPage } from '../pages/admin/ManageUsers';
 import ProtectedRoute from './ProtectedRoute';
 import RoleBasedRoute from './RoleBasedRoute';
 import Authentication from '@/pages/auth/Login';
+import MapDashboard from '@/pages/admin/Map';
+import SpaceCreator from '@/pages/admin/SpaceCreator';
+import Arena from '@/pages/Space/Arena';
 
 export const AppRoutes: React.FC = () => (
   <Router>
@@ -20,6 +22,7 @@ export const AppRoutes: React.FC = () => (
       {/* public routes */}
       <Route element={<PublicLayout />}>
         <Route path="/" element={<HomePage />} />
+        <Route path="/arena" element={<Arena />} />
         <Route path="/login" element={<Authentication />} />
       </Route>
 
@@ -41,7 +44,8 @@ export const AppRoutes: React.FC = () => (
       >
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/admin/elements" element={<ElementsPage />} />
-        <Route path="/admin/map" element={<MapPage />} />
+        <Route path="/admin/map" element={<MapDashboard />} />
+        <Route path="/admin/space" element={<SpaceCreator />} />
         <Route path="/admin/manage-users" element={<ManageUsersPage />} />
       </Route>
     </Routes>

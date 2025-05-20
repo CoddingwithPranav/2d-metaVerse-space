@@ -6,6 +6,7 @@ export const AdminLayout: React.FC = () => {
     { to: '/admin/dashboard', label: 'Dashboard' },
     { to: '/admin/elements', label: 'Elements' },
     { to: '/admin/map', label: 'Map' },
+    { to: '/admin/space', label: 'Space' },
     { to: '/admin/manage-users', label: 'Manage Users' },
   ];
 

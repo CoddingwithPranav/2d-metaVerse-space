@@ -5,9 +5,9 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 import { AlertCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import useAuth from '@/utils/Authhook';
 import { authService } from '@/service/authService';
 import { useNavigate } from 'react-router-dom';
+import useAuth from '@/utils/Authhook';
 
 const Authentication: React.FC = () => {
   const [email, setEmail] = useState('');
