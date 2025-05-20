@@ -7,6 +7,7 @@ export const spaceRouter = Router();
 spaceRouter.post("/", userMiddleware, async (req, res) => {
     try {
         const parsedData = CreateSpaceSchema.safeParse(req.body)
+        console.log(parsedData.error)
     if (!parsedData.success) {
         res.status(400).json({message: "Validation failed"})
         return

@@ -3,11 +3,19 @@ import { dbClient } from "@repo/db/client";
 import { SigninSchema, SignupSchema } from "../../types";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { JWT_PASSWORD } from "../../config";
+import { IMAGEKIT_PRIVATE_KEY, IMAGEKIT_PUBLIC_KEY, JWT_PASSWORD } from "../../config";
 import { adminRouter } from "./admin";
 import { spaceRouter } from "./space";
 import { userRouter } from "./user";
+import ImageKit from "imagekit";
 export const router = Router();
+
+const imagekit = new ImageKit({
+    urlEndpoint: 'https://ik.imagekit.io/sekvmxelf', // https://ik.imagekit.io/your_imagekit_id
+    publicKey: IMAGEKIT_PUBLIC_KEY,
+    privateKey: IMAGEKIT_PRIVATE_KEY
+  });
+  
 
 router.post("/signup",async (req, res)=>{
     const parsedData = SignupSchema.safeParse(req.body)
@@ -87,6 +95,28 @@ router.get("/elements",async(req, res)=>{
     
   }
 })
+router.get("/element/:id", async (req, res) => {
+    try {
+      const element = await dbClient.spaceElements.findFirst({
+        where: {
+          id: req.params.id
+        },
+        include:{
+            mapElement: true
+        }
+      });
+  
+      if (!element) {
+        return res.status(404).json({ message: "Element not found" });
+      }
+  
+      res.json({ element });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  });
+  
 
 router.get("/avatars",async (req,res)=>{
   try {
@@ -102,7 +132,34 @@ router.get("/avatars",async (req,res)=>{
     res.status(400).json({message:"Internal Server Error"})
   }
 })
+router.get("/maps",async (req,res)=>{
+  try {
+   const maps =await  dbClient.map.findMany({
+    select:{
+        thumbnail:true,
+        name:true,
+        id:true,
+        height:true,
+        width:true,
+        elements:true
+    }
+   });
+   res.json({
+    maps
+    
+   })
+  } catch (error) {
+    res.status(400).json({message:"Internal Server Error"})
+  }
+})
 
+
+
+router.get('/image-auth', function (req, res) {
+
+  const { token, expire, signature } = imagekit.getAuthenticationParameters();
+  res.send({ token, expire, signature, publicKey: IMAGEKIT_PUBLIC_KEY });
+});
 
 router.use("/user", userRouter);
 router.use("/space", spaceRouter);
