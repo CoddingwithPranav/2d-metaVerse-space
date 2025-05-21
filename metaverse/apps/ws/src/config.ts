@@ -1,2 +1,2 @@
-export const JWT_PASSWORD= process.env.JWT_PASSWORD || "password";
-export const PORT= process.env.PORT || 3000;
+export const JWT_PASSWORD= process.env.JWT_PASSWORD;
+export const PORT= process.env.PORT ?? 8080; 

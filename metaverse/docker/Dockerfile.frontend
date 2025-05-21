@@ -1,0 +1,14 @@
+FROM node:18-alpine
+
+WORKDIR /usr/app/metaverse
+
+COPY ./package*.json ./
+COPY ./turbo.json ./
+COPY ./packages ./packages
+COPY ./apps/frontend ./apps/frontend
+
+RUN npm install
+
+WORKDIR /usr/app/metaverse/apps/frontend
+
+CMD ["npm", "run", "dev"]

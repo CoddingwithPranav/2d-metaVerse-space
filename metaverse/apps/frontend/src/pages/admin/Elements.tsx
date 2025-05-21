@@ -21,6 +21,7 @@ interface Element {
   static: boolean;
 }
 
+
 export const ElementsPage : React.FC = () => {
   const navigate = useNavigate();
   const [elements, setElements] = useState<Element[]>([]);

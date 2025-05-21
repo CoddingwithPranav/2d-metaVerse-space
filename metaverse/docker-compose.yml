@@ -1,0 +1,69 @@
+services:
+  postgres:
+    container_name: metaverseDBContainer
+    image: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - metaverseDBVolume:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=mydb
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=mysecretpassword
+
+  http:
+    container_name: httpContainer
+    ports:
+      - 3000:3000
+    build:
+      context: ./
+      dockerfile: ./docker/Dockerfile.http
+    env_file:
+      - .env
+    volumes:
+      - ./apps/http:/usr/app/metaverse/apps/http
+      - ./packages:/usr/app/metaverse/packages
+    environment:
+      - JWT_SECRET_ADMIN=${JWT_SECRET_ADMIN}
+      - JWT_SECRET_USER=${JWT_SECRET_USER}
+      - DATABASE_URL=${DATABASE_URL}
+    depends_on:
+      - postgres
+    command: sh -c "npm run db:migrate && npm run db:generate && npm run start:http"
+
+  ws:
+    container_name: wsContainer
+    ports:
+      - 8080:8080
+    build:
+      context: ./
+      dockerfile: ./docker/Dockerfile.ws
+    env_file:
+      - .env
+    volumes:
+      - ./apps/ws:/usr/app/metaverse/apps/ws
+      - ./packages:/usr/app/metaverse/packages
+    environment:
+      - JWT_SECRET_USER=${JWT_SECRET_USER}
+      - DATABASE_URL=${DATABASE_URL}
+    depends_on:
+      - postgres
+
+  frontend:
+    container_name: frontendContainer
+    ports:
+      - 5173:5173
+    build:
+      context: ./
+      dockerfile: ./docker/Dockerfile.frontend
+    depends_on:
+      - postgres
+    volumes:
+      - ./apps/frontend:/usr/app/metaverse/apps/frontend
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+
+volumes:
+  metaverseDBVolume:
+
+

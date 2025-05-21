@@ -1,7 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { DndProvider, useDrag, useDrop } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
+import {  useDrag, useDrop } from 'react-dnd';
 import { Rnd } from 'react-rnd';
 import {
   Card,
@@ -64,7 +62,6 @@ const DraggablePaletteItem: React.FC<{ el: Element }> = ({ el }) => {
 };
 
 const MapDashboard: React.FC = () => {
-  const navigate = useNavigate();
   const [elements, setElements] = useState<Element[]>([]);
   const [maps, setMaps] = useState<MapItem[]>([]);
   const [editing, setEditing] = useState(false);

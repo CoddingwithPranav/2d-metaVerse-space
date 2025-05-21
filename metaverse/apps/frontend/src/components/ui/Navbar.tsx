@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button'; // Assuming you have shadcn/ui
-import { BookOpen, Coffee, Circle, Code2 } from 'lucide-react';
+import { BookOpen } from 'lucide-react';
 
 export const Navbar: React.FC = () => (
     <nav className="bg-blue-800 backdrop-blur-md border-b border-white/10 py-4">

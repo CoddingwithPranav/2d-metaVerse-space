@@ -1,0 +1,11 @@
+
+.turbo
+dist
+node_modules
+.env*
+apps/http/node_modules/
+apps/ws/node_modules/
+apps/frontend/node_modules/
+packages/db/node_modules/
+packages/eslint-config/node_modules/
+packages/ui/node_modules/ 

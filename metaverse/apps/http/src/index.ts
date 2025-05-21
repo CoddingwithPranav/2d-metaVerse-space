@@ -1,19 +1,24 @@
 import express from "express";
+import cors from "cors";
 import { router } from "./routes/v1";
 import { PORT } from "./config";
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
-app.use(express.json())
+
+// Apply CORS middleware before any routes
+app.use(cors({
+  origin: "*", // ⚠️ In production, set this to a specific domain
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
+
+app.use(express.json());
 app.use("/api/v1", router);
 
-// allow cross-origin requests
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", 
-    "Origin, X-Requested-With, Content-Type, Accept");
-  next();
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
 
-app.listen(PORT, ()=>{
-    console.log(`Server is running on port ${PORT}`)
-})
+

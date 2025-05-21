@@ -10,7 +10,7 @@ import {
   ArrowRight,
   ArrowRightCircle,
 } from "lucide-react";
-import { BACKEND_URL } from "@/config";
+import { BACKEND_URL, WS_URL } from "@/config";
 
 // Types for WebSocket messages
 type IncomingMessage =
@@ -82,7 +82,7 @@ export default function Arena() {
   const handleJoin = () => {
     fetchSpace(spaceId);
     // Use wss for secure connection if your backend supports it, otherwise ws
-    const ws = new WebSocket("ws://localhost:3001"); // Or wss://your-backend.com:3001
+    const ws = new WebSocket(WS_URL); // Or wss://your-backend.com:3001
     wsRef.current = ws;
     ws.onopen = () => {
       setConnected(true);
