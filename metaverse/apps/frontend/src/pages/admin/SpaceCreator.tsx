@@ -67,7 +67,9 @@ export const SpaceCreator: React.FC = () => {
         payload.mapId = selectedMap;
       }
       const res = await axios.post(`${BACKEND_URL}/space`, payload, {
-        headers: { authorization: `Bearer ${localStorage.getItem("authToken")}` },
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
       });
       const { spaceId } = res.data;
       navigate(`/space/${spaceId}`);
@@ -121,7 +123,8 @@ export const SpaceCreator: React.FC = () => {
               id="dimensions"
               value={dimensions}
               onChange={(e) => setDimensions(e.target.value)}
-              required
+              // required={selectedMap === "none"} // Only required if no map is selected
+              // disabled={selectedMap !== "none"} // Optional: disable if using map dimensions
             />
           </div>
 

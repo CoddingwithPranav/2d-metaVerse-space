@@ -17,11 +17,13 @@ function getRandomString(length: number) {
 
 export class User {
   private ws: WebSocket;
-  public id: string;               // socket/session ID
-  public userId?: string;          // JWT user ID
+  public id: string; // socket/session ID
+  public userId?: string; // JWT user ID
   private spaceId?: string;
   private x: number;
   private y: number;
+  private spaceWidth: number = 0;
+  private spaceHeight: number = 0;
 
   constructor(ws: WebSocket) {
     this.ws = ws;
@@ -48,8 +50,19 @@ export class User {
           this.userId = payload.id;
 
           // Check space existence
-          const space = await dbClient.space.findFirst({ where: { id: spaceId } });
+          const space = await dbClient.space.findFirst({
+            where: { id: spaceId },
+          });
           if (!space) {
+            this.ws.close();
+            return;
+          }
+
+          if (RoomManager.getInstance().isUserInRoom(spaceId, this.userId)) {
+            this.send({
+              type: "error",
+              payload: { message: "Already connected in this room." },
+            });
             this.ws.close();
             return;
           }
@@ -57,6 +70,8 @@ export class User {
           // Assign to room
           this.spaceId = spaceId;
           RoomManager.getInstance().addUser(spaceId, this);
+          this.spaceWidth = space.width;
+          this.spaceHeight = space.height!;
 
           // Random spawn within space
           this.x = Math.floor(Math.random() * space.width);
@@ -91,9 +106,23 @@ export class User {
         }
         case "move": {
           const { x: movX, y: movY } = parseData.payload;
+
+          // Check movement distance
           const xDisplacement = Math.abs(this.x - movX);
           const yDisplacement = Math.abs(this.y - movY);
-          if ((xDisplacement === 1 && yDisplacement === 0) || (xDisplacement === 0 && yDisplacement === 1)) {
+
+          // Check boundary
+          const inBounds =
+            movX >= 0 &&
+            movY >= 0 &&
+            movX < this.spaceWidth &&
+            movY < this.spaceHeight;
+
+          if (
+            inBounds &&
+            ((xDisplacement === 1 && yDisplacement === 0) ||
+              (xDisplacement === 0 && yDisplacement === 1))
+          ) {
             this.x = movX;
             this.y = movY;
             RoomManager.getInstance().broadcast(
@@ -105,7 +134,10 @@ export class User {
               this.spaceId!
             );
           } else {
-            this.send({ type: "movement-rejected", payload: { x: this.x, y: this.y } });
+            this.send({
+              type: "movement-rejected",
+              payload: { x: this.x, y: this.y },
+            });
           }
           break;
         }

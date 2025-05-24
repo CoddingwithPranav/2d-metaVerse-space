@@ -42,7 +42,6 @@ const useAuth = () => {
 
   useEffect(() => {
     const storedToken = localStorage.getItem('authToken');
-
     if (storedToken) {
       try {
         const decoded = jwtDecode<DecodedTokenPayload>(storedToken);

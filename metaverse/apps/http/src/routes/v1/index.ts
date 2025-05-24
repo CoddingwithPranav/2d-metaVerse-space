@@ -12,8 +12,8 @@ export const router = Router();
 
 const imagekit = new ImageKit({
     urlEndpoint: 'https://ik.imagekit.io/sekvmxelf', // https://ik.imagekit.io/your_imagekit_id
-    publicKey: IMAGEKIT_PUBLIC_KEY,
-    privateKey: IMAGEKIT_PRIVATE_KEY
+    publicKey: IMAGEKIT_PUBLIC_KEY ?? "",
+    privateKey: IMAGEKIT_PRIVATE_KEY ?? ""
   });
   
 

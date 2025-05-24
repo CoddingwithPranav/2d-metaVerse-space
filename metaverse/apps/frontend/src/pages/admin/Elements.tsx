@@ -1,17 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-} from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Checkbox } from '@/components/ui/checkbox';
-import UploadExample from '@/components/ui/imageupload';
-import { elementService } from '@/service/elementService';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
+import UploadExample from "@/components/ui/imageupload";
+import { elementService } from "@/service/elementService";
 
 interface Element {
   id: string;
@@ -21,14 +16,13 @@ interface Element {
   static: boolean;
 }
 
-
-export const ElementsPage : React.FC = () => {
+export const ElementsPage: React.FC = () => {
   const navigate = useNavigate();
   const [elements, setElements] = useState<Element[]>([]);
   const [showForm, setShowForm] = useState(false);
 
   // Form state
-  const [imageUrl, setImageUrl] = useState<string>('');
+  const [imageUrl, setImageUrl] = useState<string>("");
   const [width, setWidth] = useState<number>(1);
   const [height, setHeight] = useState<number>(1);
   const [isStatic, setIsStatic] = useState<boolean>(false);
@@ -39,7 +33,7 @@ export const ElementsPage : React.FC = () => {
       const list = await elementService.list();
       setElements(list);
     } catch (err) {
-      console.error('Error fetching elements:', err);
+      console.error("Error fetching elements:", err);
     }
   };
 
@@ -50,22 +44,27 @@ export const ElementsPage : React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!imageUrl) {
-      alert('Please upload an image first');
+      alert("Please upload an image first");
       return;
     }
 
     try {
-      await elementService.create({ imageUrl, width, height, static: isStatic });
+      await elementService.create({
+        imageUrl,
+        width,
+        height,
+        static: isStatic,
+      });
       setShowForm(false);
       // Reset form
-      setImageUrl('');
+      setImageUrl("");
       setWidth(1);
       setHeight(1);
       setIsStatic(false);
       fetchElements();
     } catch (error) {
-      console.error('Create element failed:', error);
-      alert('Failed to create element');
+      console.error("Create element failed:", error);
+      alert("Failed to create element");
     }
   };
 
@@ -87,10 +86,14 @@ export const ElementsPage : React.FC = () => {
                   <CardTitle>ID: {el.id}</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-2">
-                  <img src={el.imageUrl} alt={`el-${el.id}`} className="w-full rounded-md" />
+                  <img
+                    src={el.imageUrl}
+                    alt={`el-${el.id}`}
+                    className="w-full rounded-md"
+                  />
                   <p>Width: {el.width}</p>
                   <p>Height: {el.height}</p>
-                  <p>Static: {el.static ? 'Yes' : 'No'}</p>
+                  <p>Static: {el.static ? "Yes" : "No"}</p>
                 </CardContent>
               </Card>
             ))}
@@ -102,7 +105,9 @@ export const ElementsPage : React.FC = () => {
             <Label htmlFor="upload">Upload Image</Label>
             <UploadExample onUpload={(url: string) => setImageUrl(url)} />
             {imageUrl && (
-              <p className="text-sm text-gray-600 break-all">Uploaded URL: {imageUrl}</p>
+              <p className="text-sm text-gray-600 break-all">
+                Uploaded URL: {imageUrl}
+              </p>
             )}
           </div>
 
@@ -132,7 +137,10 @@ export const ElementsPage : React.FC = () => {
             <Checkbox
               id="static"
               checked={isStatic}
-              onChange={(e:any) => setIsStatic(e.target.checked)}
+              onCheckedChange={(checked) => {
+                console.log("Static checked:", checked);
+                setIsStatic(!!checked);
+              }}
             />
             <Label htmlFor="static">Static</Label>
           </div>

@@ -2,13 +2,23 @@ FROM node:20-alpine
 
 WORKDIR /usr/app/metaverse
 
-COPY ./package*.json ./
-COPY ./packages ./packages
-COPY ./turbo.json ./
-RUN npm install
-COPY ./apps/frontend ./apps/frontend
 
+# Copy workspace and root manifests
+COPY package*.json ./
+COPY turbo.json ./
+COPY apps/frontend/package*.json apps/frontend/
+COPY packages packages
 
+# Install all dependencies with workspace support
+RUN npm install --workspaces
+
+# Copy the rest of the project after dependencies
+COPY apps apps
+
+# Move into frontend app
 WORKDIR /usr/app/metaverse/apps/frontend
+
+# Expose Vite's default dev port
+EXPOSE 5173
 
 CMD ["npm", "run", "dev"]

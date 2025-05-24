@@ -31,6 +31,10 @@ export class RoomManager {
             }
         })
     }
+    public isUserInRoom(spaceId: string, userId?: string): boolean {
+        if (!userId || !this.rooms.has(spaceId)) return false;
+        return this.rooms.get(spaceId)!.some(u => u.userId === userId);
+      }
     public removeUser(user:User, spaceId:string) {
         if(!this.rooms.has(spaceId)) return;
         this.rooms.set(spaceId, this.rooms.get(spaceId)?.filter((u) => u.id !== user.id)!);
