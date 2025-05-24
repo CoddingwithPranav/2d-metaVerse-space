@@ -7,13 +7,13 @@ WORKDIR /usr/app/metaverse
 # RUN npm install -g pnpm
 
 COPY ./package*.json ./
+COPY ./packages ./packages
+RUN npm install
+RUN npm install -g nodemon
 COPY ./turbo.json ./
 # COPY ./pnpm-*.yaml ./
 COPY ./apps/http ./apps/http
-COPY ./packages ./packages
 
-RUN npm install
-RUN npm install -g nodemon
 
 
 # RUN pnpm run build

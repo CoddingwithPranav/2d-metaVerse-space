@@ -48,6 +48,7 @@ services:
       - DATABASE_URL=${DATABASE_URL}
     depends_on:
       - postgres
+    command: sh -c "npm run db:migrate && npm run db:generate && npm run start:http"
 
   frontend:
     container_name: frontendContainer

@@ -5,14 +5,14 @@ WORKDIR /usr/app/metaverse
 # RUN npm install -g pnpm
 
 COPY ./package*.json ./
-COPY ./turbo.json ./
-# COPY ./pnpm-*.yaml ./
-COPY ./apps/ws ./apps/ws
 COPY ./packages ./packages
 
 RUN npm install -g nodemon
 
 RUN npm install
+COPY ./turbo.json ./
+# COPY ./pnpm-*.yaml ./
+COPY ./apps/ws ./apps/ws
 
 EXPOSE 8080
 

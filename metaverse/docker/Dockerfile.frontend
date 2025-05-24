@@ -1,13 +1,13 @@
-FROM node:18-alpine
+FROM node:20-alpine
 
 WORKDIR /usr/app/metaverse
 
 COPY ./package*.json ./
-COPY ./turbo.json ./
 COPY ./packages ./packages
+COPY ./turbo.json ./
+RUN npm install
 COPY ./apps/frontend ./apps/frontend
 
-RUN npm install
 
 WORKDIR /usr/app/metaverse/apps/frontend
 
