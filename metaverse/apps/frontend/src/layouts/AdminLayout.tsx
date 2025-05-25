@@ -5,6 +5,7 @@ export const AdminLayout: React.FC = () => {
   const navItems = [
     { to: '/admin/dashboard', label: 'Dashboard' },
     { to: '/admin/elements', label: 'Elements' },
+    { to: '/admin/background', label: 'Background' },
     { to: '/admin/map', label: 'Map' },
     { to: '/admin/space', label: 'Space' },
     { to: '/admin/manage-users', label: 'Manage Users' },

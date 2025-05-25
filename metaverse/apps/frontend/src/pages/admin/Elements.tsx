@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,7 +16,6 @@ interface Element {
 }
 
 export const ElementsPage: React.FC = () => {
-  const navigate = useNavigate();
   const [elements, setElements] = useState<Element[]>([]);
   const [showForm, setShowForm] = useState(false);
 

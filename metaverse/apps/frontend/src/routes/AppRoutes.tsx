@@ -16,6 +16,7 @@ import SpaceCreator from '@/pages/admin/SpaceCreator';
 import Arena from '@/pages/Space/Arena';
 import UserSpace from '@/pages/user/userSpace';
 import { MapList } from '@/pages/admin/MapList';
+import { BackgroundsPage } from '@/pages/admin/Background';
 
 export const AppRoutes: React.FC = () => (
   <Router>
@@ -46,6 +47,7 @@ export const AppRoutes: React.FC = () => (
         }
       >
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path="/admin/background" element={<BackgroundsPage />} />
         <Route path="/admin/elements" element={<ElementsPage />} />
         <Route path="/admin/map" element={<MapDashboard />} />
         <Route path="/admin/space" element={<SpaceCreator />} />
