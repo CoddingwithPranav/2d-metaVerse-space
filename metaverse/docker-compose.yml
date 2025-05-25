@@ -48,21 +48,21 @@ services:
       - DATABASE_URL=${DATABASE_URL}
     depends_on:
       - postgres
-    command: sh -c "npm run db:migrate && npm run db:generate && npm run start:http"
+    command: sh -c "npm run db:migrate && npm run db:generate && npm run start:ws"
 
-  frontend:
-    container_name: frontendContainer
-    ports:
-      - 5173:5173
-    build:
-      context: ./
-      dockerfile: ./docker/Dockerfile.frontend
-    depends_on:
-      - postgres
-    volumes:
-      - ./apps/frontend:/usr/app/metaverse/apps/frontend
-    environment:
-      - DATABASE_URL=${DATABASE_URL}
+  # frontend:
+  #   container_name: frontendContainer
+  #   ports:
+  #     - 5173:5173
+  #   build:
+  #     context: ./
+  #     dockerfile: ./docker/Dockerfile.frontend
+  #   depends_on:
+  #     - postgres
+  #   volumes:
+  #     - ./apps/frontend:/usr/app/metaverse/apps/frontend
+  #   environment:
+  #     - DATABASE_URL=${DATABASE_URL}
 
 volumes:
   metaverseDBVolume:

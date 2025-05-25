@@ -1,20 +1,24 @@
-FROM node:20
-
+FROM node:22
 
 WORKDIR /usr/app/metaverse
 
-# RUN npm install -g pnpm
-
-COPY ./package*.json ./
-COPY ./packages ./packages
-
+# Install global dev tools
 RUN npm install -g nodemon
 
-RUN npm install
-COPY ./turbo.json ./
-# COPY ./pnpm-*.yaml ./
-COPY ./apps/ws ./apps/ws
+# Copy root-level files for dependency resolution
+COPY package*.json turbo.json ./
+COPY apps/ws/package*.json apps/ws/
+COPY packages packages
+# COPY apps/ws/package*.json apps/ws/ 
 
-EXPOSE 8080
+# Install workspace dependencies
+RUN npm install --workspaces
 
-CMD [ "npm", "run", "start:ws" ]
+# Now copy source files (after installing deps to avoid cache busting)
+COPY apps apps
+COPY packages packages
+
+EXPOSE 3000
+
+# Run the HTTP app using the workspace-aware script
+CMD ["npm", "run", "--workspace=ws", "dev"]
