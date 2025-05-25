@@ -48,17 +48,22 @@ export const CreateAvatarSchema = z.object({
     imageUrl: z.string(),
 })
 
-export const CreateMapSchema = z.object({
-    thumbnail: z.string(),
-    dimensions: z.string().regex(/^[0-9]{1,4}x[0-9]{1,4}$/),
-    name: z.string(),
-    defaultElements: z.array(z.object({
-        elementId: z.string(),
-        x: z.number(),  
-        y: z.number(),
-    }))
-})
 
+export const CreateMapSchema = z.object({
+  background: z.string(), // background ID
+  thumbnail: z.string(),
+  name: z.string(),
+  width: z.number().min(1).max(10000),
+  height: z.number().min(1).max(10000),
+  defaultElements: z.array(z.object({
+    id: z.string(),        // Unique element ID on the canvas
+    assetId: z.string(),   // ID of the asset used
+    x: z.number(),         // Position X
+    y: z.number(),         // Position Y
+    width: z.number(),     // Width of the element
+    height: z.number(),    // Height of the element
+  }))
+});
 
 
 declare global {

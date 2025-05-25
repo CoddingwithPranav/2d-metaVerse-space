@@ -66,6 +66,11 @@ model Element {
   spaces   spaceElements[]
   map      mapElements[]
 }
+model background {
+  id       String          @id @unique @default(cuid())
+  Url      String
+  maps     Map[]
+}
 
 model Map {
   id       String        @id @unique @default(cuid())
@@ -73,6 +78,8 @@ model Map {
   height   Int
   name     String
   thumbnail String
+  backgroundId String?
+  background background? @relation(fields: [backgroundId], references: [id])
   elements mapElements[]
 }
 

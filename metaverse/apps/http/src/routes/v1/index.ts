@@ -132,26 +132,43 @@ router.get("/avatars",async (req,res)=>{
     res.status(400).json({message:"Internal Server Error"})
   }
 })
-router.get("/maps",async (req,res)=>{
+router.get("/maps", async (req, res) => {
   try {
-   const maps =await  dbClient.map.findMany({
-    select:{
-        thumbnail:true,
-        name:true,
-        id:true,
-        height:true,
-        width:true,
-        elements:true
-    }
-   });
-   res.json({
-    maps
-    
-   })
+    const maps = await dbClient.map.findMany({
+      select: {
+        id: true,
+        name: true,
+        thumbnail: true,
+        width: true,
+        height: true,
+        background: {
+          select: {
+            id: true,
+            Url: true,
+          },
+        },
+        elements: true,
+      },
+    });
+
+    res.json({ maps });
   } catch (error) {
-    res.status(400).json({message:"Internal Server Error"})
+    console.error("Fetching maps failed:", error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
-})
+});
+
+router.get("/backgrounds", async (req, res) => {
+  try {
+    const backgrounds = await dbClient.background.findMany({
+      select: { id: true, Url: true }
+    });
+    res.json(backgrounds);
+  } catch (err) {
+    console.error("Error fetching backgrounds:", err);
+    res.status(500).json({ message: "Failed to fetch backgrounds" });
+  }
+});
 
 
 
