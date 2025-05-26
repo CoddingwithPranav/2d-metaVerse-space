@@ -53,6 +53,8 @@ model spaceElements {
   spaceId   String
   x         Int
   y         Int
+  height    String @default("")
+  width     String @default("")
   space     Space   @relation(fields: [spaceId], references: [id])
   mapElement   Element @relation(fields: [elementId], references: [id])
 }
@@ -87,6 +89,8 @@ model mapElements {
   id        String  @id @unique @default(cuid())
   mapId     String
   elementId String
+  height    String @default("")
+  width     String @default("")
   x         Int?
   y         Int?
   map       Map     @relation(fields: [mapId], references: [id])

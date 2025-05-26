@@ -2,19 +2,24 @@
 import { BACKEND_URL } from '@/config';
 import axios from 'axios';
 
-// Type definitions matching your backend schema
+// Type definitions matching your backend schema additions
 export interface DefaultElementPlacement {
-  elementId: string;
+  id: string;
+  assetId: string;
   x: number;
   y: number;
+  width: number;
+  height: number;
 }
 
 export interface MapItem {
   id: string;
   name: string;
   thumbnail: string;
-  dimensions: string;
-  defaultElements: DefaultElementPlacement[];
+  width: number;
+  height: number;
+  backgroundId: string;
+  elements: DefaultElementPlacement[];
 }
 
 const API = axios.create({
@@ -39,11 +44,13 @@ export const mapService = {
   create: async (payload: {
     name: string;
     thumbnail: string;
-    dimensions: string;
+    width: number;
+    height: number;
+    background: string;
     defaultElements: DefaultElementPlacement[];
-  }): Promise<string> => {
-    const res = await API.post('admin/map', payload);
-    return res.data.id as string;
+  }): Promise<{ id: string }> => {
+    const res = await API.post('/admin/map', payload);
+    return { id: res.data.id as string };
   },
 
   /**
@@ -54,18 +61,20 @@ export const mapService = {
     payload: Partial<{
       name: string;
       thumbnail: string;
-      dimensions: string;
+      width: number;
+      height: number;
+      background: string;
       defaultElements: DefaultElementPlacement[];
     }>
-  ): Promise<string> => {
-    const res = await API.put(`admin/map/${id}`, payload);
-    return res.data.id as string;
+  ): Promise<{ id: string }> => {
+    const res = await API.put(`/admin/map/${id}`, payload);
+    return { id: res.data.id as string };
   },
 
   /**
    * Delete a map
    */
   remove: async (id: string): Promise<void> => {
-    await API.delete(`admin/map/${id}`);
+    await API.delete(`/admin/map/${id}`);
   },
 };

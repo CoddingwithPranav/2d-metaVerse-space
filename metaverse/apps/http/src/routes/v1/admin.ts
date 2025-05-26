@@ -100,8 +100,10 @@ adminRouter.post("/map", AdminMiddleware, async (req, res) => {
         elements: {
           create: defaultElements.map((e) => ({
             elementId: e.assetId,
-            x: Math.round(e.x),
-            y: Math.round(e.y),
+            x: e.x,
+            y: e.y,
+            width: e.width.toString(),
+            height: e.height.toString(),
           })),
         },
       },

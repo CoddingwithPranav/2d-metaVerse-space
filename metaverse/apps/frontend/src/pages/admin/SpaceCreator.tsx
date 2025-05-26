@@ -18,42 +18,39 @@ import { mapService } from "@/service/mapservice";
 interface MapOption {
   id: string;
   name: string;
-  dimensions: string;
+  width: number;
+  height: number;
 }
 
 export const SpaceCreator: React.FC = () => {
   const navigate = useNavigate();
   const [maps, setMaps] = useState<MapOption[]>([]);
-  // Initialize selectedMap to "none" to match the default SelectItem
   const [selectedMap, setSelectedMap] = useState<string>("none");
-  const [name, setName] = useState("");
-  const [dimensions, setDimensions] = useState("50x50");
-  const [loading, setLoading] = useState(false);
+  const [name, setName] = useState<string>("");
+  const [dimensions, setDimensions] = useState<string>("50x50");
+  const [loading, setLoading] = useState<boolean>(false);
 
+  // Fetch available maps
   useEffect(() => {
     mapService
       .list()
       .then((list) => {
         setMaps(
-          list.map((m) => ({
-            id: m.id,
-            name: m.name,
-            dimensions: m.dimensions,
-          }))
+          list.map((m) => ({ id: m.id, name: m.name, width: m.width, height: m.height }))
         );
       })
       .catch(console.error);
   }, []);
 
-  // When map is selected, auto-fill dimensions
+  // Auto-fill dimensions when a map is selected
   useEffect(() => {
-    // Only update dimensions if a specific map is selected (not "none")
-    if (selectedMap && selectedMap !== "none") {
+    if (selectedMap !== "none") {
       const map = maps.find((m) => m.id === selectedMap);
-      if (map) setDimensions(map.dimensions);
-    } else if (selectedMap === "none") {
-      // Optionally reset dimensions if "None" is selected
-      setDimensions("50x50"); // Or any other default you prefer
+      if (map) {
+        setDimensions(`${map.width}x${map.height}`);
+      }
+    } else {
+      setDimensions("50x50");
     }
   }, [selectedMap, maps]);
 
@@ -61,18 +58,29 @@ export const SpaceCreator: React.FC = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const payload: any = { name, dimensions };
-      // Only include mapId if a specific map is selected
-      if (selectedMap && selectedMap !== "none") {
+      const payload: any = { name };
+
+      if (selectedMap !== "none") {
+        // Creating space from an existing map
         payload.mapId = selectedMap;
+      } else {
+        // Creating custom space dimensions
+        const [w, h] = dimensions.split("x").map((v) => parseInt(v, 10));
+        payload.width = w;
+        payload.height = h;
       }
-      const res = await axios.post(`${BACKEND_URL}/space`, payload, {
-        headers: {
-          authorization: `Bearer ${localStorage.getItem("authToken")}`,
-        },
-      });
-      const { spaceId } = res.data;
-      navigate(`/space/${spaceId}`);
+
+      const res = await axios.post(
+        `${BACKEND_URL}/space`,
+        payload,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+        }
+      );
+
+      navigate(`/user/spaces`);
     } catch (err) {
       console.error("Failed to create space", err);
       alert("Failed to create space");
@@ -100,9 +108,7 @@ export const SpaceCreator: React.FC = () => {
 
           <div>
             <Label htmlFor="map">Select Map</Label>
-            {/* Added value prop to make it a controlled component */}
             <Select onValueChange={setSelectedMap} value={selectedMap}>
-              {/* Ensure SelectValue displays the currently selected map name or a default */}
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select a map" />
               </SelectTrigger>
@@ -123,8 +129,9 @@ export const SpaceCreator: React.FC = () => {
               id="dimensions"
               value={dimensions}
               onChange={(e) => setDimensions(e.target.value)}
-              // required={selectedMap === "none"} // Only required if no map is selected
-              // disabled={selectedMap !== "none"} // Optional: disable if using map dimensions
+              disabled={selectedMap !== "none"}
+              placeholder="WidthxHeight"
+              required={selectedMap === "none"}
             />
           </div>
 

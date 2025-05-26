@@ -20,12 +20,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 6.7.0
- * Query Engine version: 3cff47a7f5d65c3ea74883f1d736e41d68ce91ed
+ * Prisma Client JS version: 6.8.2
+ * Query Engine version: 2060c79ba17c6bb9f5823312b6f6b7f4a845738e
  */
 Prisma.prismaVersion = {
-  client: "6.7.0",
-  engine: "3cff47a7f5d65c3ea74883f1d736e41d68ce91ed"
+  client: "6.8.2",
+  engine: "2060c79ba17c6bb9f5823312b6f6b7f4a845738e"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -124,6 +124,8 @@ exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   username: 'username',
   password: 'password',
+  displayName: 'displayName',
+  profileImage: 'profileImage',
   avatarId: 'avatarId',
   role: 'role'
 };
@@ -142,7 +144,9 @@ exports.Prisma.SpaceElementsScalarFieldEnum = {
   elementId: 'elementId',
   spaceId: 'spaceId',
   x: 'x',
-  y: 'y'
+  y: 'y',
+  height: 'height',
+  width: 'width'
 };
 
 exports.Prisma.ElementScalarFieldEnum = {
@@ -153,18 +157,26 @@ exports.Prisma.ElementScalarFieldEnum = {
   static: 'static'
 };
 
+exports.Prisma.BackgroundScalarFieldEnum = {
+  id: 'id',
+  Url: 'Url'
+};
+
 exports.Prisma.MapScalarFieldEnum = {
   id: 'id',
   width: 'width',
   height: 'height',
   name: 'name',
-  thumbnail: 'thumbnail'
+  thumbnail: 'thumbnail',
+  backgroundId: 'backgroundId'
 };
 
 exports.Prisma.MapElementsScalarFieldEnum = {
   id: 'id',
   mapId: 'mapId',
   elementId: 'elementId',
+  height: 'height',
+  width: 'width',
   x: 'x',
   y: 'y'
 };
@@ -199,6 +211,7 @@ exports.Prisma.ModelName = {
   Space: 'Space',
   spaceElements: 'spaceElements',
   Element: 'Element',
+  background: 'background',
   Map: 'Map',
   mapElements: 'mapElements',
   Avatar: 'Avatar'

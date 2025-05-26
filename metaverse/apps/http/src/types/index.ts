@@ -15,11 +15,17 @@ export const UpdateMetadataSchema = z.object({
     avatarId: z.string()
 })
 
+
 export const CreateSpaceSchema = z.object({
-    name: z.string(),
-    dimensions: z.string().regex(/^[0-9]{1,4}x[0-9]{1,4}$/),
-    mapId: z.string().optional(),
-})
+  name: z.string(),
+  mapId: z.string().optional(),
+  dimensions: z.string().optional(),
+}).refine((data) => data.mapId || data.dimensions, {
+  message: "Either mapId or dimensions must be provided",
+  path: ["dimensions", "mapId"],
+});
+
+
 
 export const DeleteElementSchema = z.object({
     id: z.string(),

@@ -4,68 +4,85 @@ import { AddElementSchema, CreateElementSchema, CreateSpaceSchema, DeleteElement
 import { dbClient } from "@repo/db/client";
 export const spaceRouter = Router();
 
+
+
 spaceRouter.post("/", userMiddleware, async (req, res) => {
-    try {
-        const parsedData = CreateSpaceSchema.safeParse(req.body)
-        console.log(parsedData.error)
-    if (!parsedData.success) {
-        res.status(400).json({message: "Validation failed"})
-        return
+  try {
+    const parsed = CreateSpaceSchema.safeParse(req.body);
+    if (!parsed.success) {
+      return res.status(400).json({ message: "Validation failed", issues: parsed.error.errors });
     }
 
-    if (!parsedData.data.mapId) {
-        const space = await dbClient.space.create({
-            data: {
-                name: parsedData.data.name,
-                width: parseInt(parsedData.data.dimensions.split("x")[0]??"0"),
-                height: parseInt(parsedData.data.dimensions.split("x")[1] ??"0"),
-                creatorId: req.userId!
-            }
-        });
-        res.json({spaceId: space.id})
-        return;
+    const { name, mapId, dimensions } = parsed.data;
+
+    // No mapId: create space with custom dimensions
+    if (!mapId) {
+      const [w, h] = dimensions!.split("x").map((v) => parseInt(v, 10));
+      const space = await dbClient.space.create({
+        data: {
+          name,
+          width: w ?? 0,
+          height: h,
+          creatorId: req.userId!,
+        },
+      });
+      return res.json({ spaceId: space.id });
     }
-    
-    const map = await dbClient.map.findFirst({
-        where: {
-            id: parsedData.data.mapId
-        }, select: {
-            elements: true,
+
+    // With mapId: fetch mapElements and map dimensions
+    const map = await dbClient.map.findUnique({
+      where: { id: mapId },
+      select: {
+        width: true,
+        height: true,
+        elements: {
+          select: {
+            elementId: true,
+            x: true,
+            y: true,
             width: true,
-            height: true
-        }
-    })
+            height: true,
+          },
+        },
+      },
+    });
     if (!map) {
-        res.status(400).json({message: "Map not found"})
-        return
+      return res.status(400).json({ message: "Map not found" });
     }
-    let space = await dbClient.$transaction(async () => {
-        const space = await dbClient.space.create({
-            data: {
-                name: parsedData.data.name,
-                width: map.width,
-                height: map.height,
-                creatorId: req.userId!,
-            }
-        });
 
-        await dbClient.spaceElements.createMany({
-            data: map.elements.map(e => ({
-                spaceId: space.id,
-                elementId: e.elementId,
-                x: e.x!,
-                y: e.y!
-            }))
-        })
+    // Create space and copy elements
+    const space = await dbClient.$transaction(async () => {
+      const newSpace = await dbClient.space.create({
+        data: {
+          name,
+          width: map.width,
+          height: map.height,
+          creatorId: req.userId!,
+        },
+      });
 
-        return space;
+      await dbClient.spaceElements.createMany({
+        data: map.elements.map((e) => ({
+          spaceId: newSpace.id,
+          elementId: e.elementId,
+          x: e.x || 0,
+          y: e.y || 0,
+          width: e.width.toString(),
+          height: e.height.toString(),
+        })),
+      });
 
-    })
-    res.json({spaceId: space.id})
-    } catch (error) {
-        res.status(500).json({message: "Internal server error"});
-    }
-})
+      return newSpace;
+    });
+
+    return res.json({ spaceId: space.id });
+  } catch (error) {
+    console.error("Error creating space:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+
 
 
 spaceRouter.delete("/element",userMiddleware, async (req, res) => {
@@ -198,43 +215,56 @@ spaceRouter.post("/element", userMiddleware, async (req, res) => {
     }
 })
 
-spaceRouter.get("/:spaceId",async (req, res) => {
+spaceRouter.get("/:spaceId", async (req, res) => {
     try {
-        const space = await dbClient.space.findUnique({
-            where: {
-                id: req.params.spaceId
+      const space = await dbClient.space.findUnique({
+        where: {
+          id: req.params.spaceId,
+        },
+        include: {
+          elements: {
+            select: {
+              id: true,
+              x: true,
+              y: true,
+              mapElement: {
+                select: {
+                  id: true,
+                  imageUrl: true,
+                  width: true,
+                  height: true,
+                  static: true,
+                },
+              },
             },
-            include: {
-                elements: {
-                    include: {
-                        mapElement: true
-                    }
-                },
-            }
-        })
-    
-        if (!space) {
-            res.status(400).json({message: "Space not found"})
-            return
-        }
-    
-        res.json({
-            "dimensions": `${space.width}x${space.height}`,
-            elements: space.elements.map(e => ({
-                id: e.id,
-                element: {
-                    id: e.mapElement.id,
-                    imageUrl: e.mapElement.imageUrl,
-                    width: e.mapElement.width,
-                    height: e.mapElement.height,
-                    static: e.mapElement.static
-                },
-                x: e.x,
-                y: e.y
-            })),
-        })
+          },
+        },
+      });
+  
+      if (!space) {
+        res.status(400).json({ message: "Space not found" });
+        return;
+      }
+  
+      res.json({
+        dimensions: `${space.width}x${space.height}`,
+        elements: space.elements.map(e => ({
+          id: e.id,
+          element: {
+            id: e.mapElement.id,
+            imageUrl: e.mapElement.imageUrl,
+            width: e.mapElement.width,
+            height: e.mapElement.height,
+            static: e.mapElement.static,
+          },
+          x: e.x,
+          y: e.y,
+        })),
+      });
     } catch (error) {
-        res.status(500).json({message: "Internal server error", error: error});
-        
+      console.error("Error fetching space:", error);
+      res.status(500).json({ message: "Internal server error", error });
     }
-})
+  });
+  
+  

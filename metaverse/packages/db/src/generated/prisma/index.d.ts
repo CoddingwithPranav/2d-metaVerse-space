@@ -34,6 +34,11 @@ export type spaceElements = $Result.DefaultSelection<Prisma.$spaceElementsPayloa
  */
 export type Element = $Result.DefaultSelection<Prisma.$ElementPayload>
 /**
+ * Model background
+ * 
+ */
+export type background = $Result.DefaultSelection<Prisma.$backgroundPayload>
+/**
  * Model Map
  * 
  */
@@ -232,6 +237,16 @@ export class PrismaClient<
   get element(): Prisma.ElementDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.background`: Exposes CRUD operations for the **background** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Backgrounds
+    * const backgrounds = await prisma.background.findMany()
+    * ```
+    */
+  get background(): Prisma.backgroundDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.map`: Exposes CRUD operations for the **Map** model.
     * Example usage:
     * ```ts
@@ -318,8 +333,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.7.0
-   * Query Engine version: 3cff47a7f5d65c3ea74883f1d736e41d68ce91ed
+   * Prisma Client JS version: 6.8.2
+   * Query Engine version: 2060c79ba17c6bb9f5823312b6f6b7f4a845738e
    */
   export type PrismaVersion = {
     client: string
@@ -704,6 +719,7 @@ export namespace Prisma {
     Space: 'Space',
     spaceElements: 'spaceElements',
     Element: 'Element',
+    background: 'background',
     Map: 'Map',
     mapElements: 'mapElements',
     Avatar: 'Avatar'
@@ -725,7 +741,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "space" | "spaceElements" | "element" | "map" | "mapElements" | "avatar"
+      modelProps: "user" | "space" | "spaceElements" | "element" | "background" | "map" | "mapElements" | "avatar"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1022,6 +1038,80 @@ export namespace Prisma {
           count: {
             args: Prisma.ElementCountArgs<ExtArgs>
             result: $Utils.Optional<ElementCountAggregateOutputType> | number
+          }
+        }
+      }
+      background: {
+        payload: Prisma.$backgroundPayload<ExtArgs>
+        fields: Prisma.backgroundFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.backgroundFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$backgroundPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.backgroundFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$backgroundPayload>
+          }
+          findFirst: {
+            args: Prisma.backgroundFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$backgroundPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.backgroundFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$backgroundPayload>
+          }
+          findMany: {
+            args: Prisma.backgroundFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$backgroundPayload>[]
+          }
+          create: {
+            args: Prisma.backgroundCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$backgroundPayload>
+          }
+          createMany: {
+            args: Prisma.backgroundCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.backgroundCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$backgroundPayload>[]
+          }
+          delete: {
+            args: Prisma.backgroundDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$backgroundPayload>
+          }
+          update: {
+            args: Prisma.backgroundUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$backgroundPayload>
+          }
+          deleteMany: {
+            args: Prisma.backgroundDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.backgroundUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.backgroundUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$backgroundPayload>[]
+          }
+          upsert: {
+            args: Prisma.backgroundUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$backgroundPayload>
+          }
+          aggregate: {
+            args: Prisma.BackgroundAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBackground>
+          }
+          groupBy: {
+            args: Prisma.backgroundGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BackgroundGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.backgroundCountArgs<ExtArgs>
+            result: $Utils.Optional<BackgroundCountAggregateOutputType> | number
           }
         }
       }
@@ -1335,6 +1425,7 @@ export namespace Prisma {
     space?: SpaceOmit
     spaceElements?: spaceElementsOmit
     element?: ElementOmit
+    background?: backgroundOmit
     map?: MapOmit
     mapElements?: mapElementsOmit
     avatar?: AvatarOmit
@@ -1530,6 +1621,37 @@ export namespace Prisma {
 
 
   /**
+   * Count Type BackgroundCountOutputType
+   */
+
+  export type BackgroundCountOutputType = {
+    maps: number
+  }
+
+  export type BackgroundCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    maps?: boolean | BackgroundCountOutputTypeCountMapsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * BackgroundCountOutputType without action
+   */
+  export type BackgroundCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BackgroundCountOutputType
+     */
+    select?: BackgroundCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * BackgroundCountOutputType without action
+   */
+  export type BackgroundCountOutputTypeCountMapsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MapWhereInput
+  }
+
+
+  /**
    * Count Type MapCountOutputType
    */
 
@@ -1609,6 +1731,8 @@ export namespace Prisma {
     id: string | null
     username: string | null
     password: string | null
+    displayName: string | null
+    profileImage: string | null
     avatarId: string | null
     role: $Enums.Role | null
   }
@@ -1617,6 +1741,8 @@ export namespace Prisma {
     id: string | null
     username: string | null
     password: string | null
+    displayName: string | null
+    profileImage: string | null
     avatarId: string | null
     role: $Enums.Role | null
   }
@@ -1625,6 +1751,8 @@ export namespace Prisma {
     id: number
     username: number
     password: number
+    displayName: number
+    profileImage: number
     avatarId: number
     role: number
     _all: number
@@ -1635,6 +1763,8 @@ export namespace Prisma {
     id?: true
     username?: true
     password?: true
+    displayName?: true
+    profileImage?: true
     avatarId?: true
     role?: true
   }
@@ -1643,6 +1773,8 @@ export namespace Prisma {
     id?: true
     username?: true
     password?: true
+    displayName?: true
+    profileImage?: true
     avatarId?: true
     role?: true
   }
@@ -1651,6 +1783,8 @@ export namespace Prisma {
     id?: true
     username?: true
     password?: true
+    displayName?: true
+    profileImage?: true
     avatarId?: true
     role?: true
     _all?: true
@@ -1732,6 +1866,8 @@ export namespace Prisma {
     id: string
     username: string
     password: string
+    displayName: string
+    profileImage: string
     avatarId: string | null
     role: $Enums.Role
     _count: UserCountAggregateOutputType | null
@@ -1757,6 +1893,8 @@ export namespace Prisma {
     id?: boolean
     username?: boolean
     password?: boolean
+    displayName?: boolean
+    profileImage?: boolean
     avatarId?: boolean
     role?: boolean
     spaces?: boolean | User$spacesArgs<ExtArgs>
@@ -1768,6 +1906,8 @@ export namespace Prisma {
     id?: boolean
     username?: boolean
     password?: boolean
+    displayName?: boolean
+    profileImage?: boolean
     avatarId?: boolean
     role?: boolean
     avatar?: boolean | User$avatarArgs<ExtArgs>
@@ -1777,6 +1917,8 @@ export namespace Prisma {
     id?: boolean
     username?: boolean
     password?: boolean
+    displayName?: boolean
+    profileImage?: boolean
     avatarId?: boolean
     role?: boolean
     avatar?: boolean | User$avatarArgs<ExtArgs>
@@ -1786,11 +1928,13 @@ export namespace Prisma {
     id?: boolean
     username?: boolean
     password?: boolean
+    displayName?: boolean
+    profileImage?: boolean
     avatarId?: boolean
     role?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "username" | "password" | "avatarId" | "role", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "username" | "password" | "displayName" | "profileImage" | "avatarId" | "role", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     spaces?: boolean | User$spacesArgs<ExtArgs>
     avatar?: boolean | User$avatarArgs<ExtArgs>
@@ -1813,6 +1957,8 @@ export namespace Prisma {
       id: string
       username: string
       password: string
+      displayName: string
+      profileImage: string
       avatarId: string | null
       role: $Enums.Role
     }, ExtArgs["result"]["user"]>
@@ -2243,6 +2389,8 @@ export namespace Prisma {
     readonly id: FieldRef<"User", 'String'>
     readonly username: FieldRef<"User", 'String'>
     readonly password: FieldRef<"User", 'String'>
+    readonly displayName: FieldRef<"User", 'String'>
+    readonly profileImage: FieldRef<"User", 'String'>
     readonly avatarId: FieldRef<"User", 'String'>
     readonly role: FieldRef<"User", 'Role'>
   }
@@ -3869,6 +4017,8 @@ export namespace Prisma {
     spaceId: string | null
     x: number | null
     y: number | null
+    height: string | null
+    width: string | null
   }
 
   export type SpaceElementsMaxAggregateOutputType = {
@@ -3877,6 +4027,8 @@ export namespace Prisma {
     spaceId: string | null
     x: number | null
     y: number | null
+    height: string | null
+    width: string | null
   }
 
   export type SpaceElementsCountAggregateOutputType = {
@@ -3885,6 +4037,8 @@ export namespace Prisma {
     spaceId: number
     x: number
     y: number
+    height: number
+    width: number
     _all: number
   }
 
@@ -3905,6 +4059,8 @@ export namespace Prisma {
     spaceId?: true
     x?: true
     y?: true
+    height?: true
+    width?: true
   }
 
   export type SpaceElementsMaxAggregateInputType = {
@@ -3913,6 +4069,8 @@ export namespace Prisma {
     spaceId?: true
     x?: true
     y?: true
+    height?: true
+    width?: true
   }
 
   export type SpaceElementsCountAggregateInputType = {
@@ -3921,6 +4079,8 @@ export namespace Prisma {
     spaceId?: true
     x?: true
     y?: true
+    height?: true
+    width?: true
     _all?: true
   }
 
@@ -4016,6 +4176,8 @@ export namespace Prisma {
     spaceId: string
     x: number
     y: number
+    height: string
+    width: string
     _count: SpaceElementsCountAggregateOutputType | null
     _avg: SpaceElementsAvgAggregateOutputType | null
     _sum: SpaceElementsSumAggregateOutputType | null
@@ -4043,6 +4205,8 @@ export namespace Prisma {
     spaceId?: boolean
     x?: boolean
     y?: boolean
+    height?: boolean
+    width?: boolean
     space?: boolean | SpaceDefaultArgs<ExtArgs>
     mapElement?: boolean | ElementDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["spaceElements"]>
@@ -4053,6 +4217,8 @@ export namespace Prisma {
     spaceId?: boolean
     x?: boolean
     y?: boolean
+    height?: boolean
+    width?: boolean
     space?: boolean | SpaceDefaultArgs<ExtArgs>
     mapElement?: boolean | ElementDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["spaceElements"]>
@@ -4063,6 +4229,8 @@ export namespace Prisma {
     spaceId?: boolean
     x?: boolean
     y?: boolean
+    height?: boolean
+    width?: boolean
     space?: boolean | SpaceDefaultArgs<ExtArgs>
     mapElement?: boolean | ElementDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["spaceElements"]>
@@ -4073,9 +4241,11 @@ export namespace Prisma {
     spaceId?: boolean
     x?: boolean
     y?: boolean
+    height?: boolean
+    width?: boolean
   }
 
-  export type spaceElementsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "elementId" | "spaceId" | "x" | "y", ExtArgs["result"]["spaceElements"]>
+  export type spaceElementsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "elementId" | "spaceId" | "x" | "y" | "height" | "width", ExtArgs["result"]["spaceElements"]>
   export type spaceElementsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     space?: boolean | SpaceDefaultArgs<ExtArgs>
     mapElement?: boolean | ElementDefaultArgs<ExtArgs>
@@ -4101,6 +4271,8 @@ export namespace Prisma {
       spaceId: string
       x: number
       y: number
+      height: string
+      width: string
     }, ExtArgs["result"]["spaceElements"]>
     composites: {}
   }
@@ -4531,6 +4703,8 @@ export namespace Prisma {
     readonly spaceId: FieldRef<"spaceElements", 'String'>
     readonly x: FieldRef<"spaceElements", 'Int'>
     readonly y: FieldRef<"spaceElements", 'Int'>
+    readonly height: FieldRef<"spaceElements", 'String'>
+    readonly width: FieldRef<"spaceElements", 'String'>
   }
     
 
@@ -6082,6 +6256,1037 @@ export namespace Prisma {
 
 
   /**
+   * Model background
+   */
+
+  export type AggregateBackground = {
+    _count: BackgroundCountAggregateOutputType | null
+    _min: BackgroundMinAggregateOutputType | null
+    _max: BackgroundMaxAggregateOutputType | null
+  }
+
+  export type BackgroundMinAggregateOutputType = {
+    id: string | null
+    Url: string | null
+  }
+
+  export type BackgroundMaxAggregateOutputType = {
+    id: string | null
+    Url: string | null
+  }
+
+  export type BackgroundCountAggregateOutputType = {
+    id: number
+    Url: number
+    _all: number
+  }
+
+
+  export type BackgroundMinAggregateInputType = {
+    id?: true
+    Url?: true
+  }
+
+  export type BackgroundMaxAggregateInputType = {
+    id?: true
+    Url?: true
+  }
+
+  export type BackgroundCountAggregateInputType = {
+    id?: true
+    Url?: true
+    _all?: true
+  }
+
+  export type BackgroundAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which background to aggregate.
+     */
+    where?: backgroundWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of backgrounds to fetch.
+     */
+    orderBy?: backgroundOrderByWithRelationInput | backgroundOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: backgroundWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` backgrounds from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` backgrounds.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned backgrounds
+    **/
+    _count?: true | BackgroundCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BackgroundMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BackgroundMaxAggregateInputType
+  }
+
+  export type GetBackgroundAggregateType<T extends BackgroundAggregateArgs> = {
+        [P in keyof T & keyof AggregateBackground]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBackground[P]>
+      : GetScalarType<T[P], AggregateBackground[P]>
+  }
+
+
+
+
+  export type backgroundGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: backgroundWhereInput
+    orderBy?: backgroundOrderByWithAggregationInput | backgroundOrderByWithAggregationInput[]
+    by: BackgroundScalarFieldEnum[] | BackgroundScalarFieldEnum
+    having?: backgroundScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BackgroundCountAggregateInputType | true
+    _min?: BackgroundMinAggregateInputType
+    _max?: BackgroundMaxAggregateInputType
+  }
+
+  export type BackgroundGroupByOutputType = {
+    id: string
+    Url: string
+    _count: BackgroundCountAggregateOutputType | null
+    _min: BackgroundMinAggregateOutputType | null
+    _max: BackgroundMaxAggregateOutputType | null
+  }
+
+  type GetBackgroundGroupByPayload<T extends backgroundGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BackgroundGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BackgroundGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BackgroundGroupByOutputType[P]>
+            : GetScalarType<T[P], BackgroundGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type backgroundSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    Url?: boolean
+    maps?: boolean | background$mapsArgs<ExtArgs>
+    _count?: boolean | BackgroundCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["background"]>
+
+  export type backgroundSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    Url?: boolean
+  }, ExtArgs["result"]["background"]>
+
+  export type backgroundSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    Url?: boolean
+  }, ExtArgs["result"]["background"]>
+
+  export type backgroundSelectScalar = {
+    id?: boolean
+    Url?: boolean
+  }
+
+  export type backgroundOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "Url", ExtArgs["result"]["background"]>
+  export type backgroundInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    maps?: boolean | background$mapsArgs<ExtArgs>
+    _count?: boolean | BackgroundCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type backgroundIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type backgroundIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $backgroundPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "background"
+    objects: {
+      maps: Prisma.$MapPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      Url: string
+    }, ExtArgs["result"]["background"]>
+    composites: {}
+  }
+
+  type backgroundGetPayload<S extends boolean | null | undefined | backgroundDefaultArgs> = $Result.GetResult<Prisma.$backgroundPayload, S>
+
+  type backgroundCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<backgroundFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: BackgroundCountAggregateInputType | true
+    }
+
+  export interface backgroundDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['background'], meta: { name: 'background' } }
+    /**
+     * Find zero or one Background that matches the filter.
+     * @param {backgroundFindUniqueArgs} args - Arguments to find a Background
+     * @example
+     * // Get one Background
+     * const background = await prisma.background.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends backgroundFindUniqueArgs>(args: SelectSubset<T, backgroundFindUniqueArgs<ExtArgs>>): Prisma__backgroundClient<$Result.GetResult<Prisma.$backgroundPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Background that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {backgroundFindUniqueOrThrowArgs} args - Arguments to find a Background
+     * @example
+     * // Get one Background
+     * const background = await prisma.background.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends backgroundFindUniqueOrThrowArgs>(args: SelectSubset<T, backgroundFindUniqueOrThrowArgs<ExtArgs>>): Prisma__backgroundClient<$Result.GetResult<Prisma.$backgroundPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Background that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {backgroundFindFirstArgs} args - Arguments to find a Background
+     * @example
+     * // Get one Background
+     * const background = await prisma.background.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends backgroundFindFirstArgs>(args?: SelectSubset<T, backgroundFindFirstArgs<ExtArgs>>): Prisma__backgroundClient<$Result.GetResult<Prisma.$backgroundPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Background that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {backgroundFindFirstOrThrowArgs} args - Arguments to find a Background
+     * @example
+     * // Get one Background
+     * const background = await prisma.background.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends backgroundFindFirstOrThrowArgs>(args?: SelectSubset<T, backgroundFindFirstOrThrowArgs<ExtArgs>>): Prisma__backgroundClient<$Result.GetResult<Prisma.$backgroundPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Backgrounds that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {backgroundFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Backgrounds
+     * const backgrounds = await prisma.background.findMany()
+     * 
+     * // Get first 10 Backgrounds
+     * const backgrounds = await prisma.background.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const backgroundWithIdOnly = await prisma.background.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends backgroundFindManyArgs>(args?: SelectSubset<T, backgroundFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$backgroundPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Background.
+     * @param {backgroundCreateArgs} args - Arguments to create a Background.
+     * @example
+     * // Create one Background
+     * const Background = await prisma.background.create({
+     *   data: {
+     *     // ... data to create a Background
+     *   }
+     * })
+     * 
+     */
+    create<T extends backgroundCreateArgs>(args: SelectSubset<T, backgroundCreateArgs<ExtArgs>>): Prisma__backgroundClient<$Result.GetResult<Prisma.$backgroundPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Backgrounds.
+     * @param {backgroundCreateManyArgs} args - Arguments to create many Backgrounds.
+     * @example
+     * // Create many Backgrounds
+     * const background = await prisma.background.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends backgroundCreateManyArgs>(args?: SelectSubset<T, backgroundCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Backgrounds and returns the data saved in the database.
+     * @param {backgroundCreateManyAndReturnArgs} args - Arguments to create many Backgrounds.
+     * @example
+     * // Create many Backgrounds
+     * const background = await prisma.background.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Backgrounds and only return the `id`
+     * const backgroundWithIdOnly = await prisma.background.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends backgroundCreateManyAndReturnArgs>(args?: SelectSubset<T, backgroundCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$backgroundPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Background.
+     * @param {backgroundDeleteArgs} args - Arguments to delete one Background.
+     * @example
+     * // Delete one Background
+     * const Background = await prisma.background.delete({
+     *   where: {
+     *     // ... filter to delete one Background
+     *   }
+     * })
+     * 
+     */
+    delete<T extends backgroundDeleteArgs>(args: SelectSubset<T, backgroundDeleteArgs<ExtArgs>>): Prisma__backgroundClient<$Result.GetResult<Prisma.$backgroundPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Background.
+     * @param {backgroundUpdateArgs} args - Arguments to update one Background.
+     * @example
+     * // Update one Background
+     * const background = await prisma.background.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends backgroundUpdateArgs>(args: SelectSubset<T, backgroundUpdateArgs<ExtArgs>>): Prisma__backgroundClient<$Result.GetResult<Prisma.$backgroundPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Backgrounds.
+     * @param {backgroundDeleteManyArgs} args - Arguments to filter Backgrounds to delete.
+     * @example
+     * // Delete a few Backgrounds
+     * const { count } = await prisma.background.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends backgroundDeleteManyArgs>(args?: SelectSubset<T, backgroundDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Backgrounds.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {backgroundUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Backgrounds
+     * const background = await prisma.background.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends backgroundUpdateManyArgs>(args: SelectSubset<T, backgroundUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Backgrounds and returns the data updated in the database.
+     * @param {backgroundUpdateManyAndReturnArgs} args - Arguments to update many Backgrounds.
+     * @example
+     * // Update many Backgrounds
+     * const background = await prisma.background.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Backgrounds and only return the `id`
+     * const backgroundWithIdOnly = await prisma.background.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends backgroundUpdateManyAndReturnArgs>(args: SelectSubset<T, backgroundUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$backgroundPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Background.
+     * @param {backgroundUpsertArgs} args - Arguments to update or create a Background.
+     * @example
+     * // Update or create a Background
+     * const background = await prisma.background.upsert({
+     *   create: {
+     *     // ... data to create a Background
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Background we want to update
+     *   }
+     * })
+     */
+    upsert<T extends backgroundUpsertArgs>(args: SelectSubset<T, backgroundUpsertArgs<ExtArgs>>): Prisma__backgroundClient<$Result.GetResult<Prisma.$backgroundPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Backgrounds.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {backgroundCountArgs} args - Arguments to filter Backgrounds to count.
+     * @example
+     * // Count the number of Backgrounds
+     * const count = await prisma.background.count({
+     *   where: {
+     *     // ... the filter for the Backgrounds we want to count
+     *   }
+     * })
+    **/
+    count<T extends backgroundCountArgs>(
+      args?: Subset<T, backgroundCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BackgroundCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Background.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BackgroundAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BackgroundAggregateArgs>(args: Subset<T, BackgroundAggregateArgs>): Prisma.PrismaPromise<GetBackgroundAggregateType<T>>
+
+    /**
+     * Group by Background.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {backgroundGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends backgroundGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: backgroundGroupByArgs['orderBy'] }
+        : { orderBy?: backgroundGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, backgroundGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBackgroundGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the background model
+   */
+  readonly fields: backgroundFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for background.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__backgroundClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    maps<T extends background$mapsArgs<ExtArgs> = {}>(args?: Subset<T, background$mapsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MapPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the background model
+   */
+  interface backgroundFieldRefs {
+    readonly id: FieldRef<"background", 'String'>
+    readonly Url: FieldRef<"background", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * background findUnique
+   */
+  export type backgroundFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the background
+     */
+    select?: backgroundSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the background
+     */
+    omit?: backgroundOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: backgroundInclude<ExtArgs> | null
+    /**
+     * Filter, which background to fetch.
+     */
+    where: backgroundWhereUniqueInput
+  }
+
+  /**
+   * background findUniqueOrThrow
+   */
+  export type backgroundFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the background
+     */
+    select?: backgroundSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the background
+     */
+    omit?: backgroundOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: backgroundInclude<ExtArgs> | null
+    /**
+     * Filter, which background to fetch.
+     */
+    where: backgroundWhereUniqueInput
+  }
+
+  /**
+   * background findFirst
+   */
+  export type backgroundFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the background
+     */
+    select?: backgroundSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the background
+     */
+    omit?: backgroundOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: backgroundInclude<ExtArgs> | null
+    /**
+     * Filter, which background to fetch.
+     */
+    where?: backgroundWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of backgrounds to fetch.
+     */
+    orderBy?: backgroundOrderByWithRelationInput | backgroundOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for backgrounds.
+     */
+    cursor?: backgroundWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` backgrounds from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` backgrounds.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of backgrounds.
+     */
+    distinct?: BackgroundScalarFieldEnum | BackgroundScalarFieldEnum[]
+  }
+
+  /**
+   * background findFirstOrThrow
+   */
+  export type backgroundFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the background
+     */
+    select?: backgroundSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the background
+     */
+    omit?: backgroundOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: backgroundInclude<ExtArgs> | null
+    /**
+     * Filter, which background to fetch.
+     */
+    where?: backgroundWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of backgrounds to fetch.
+     */
+    orderBy?: backgroundOrderByWithRelationInput | backgroundOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for backgrounds.
+     */
+    cursor?: backgroundWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` backgrounds from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` backgrounds.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of backgrounds.
+     */
+    distinct?: BackgroundScalarFieldEnum | BackgroundScalarFieldEnum[]
+  }
+
+  /**
+   * background findMany
+   */
+  export type backgroundFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the background
+     */
+    select?: backgroundSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the background
+     */
+    omit?: backgroundOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: backgroundInclude<ExtArgs> | null
+    /**
+     * Filter, which backgrounds to fetch.
+     */
+    where?: backgroundWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of backgrounds to fetch.
+     */
+    orderBy?: backgroundOrderByWithRelationInput | backgroundOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing backgrounds.
+     */
+    cursor?: backgroundWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` backgrounds from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` backgrounds.
+     */
+    skip?: number
+    distinct?: BackgroundScalarFieldEnum | BackgroundScalarFieldEnum[]
+  }
+
+  /**
+   * background create
+   */
+  export type backgroundCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the background
+     */
+    select?: backgroundSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the background
+     */
+    omit?: backgroundOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: backgroundInclude<ExtArgs> | null
+    /**
+     * The data needed to create a background.
+     */
+    data: XOR<backgroundCreateInput, backgroundUncheckedCreateInput>
+  }
+
+  /**
+   * background createMany
+   */
+  export type backgroundCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many backgrounds.
+     */
+    data: backgroundCreateManyInput | backgroundCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * background createManyAndReturn
+   */
+  export type backgroundCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the background
+     */
+    select?: backgroundSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the background
+     */
+    omit?: backgroundOmit<ExtArgs> | null
+    /**
+     * The data used to create many backgrounds.
+     */
+    data: backgroundCreateManyInput | backgroundCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * background update
+   */
+  export type backgroundUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the background
+     */
+    select?: backgroundSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the background
+     */
+    omit?: backgroundOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: backgroundInclude<ExtArgs> | null
+    /**
+     * The data needed to update a background.
+     */
+    data: XOR<backgroundUpdateInput, backgroundUncheckedUpdateInput>
+    /**
+     * Choose, which background to update.
+     */
+    where: backgroundWhereUniqueInput
+  }
+
+  /**
+   * background updateMany
+   */
+  export type backgroundUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update backgrounds.
+     */
+    data: XOR<backgroundUpdateManyMutationInput, backgroundUncheckedUpdateManyInput>
+    /**
+     * Filter which backgrounds to update
+     */
+    where?: backgroundWhereInput
+    /**
+     * Limit how many backgrounds to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * background updateManyAndReturn
+   */
+  export type backgroundUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the background
+     */
+    select?: backgroundSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the background
+     */
+    omit?: backgroundOmit<ExtArgs> | null
+    /**
+     * The data used to update backgrounds.
+     */
+    data: XOR<backgroundUpdateManyMutationInput, backgroundUncheckedUpdateManyInput>
+    /**
+     * Filter which backgrounds to update
+     */
+    where?: backgroundWhereInput
+    /**
+     * Limit how many backgrounds to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * background upsert
+   */
+  export type backgroundUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the background
+     */
+    select?: backgroundSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the background
+     */
+    omit?: backgroundOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: backgroundInclude<ExtArgs> | null
+    /**
+     * The filter to search for the background to update in case it exists.
+     */
+    where: backgroundWhereUniqueInput
+    /**
+     * In case the background found by the `where` argument doesn't exist, create a new background with this data.
+     */
+    create: XOR<backgroundCreateInput, backgroundUncheckedCreateInput>
+    /**
+     * In case the background was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<backgroundUpdateInput, backgroundUncheckedUpdateInput>
+  }
+
+  /**
+   * background delete
+   */
+  export type backgroundDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the background
+     */
+    select?: backgroundSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the background
+     */
+    omit?: backgroundOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: backgroundInclude<ExtArgs> | null
+    /**
+     * Filter which background to delete.
+     */
+    where: backgroundWhereUniqueInput
+  }
+
+  /**
+   * background deleteMany
+   */
+  export type backgroundDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which backgrounds to delete
+     */
+    where?: backgroundWhereInput
+    /**
+     * Limit how many backgrounds to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * background.maps
+   */
+  export type background$mapsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Map
+     */
+    select?: MapSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Map
+     */
+    omit?: MapOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MapInclude<ExtArgs> | null
+    where?: MapWhereInput
+    orderBy?: MapOrderByWithRelationInput | MapOrderByWithRelationInput[]
+    cursor?: MapWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MapScalarFieldEnum | MapScalarFieldEnum[]
+  }
+
+  /**
+   * background without action
+   */
+  export type backgroundDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the background
+     */
+    select?: backgroundSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the background
+     */
+    omit?: backgroundOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: backgroundInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Map
    */
 
@@ -6109,6 +7314,7 @@ export namespace Prisma {
     height: number | null
     name: string | null
     thumbnail: string | null
+    backgroundId: string | null
   }
 
   export type MapMaxAggregateOutputType = {
@@ -6117,6 +7323,7 @@ export namespace Prisma {
     height: number | null
     name: string | null
     thumbnail: string | null
+    backgroundId: string | null
   }
 
   export type MapCountAggregateOutputType = {
@@ -6125,6 +7332,7 @@ export namespace Prisma {
     height: number
     name: number
     thumbnail: number
+    backgroundId: number
     _all: number
   }
 
@@ -6145,6 +7353,7 @@ export namespace Prisma {
     height?: true
     name?: true
     thumbnail?: true
+    backgroundId?: true
   }
 
   export type MapMaxAggregateInputType = {
@@ -6153,6 +7362,7 @@ export namespace Prisma {
     height?: true
     name?: true
     thumbnail?: true
+    backgroundId?: true
   }
 
   export type MapCountAggregateInputType = {
@@ -6161,6 +7371,7 @@ export namespace Prisma {
     height?: true
     name?: true
     thumbnail?: true
+    backgroundId?: true
     _all?: true
   }
 
@@ -6256,6 +7467,7 @@ export namespace Prisma {
     height: number
     name: string
     thumbnail: string
+    backgroundId: string | null
     _count: MapCountAggregateOutputType | null
     _avg: MapAvgAggregateOutputType | null
     _sum: MapSumAggregateOutputType | null
@@ -6283,6 +7495,8 @@ export namespace Prisma {
     height?: boolean
     name?: boolean
     thumbnail?: boolean
+    backgroundId?: boolean
+    background?: boolean | Map$backgroundArgs<ExtArgs>
     elements?: boolean | Map$elementsArgs<ExtArgs>
     _count?: boolean | MapCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["map"]>
@@ -6293,6 +7507,8 @@ export namespace Prisma {
     height?: boolean
     name?: boolean
     thumbnail?: boolean
+    backgroundId?: boolean
+    background?: boolean | Map$backgroundArgs<ExtArgs>
   }, ExtArgs["result"]["map"]>
 
   export type MapSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -6301,6 +7517,8 @@ export namespace Prisma {
     height?: boolean
     name?: boolean
     thumbnail?: boolean
+    backgroundId?: boolean
+    background?: boolean | Map$backgroundArgs<ExtArgs>
   }, ExtArgs["result"]["map"]>
 
   export type MapSelectScalar = {
@@ -6309,19 +7527,26 @@ export namespace Prisma {
     height?: boolean
     name?: boolean
     thumbnail?: boolean
+    backgroundId?: boolean
   }
 
-  export type MapOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "width" | "height" | "name" | "thumbnail", ExtArgs["result"]["map"]>
+  export type MapOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "width" | "height" | "name" | "thumbnail" | "backgroundId", ExtArgs["result"]["map"]>
   export type MapInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    background?: boolean | Map$backgroundArgs<ExtArgs>
     elements?: boolean | Map$elementsArgs<ExtArgs>
     _count?: boolean | MapCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type MapIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type MapIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type MapIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    background?: boolean | Map$backgroundArgs<ExtArgs>
+  }
+  export type MapIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    background?: boolean | Map$backgroundArgs<ExtArgs>
+  }
 
   export type $MapPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Map"
     objects: {
+      background: Prisma.$backgroundPayload<ExtArgs> | null
       elements: Prisma.$mapElementsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -6330,6 +7555,7 @@ export namespace Prisma {
       height: number
       name: string
       thumbnail: string
+      backgroundId: string | null
     }, ExtArgs["result"]["map"]>
     composites: {}
   }
@@ -6724,6 +7950,7 @@ export namespace Prisma {
    */
   export interface Prisma__MapClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    background<T extends Map$backgroundArgs<ExtArgs> = {}>(args?: Subset<T, Map$backgroundArgs<ExtArgs>>): Prisma__backgroundClient<$Result.GetResult<Prisma.$backgroundPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     elements<T extends Map$elementsArgs<ExtArgs> = {}>(args?: Subset<T, Map$elementsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$mapElementsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -6759,6 +7986,7 @@ export namespace Prisma {
     readonly height: FieldRef<"Map", 'Int'>
     readonly name: FieldRef<"Map", 'String'>
     readonly thumbnail: FieldRef<"Map", 'String'>
+    readonly backgroundId: FieldRef<"Map", 'String'>
   }
     
 
@@ -7008,6 +8236,10 @@ export namespace Prisma {
      */
     data: MapCreateManyInput | MapCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MapIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -7078,6 +8310,10 @@ export namespace Prisma {
      * Limit how many Maps to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MapIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -7144,6 +8380,25 @@ export namespace Prisma {
      * Limit how many Maps to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Map.background
+   */
+  export type Map$backgroundArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the background
+     */
+    select?: backgroundSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the background
+     */
+    omit?: backgroundOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: backgroundInclude<ExtArgs> | null
+    where?: backgroundWhereInput
   }
 
   /**
@@ -7215,6 +8470,8 @@ export namespace Prisma {
     id: string | null
     mapId: string | null
     elementId: string | null
+    height: string | null
+    width: string | null
     x: number | null
     y: number | null
   }
@@ -7223,6 +8480,8 @@ export namespace Prisma {
     id: string | null
     mapId: string | null
     elementId: string | null
+    height: string | null
+    width: string | null
     x: number | null
     y: number | null
   }
@@ -7231,6 +8490,8 @@ export namespace Prisma {
     id: number
     mapId: number
     elementId: number
+    height: number
+    width: number
     x: number
     y: number
     _all: number
@@ -7251,6 +8512,8 @@ export namespace Prisma {
     id?: true
     mapId?: true
     elementId?: true
+    height?: true
+    width?: true
     x?: true
     y?: true
   }
@@ -7259,6 +8522,8 @@ export namespace Prisma {
     id?: true
     mapId?: true
     elementId?: true
+    height?: true
+    width?: true
     x?: true
     y?: true
   }
@@ -7267,6 +8532,8 @@ export namespace Prisma {
     id?: true
     mapId?: true
     elementId?: true
+    height?: true
+    width?: true
     x?: true
     y?: true
     _all?: true
@@ -7362,6 +8629,8 @@ export namespace Prisma {
     id: string
     mapId: string
     elementId: string
+    height: string
+    width: string
     x: number | null
     y: number | null
     _count: MapElementsCountAggregateOutputType | null
@@ -7389,6 +8658,8 @@ export namespace Prisma {
     id?: boolean
     mapId?: boolean
     elementId?: boolean
+    height?: boolean
+    width?: boolean
     x?: boolean
     y?: boolean
     map?: boolean | MapDefaultArgs<ExtArgs>
@@ -7399,6 +8670,8 @@ export namespace Prisma {
     id?: boolean
     mapId?: boolean
     elementId?: boolean
+    height?: boolean
+    width?: boolean
     x?: boolean
     y?: boolean
     map?: boolean | MapDefaultArgs<ExtArgs>
@@ -7409,6 +8682,8 @@ export namespace Prisma {
     id?: boolean
     mapId?: boolean
     elementId?: boolean
+    height?: boolean
+    width?: boolean
     x?: boolean
     y?: boolean
     map?: boolean | MapDefaultArgs<ExtArgs>
@@ -7419,11 +8694,13 @@ export namespace Prisma {
     id?: boolean
     mapId?: boolean
     elementId?: boolean
+    height?: boolean
+    width?: boolean
     x?: boolean
     y?: boolean
   }
 
-  export type mapElementsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "mapId" | "elementId" | "x" | "y", ExtArgs["result"]["mapElements"]>
+  export type mapElementsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "mapId" | "elementId" | "height" | "width" | "x" | "y", ExtArgs["result"]["mapElements"]>
   export type mapElementsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     map?: boolean | MapDefaultArgs<ExtArgs>
     element?: boolean | ElementDefaultArgs<ExtArgs>
@@ -7447,6 +8724,8 @@ export namespace Prisma {
       id: string
       mapId: string
       elementId: string
+      height: string
+      width: string
       x: number | null
       y: number | null
     }, ExtArgs["result"]["mapElements"]>
@@ -7877,6 +9156,8 @@ export namespace Prisma {
     readonly id: FieldRef<"mapElements", 'String'>
     readonly mapId: FieldRef<"mapElements", 'String'>
     readonly elementId: FieldRef<"mapElements", 'String'>
+    readonly height: FieldRef<"mapElements", 'String'>
+    readonly width: FieldRef<"mapElements", 'String'>
     readonly x: FieldRef<"mapElements", 'Int'>
     readonly y: FieldRef<"mapElements", 'Int'>
   }
@@ -9355,6 +10636,8 @@ export namespace Prisma {
     id: 'id',
     username: 'username',
     password: 'password',
+    displayName: 'displayName',
+    profileImage: 'profileImage',
     avatarId: 'avatarId',
     role: 'role'
   };
@@ -9379,7 +10662,9 @@ export namespace Prisma {
     elementId: 'elementId',
     spaceId: 'spaceId',
     x: 'x',
-    y: 'y'
+    y: 'y',
+    height: 'height',
+    width: 'width'
   };
 
   export type SpaceElementsScalarFieldEnum = (typeof SpaceElementsScalarFieldEnum)[keyof typeof SpaceElementsScalarFieldEnum]
@@ -9396,12 +10681,21 @@ export namespace Prisma {
   export type ElementScalarFieldEnum = (typeof ElementScalarFieldEnum)[keyof typeof ElementScalarFieldEnum]
 
 
+  export const BackgroundScalarFieldEnum: {
+    id: 'id',
+    Url: 'Url'
+  };
+
+  export type BackgroundScalarFieldEnum = (typeof BackgroundScalarFieldEnum)[keyof typeof BackgroundScalarFieldEnum]
+
+
   export const MapScalarFieldEnum: {
     id: 'id',
     width: 'width',
     height: 'height',
     name: 'name',
-    thumbnail: 'thumbnail'
+    thumbnail: 'thumbnail',
+    backgroundId: 'backgroundId'
   };
 
   export type MapScalarFieldEnum = (typeof MapScalarFieldEnum)[keyof typeof MapScalarFieldEnum]
@@ -9411,6 +10705,8 @@ export namespace Prisma {
     id: 'id',
     mapId: 'mapId',
     elementId: 'elementId',
+    height: 'height',
+    width: 'width',
     x: 'x',
     y: 'y'
   };
@@ -9529,6 +10825,8 @@ export namespace Prisma {
     id?: StringFilter<"User"> | string
     username?: StringFilter<"User"> | string
     password?: StringFilter<"User"> | string
+    displayName?: StringFilter<"User"> | string
+    profileImage?: StringFilter<"User"> | string
     avatarId?: StringNullableFilter<"User"> | string | null
     role?: EnumRoleFilter<"User"> | $Enums.Role
     spaces?: SpaceListRelationFilter
@@ -9539,6 +10837,8 @@ export namespace Prisma {
     id?: SortOrder
     username?: SortOrder
     password?: SortOrder
+    displayName?: SortOrder
+    profileImage?: SortOrder
     avatarId?: SortOrderInput | SortOrder
     role?: SortOrder
     spaces?: SpaceOrderByRelationAggregateInput
@@ -9552,6 +10852,8 @@ export namespace Prisma {
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
     password?: StringFilter<"User"> | string
+    displayName?: StringFilter<"User"> | string
+    profileImage?: StringFilter<"User"> | string
     avatarId?: StringNullableFilter<"User"> | string | null
     role?: EnumRoleFilter<"User"> | $Enums.Role
     spaces?: SpaceListRelationFilter
@@ -9562,6 +10864,8 @@ export namespace Prisma {
     id?: SortOrder
     username?: SortOrder
     password?: SortOrder
+    displayName?: SortOrder
+    profileImage?: SortOrder
     avatarId?: SortOrderInput | SortOrder
     role?: SortOrder
     _count?: UserCountOrderByAggregateInput
@@ -9576,6 +10880,8 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"User"> | string
     username?: StringWithAggregatesFilter<"User"> | string
     password?: StringWithAggregatesFilter<"User"> | string
+    displayName?: StringWithAggregatesFilter<"User"> | string
+    profileImage?: StringWithAggregatesFilter<"User"> | string
     avatarId?: StringNullableWithAggregatesFilter<"User"> | string | null
     role?: EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
   }
@@ -9654,6 +10960,8 @@ export namespace Prisma {
     spaceId?: StringFilter<"spaceElements"> | string
     x?: IntFilter<"spaceElements"> | number
     y?: IntFilter<"spaceElements"> | number
+    height?: StringFilter<"spaceElements"> | string
+    width?: StringFilter<"spaceElements"> | string
     space?: XOR<SpaceScalarRelationFilter, SpaceWhereInput>
     mapElement?: XOR<ElementScalarRelationFilter, ElementWhereInput>
   }
@@ -9664,6 +10972,8 @@ export namespace Prisma {
     spaceId?: SortOrder
     x?: SortOrder
     y?: SortOrder
+    height?: SortOrder
+    width?: SortOrder
     space?: SpaceOrderByWithRelationInput
     mapElement?: ElementOrderByWithRelationInput
   }
@@ -9677,6 +10987,8 @@ export namespace Prisma {
     spaceId?: StringFilter<"spaceElements"> | string
     x?: IntFilter<"spaceElements"> | number
     y?: IntFilter<"spaceElements"> | number
+    height?: StringFilter<"spaceElements"> | string
+    width?: StringFilter<"spaceElements"> | string
     space?: XOR<SpaceScalarRelationFilter, SpaceWhereInput>
     mapElement?: XOR<ElementScalarRelationFilter, ElementWhereInput>
   }, "id" | "id">
@@ -9687,6 +10999,8 @@ export namespace Prisma {
     spaceId?: SortOrder
     x?: SortOrder
     y?: SortOrder
+    height?: SortOrder
+    width?: SortOrder
     _count?: spaceElementsCountOrderByAggregateInput
     _avg?: spaceElementsAvgOrderByAggregateInput
     _max?: spaceElementsMaxOrderByAggregateInput
@@ -9703,6 +11017,8 @@ export namespace Prisma {
     spaceId?: StringWithAggregatesFilter<"spaceElements"> | string
     x?: IntWithAggregatesFilter<"spaceElements"> | number
     y?: IntWithAggregatesFilter<"spaceElements"> | number
+    height?: StringWithAggregatesFilter<"spaceElements"> | string
+    width?: StringWithAggregatesFilter<"spaceElements"> | string
   }
 
   export type ElementWhereInput = {
@@ -9765,6 +11081,46 @@ export namespace Prisma {
     static?: BoolWithAggregatesFilter<"Element"> | boolean
   }
 
+  export type backgroundWhereInput = {
+    AND?: backgroundWhereInput | backgroundWhereInput[]
+    OR?: backgroundWhereInput[]
+    NOT?: backgroundWhereInput | backgroundWhereInput[]
+    id?: StringFilter<"background"> | string
+    Url?: StringFilter<"background"> | string
+    maps?: MapListRelationFilter
+  }
+
+  export type backgroundOrderByWithRelationInput = {
+    id?: SortOrder
+    Url?: SortOrder
+    maps?: MapOrderByRelationAggregateInput
+  }
+
+  export type backgroundWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: backgroundWhereInput | backgroundWhereInput[]
+    OR?: backgroundWhereInput[]
+    NOT?: backgroundWhereInput | backgroundWhereInput[]
+    Url?: StringFilter<"background"> | string
+    maps?: MapListRelationFilter
+  }, "id" | "id">
+
+  export type backgroundOrderByWithAggregationInput = {
+    id?: SortOrder
+    Url?: SortOrder
+    _count?: backgroundCountOrderByAggregateInput
+    _max?: backgroundMaxOrderByAggregateInput
+    _min?: backgroundMinOrderByAggregateInput
+  }
+
+  export type backgroundScalarWhereWithAggregatesInput = {
+    AND?: backgroundScalarWhereWithAggregatesInput | backgroundScalarWhereWithAggregatesInput[]
+    OR?: backgroundScalarWhereWithAggregatesInput[]
+    NOT?: backgroundScalarWhereWithAggregatesInput | backgroundScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"background"> | string
+    Url?: StringWithAggregatesFilter<"background"> | string
+  }
+
   export type MapWhereInput = {
     AND?: MapWhereInput | MapWhereInput[]
     OR?: MapWhereInput[]
@@ -9774,6 +11130,8 @@ export namespace Prisma {
     height?: IntFilter<"Map"> | number
     name?: StringFilter<"Map"> | string
     thumbnail?: StringFilter<"Map"> | string
+    backgroundId?: StringNullableFilter<"Map"> | string | null
+    background?: XOR<BackgroundNullableScalarRelationFilter, backgroundWhereInput> | null
     elements?: MapElementsListRelationFilter
   }
 
@@ -9783,6 +11141,8 @@ export namespace Prisma {
     height?: SortOrder
     name?: SortOrder
     thumbnail?: SortOrder
+    backgroundId?: SortOrderInput | SortOrder
+    background?: backgroundOrderByWithRelationInput
     elements?: mapElementsOrderByRelationAggregateInput
   }
 
@@ -9795,6 +11155,8 @@ export namespace Prisma {
     height?: IntFilter<"Map"> | number
     name?: StringFilter<"Map"> | string
     thumbnail?: StringFilter<"Map"> | string
+    backgroundId?: StringNullableFilter<"Map"> | string | null
+    background?: XOR<BackgroundNullableScalarRelationFilter, backgroundWhereInput> | null
     elements?: MapElementsListRelationFilter
   }, "id" | "id">
 
@@ -9804,6 +11166,7 @@ export namespace Prisma {
     height?: SortOrder
     name?: SortOrder
     thumbnail?: SortOrder
+    backgroundId?: SortOrderInput | SortOrder
     _count?: MapCountOrderByAggregateInput
     _avg?: MapAvgOrderByAggregateInput
     _max?: MapMaxOrderByAggregateInput
@@ -9820,6 +11183,7 @@ export namespace Prisma {
     height?: IntWithAggregatesFilter<"Map"> | number
     name?: StringWithAggregatesFilter<"Map"> | string
     thumbnail?: StringWithAggregatesFilter<"Map"> | string
+    backgroundId?: StringNullableWithAggregatesFilter<"Map"> | string | null
   }
 
   export type mapElementsWhereInput = {
@@ -9829,6 +11193,8 @@ export namespace Prisma {
     id?: StringFilter<"mapElements"> | string
     mapId?: StringFilter<"mapElements"> | string
     elementId?: StringFilter<"mapElements"> | string
+    height?: StringFilter<"mapElements"> | string
+    width?: StringFilter<"mapElements"> | string
     x?: IntNullableFilter<"mapElements"> | number | null
     y?: IntNullableFilter<"mapElements"> | number | null
     map?: XOR<MapScalarRelationFilter, MapWhereInput>
@@ -9839,6 +11205,8 @@ export namespace Prisma {
     id?: SortOrder
     mapId?: SortOrder
     elementId?: SortOrder
+    height?: SortOrder
+    width?: SortOrder
     x?: SortOrderInput | SortOrder
     y?: SortOrderInput | SortOrder
     map?: MapOrderByWithRelationInput
@@ -9852,6 +11220,8 @@ export namespace Prisma {
     NOT?: mapElementsWhereInput | mapElementsWhereInput[]
     mapId?: StringFilter<"mapElements"> | string
     elementId?: StringFilter<"mapElements"> | string
+    height?: StringFilter<"mapElements"> | string
+    width?: StringFilter<"mapElements"> | string
     x?: IntNullableFilter<"mapElements"> | number | null
     y?: IntNullableFilter<"mapElements"> | number | null
     map?: XOR<MapScalarRelationFilter, MapWhereInput>
@@ -9862,6 +11232,8 @@ export namespace Prisma {
     id?: SortOrder
     mapId?: SortOrder
     elementId?: SortOrder
+    height?: SortOrder
+    width?: SortOrder
     x?: SortOrderInput | SortOrder
     y?: SortOrderInput | SortOrder
     _count?: mapElementsCountOrderByAggregateInput
@@ -9878,6 +11250,8 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"mapElements"> | string
     mapId?: StringWithAggregatesFilter<"mapElements"> | string
     elementId?: StringWithAggregatesFilter<"mapElements"> | string
+    height?: StringWithAggregatesFilter<"mapElements"> | string
+    width?: StringWithAggregatesFilter<"mapElements"> | string
     x?: IntNullableWithAggregatesFilter<"mapElements"> | number | null
     y?: IntNullableWithAggregatesFilter<"mapElements"> | number | null
   }
@@ -9931,6 +11305,8 @@ export namespace Prisma {
     id?: string
     username: string
     password: string
+    displayName?: string
+    profileImage?: string
     role: $Enums.Role
     spaces?: SpaceCreateNestedManyWithoutCreatorInput
     avatar?: AvatarCreateNestedOneWithoutUserInput
@@ -9940,6 +11316,8 @@ export namespace Prisma {
     id?: string
     username: string
     password: string
+    displayName?: string
+    profileImage?: string
     avatarId?: string | null
     role: $Enums.Role
     spaces?: SpaceUncheckedCreateNestedManyWithoutCreatorInput
@@ -9949,6 +11327,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    displayName?: StringFieldUpdateOperationsInput | string
+    profileImage?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     spaces?: SpaceUpdateManyWithoutCreatorNestedInput
     avatar?: AvatarUpdateOneWithoutUserNestedInput
@@ -9958,6 +11338,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    displayName?: StringFieldUpdateOperationsInput | string
+    profileImage?: StringFieldUpdateOperationsInput | string
     avatarId?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     spaces?: SpaceUncheckedUpdateManyWithoutCreatorNestedInput
@@ -9967,6 +11349,8 @@ export namespace Prisma {
     id?: string
     username: string
     password: string
+    displayName?: string
+    profileImage?: string
     avatarId?: string | null
     role: $Enums.Role
   }
@@ -9975,6 +11359,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    displayName?: StringFieldUpdateOperationsInput | string
+    profileImage?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
   }
 
@@ -9982,6 +11368,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    displayName?: StringFieldUpdateOperationsInput | string
+    profileImage?: StringFieldUpdateOperationsInput | string
     avatarId?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
   }
@@ -10056,6 +11444,8 @@ export namespace Prisma {
     id?: string
     x: number
     y: number
+    height?: string
+    width?: string
     space: SpaceCreateNestedOneWithoutElementsInput
     mapElement: ElementCreateNestedOneWithoutSpacesInput
   }
@@ -10066,12 +11456,16 @@ export namespace Prisma {
     spaceId: string
     x: number
     y: number
+    height?: string
+    width?: string
   }
 
   export type spaceElementsUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     x?: IntFieldUpdateOperationsInput | number
     y?: IntFieldUpdateOperationsInput | number
+    height?: StringFieldUpdateOperationsInput | string
+    width?: StringFieldUpdateOperationsInput | string
     space?: SpaceUpdateOneRequiredWithoutElementsNestedInput
     mapElement?: ElementUpdateOneRequiredWithoutSpacesNestedInput
   }
@@ -10082,6 +11476,8 @@ export namespace Prisma {
     spaceId?: StringFieldUpdateOperationsInput | string
     x?: IntFieldUpdateOperationsInput | number
     y?: IntFieldUpdateOperationsInput | number
+    height?: StringFieldUpdateOperationsInput | string
+    width?: StringFieldUpdateOperationsInput | string
   }
 
   export type spaceElementsCreateManyInput = {
@@ -10090,12 +11486,16 @@ export namespace Prisma {
     spaceId: string
     x: number
     y: number
+    height?: string
+    width?: string
   }
 
   export type spaceElementsUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     x?: IntFieldUpdateOperationsInput | number
     y?: IntFieldUpdateOperationsInput | number
+    height?: StringFieldUpdateOperationsInput | string
+    width?: StringFieldUpdateOperationsInput | string
   }
 
   export type spaceElementsUncheckedUpdateManyInput = {
@@ -10104,6 +11504,8 @@ export namespace Prisma {
     spaceId?: StringFieldUpdateOperationsInput | string
     x?: IntFieldUpdateOperationsInput | number
     y?: IntFieldUpdateOperationsInput | number
+    height?: StringFieldUpdateOperationsInput | string
+    width?: StringFieldUpdateOperationsInput | string
   }
 
   export type ElementCreateInput = {
@@ -10170,12 +11572,52 @@ export namespace Prisma {
     static?: BoolFieldUpdateOperationsInput | boolean
   }
 
+  export type backgroundCreateInput = {
+    id?: string
+    Url: string
+    maps?: MapCreateNestedManyWithoutBackgroundInput
+  }
+
+  export type backgroundUncheckedCreateInput = {
+    id?: string
+    Url: string
+    maps?: MapUncheckedCreateNestedManyWithoutBackgroundInput
+  }
+
+  export type backgroundUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    Url?: StringFieldUpdateOperationsInput | string
+    maps?: MapUpdateManyWithoutBackgroundNestedInput
+  }
+
+  export type backgroundUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    Url?: StringFieldUpdateOperationsInput | string
+    maps?: MapUncheckedUpdateManyWithoutBackgroundNestedInput
+  }
+
+  export type backgroundCreateManyInput = {
+    id?: string
+    Url: string
+  }
+
+  export type backgroundUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    Url?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type backgroundUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    Url?: StringFieldUpdateOperationsInput | string
+  }
+
   export type MapCreateInput = {
     id?: string
     width: number
     height: number
     name: string
     thumbnail: string
+    background?: backgroundCreateNestedOneWithoutMapsInput
     elements?: mapElementsCreateNestedManyWithoutMapInput
   }
 
@@ -10185,6 +11627,7 @@ export namespace Prisma {
     height: number
     name: string
     thumbnail: string
+    backgroundId?: string | null
     elements?: mapElementsUncheckedCreateNestedManyWithoutMapInput
   }
 
@@ -10194,6 +11637,7 @@ export namespace Prisma {
     height?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     thumbnail?: StringFieldUpdateOperationsInput | string
+    background?: backgroundUpdateOneWithoutMapsNestedInput
     elements?: mapElementsUpdateManyWithoutMapNestedInput
   }
 
@@ -10203,6 +11647,7 @@ export namespace Prisma {
     height?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     thumbnail?: StringFieldUpdateOperationsInput | string
+    backgroundId?: NullableStringFieldUpdateOperationsInput | string | null
     elements?: mapElementsUncheckedUpdateManyWithoutMapNestedInput
   }
 
@@ -10212,6 +11657,7 @@ export namespace Prisma {
     height: number
     name: string
     thumbnail: string
+    backgroundId?: string | null
   }
 
   export type MapUpdateManyMutationInput = {
@@ -10228,10 +11674,13 @@ export namespace Prisma {
     height?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     thumbnail?: StringFieldUpdateOperationsInput | string
+    backgroundId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type mapElementsCreateInput = {
     id?: string
+    height?: string
+    width?: string
     x?: number | null
     y?: number | null
     map: MapCreateNestedOneWithoutElementsInput
@@ -10242,12 +11691,16 @@ export namespace Prisma {
     id?: string
     mapId: string
     elementId: string
+    height?: string
+    width?: string
     x?: number | null
     y?: number | null
   }
 
   export type mapElementsUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    height?: StringFieldUpdateOperationsInput | string
+    width?: StringFieldUpdateOperationsInput | string
     x?: NullableIntFieldUpdateOperationsInput | number | null
     y?: NullableIntFieldUpdateOperationsInput | number | null
     map?: MapUpdateOneRequiredWithoutElementsNestedInput
@@ -10258,6 +11711,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     mapId?: StringFieldUpdateOperationsInput | string
     elementId?: StringFieldUpdateOperationsInput | string
+    height?: StringFieldUpdateOperationsInput | string
+    width?: StringFieldUpdateOperationsInput | string
     x?: NullableIntFieldUpdateOperationsInput | number | null
     y?: NullableIntFieldUpdateOperationsInput | number | null
   }
@@ -10266,12 +11721,16 @@ export namespace Prisma {
     id?: string
     mapId: string
     elementId: string
+    height?: string
+    width?: string
     x?: number | null
     y?: number | null
   }
 
   export type mapElementsUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    height?: StringFieldUpdateOperationsInput | string
+    width?: StringFieldUpdateOperationsInput | string
     x?: NullableIntFieldUpdateOperationsInput | number | null
     y?: NullableIntFieldUpdateOperationsInput | number | null
   }
@@ -10280,6 +11739,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     mapId?: StringFieldUpdateOperationsInput | string
     elementId?: StringFieldUpdateOperationsInput | string
+    height?: StringFieldUpdateOperationsInput | string
+    width?: StringFieldUpdateOperationsInput | string
     x?: NullableIntFieldUpdateOperationsInput | number | null
     y?: NullableIntFieldUpdateOperationsInput | number | null
   }
@@ -10391,6 +11852,8 @@ export namespace Prisma {
     id?: SortOrder
     username?: SortOrder
     password?: SortOrder
+    displayName?: SortOrder
+    profileImage?: SortOrder
     avatarId?: SortOrder
     role?: SortOrder
   }
@@ -10399,6 +11862,8 @@ export namespace Prisma {
     id?: SortOrder
     username?: SortOrder
     password?: SortOrder
+    displayName?: SortOrder
+    profileImage?: SortOrder
     avatarId?: SortOrder
     role?: SortOrder
   }
@@ -10407,6 +11872,8 @@ export namespace Prisma {
     id?: SortOrder
     username?: SortOrder
     password?: SortOrder
+    displayName?: SortOrder
+    profileImage?: SortOrder
     avatarId?: SortOrder
     role?: SortOrder
   }
@@ -10579,6 +12046,8 @@ export namespace Prisma {
     spaceId?: SortOrder
     x?: SortOrder
     y?: SortOrder
+    height?: SortOrder
+    width?: SortOrder
   }
 
   export type spaceElementsAvgOrderByAggregateInput = {
@@ -10592,6 +12061,8 @@ export namespace Prisma {
     spaceId?: SortOrder
     x?: SortOrder
     y?: SortOrder
+    height?: SortOrder
+    width?: SortOrder
   }
 
   export type spaceElementsMinOrderByAggregateInput = {
@@ -10600,6 +12071,8 @@ export namespace Prisma {
     spaceId?: SortOrder
     x?: SortOrder
     y?: SortOrder
+    height?: SortOrder
+    width?: SortOrder
   }
 
   export type spaceElementsSumOrderByAggregateInput = {
@@ -10664,12 +12137,43 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type MapListRelationFilter = {
+    every?: MapWhereInput
+    some?: MapWhereInput
+    none?: MapWhereInput
+  }
+
+  export type MapOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type backgroundCountOrderByAggregateInput = {
+    id?: SortOrder
+    Url?: SortOrder
+  }
+
+  export type backgroundMaxOrderByAggregateInput = {
+    id?: SortOrder
+    Url?: SortOrder
+  }
+
+  export type backgroundMinOrderByAggregateInput = {
+    id?: SortOrder
+    Url?: SortOrder
+  }
+
+  export type BackgroundNullableScalarRelationFilter = {
+    is?: backgroundWhereInput | null
+    isNot?: backgroundWhereInput | null
+  }
+
   export type MapCountOrderByAggregateInput = {
     id?: SortOrder
     width?: SortOrder
     height?: SortOrder
     name?: SortOrder
     thumbnail?: SortOrder
+    backgroundId?: SortOrder
   }
 
   export type MapAvgOrderByAggregateInput = {
@@ -10683,6 +12187,7 @@ export namespace Prisma {
     height?: SortOrder
     name?: SortOrder
     thumbnail?: SortOrder
+    backgroundId?: SortOrder
   }
 
   export type MapMinOrderByAggregateInput = {
@@ -10691,6 +12196,7 @@ export namespace Prisma {
     height?: SortOrder
     name?: SortOrder
     thumbnail?: SortOrder
+    backgroundId?: SortOrder
   }
 
   export type MapSumOrderByAggregateInput = {
@@ -10707,6 +12213,8 @@ export namespace Prisma {
     id?: SortOrder
     mapId?: SortOrder
     elementId?: SortOrder
+    height?: SortOrder
+    width?: SortOrder
     x?: SortOrder
     y?: SortOrder
   }
@@ -10720,6 +12228,8 @@ export namespace Prisma {
     id?: SortOrder
     mapId?: SortOrder
     elementId?: SortOrder
+    height?: SortOrder
+    width?: SortOrder
     x?: SortOrder
     y?: SortOrder
   }
@@ -10728,6 +12238,8 @@ export namespace Prisma {
     id?: SortOrder
     mapId?: SortOrder
     elementId?: SortOrder
+    height?: SortOrder
+    width?: SortOrder
     x?: SortOrder
     y?: SortOrder
   }
@@ -11023,6 +12535,54 @@ export namespace Prisma {
     deleteMany?: mapElementsScalarWhereInput | mapElementsScalarWhereInput[]
   }
 
+  export type MapCreateNestedManyWithoutBackgroundInput = {
+    create?: XOR<MapCreateWithoutBackgroundInput, MapUncheckedCreateWithoutBackgroundInput> | MapCreateWithoutBackgroundInput[] | MapUncheckedCreateWithoutBackgroundInput[]
+    connectOrCreate?: MapCreateOrConnectWithoutBackgroundInput | MapCreateOrConnectWithoutBackgroundInput[]
+    createMany?: MapCreateManyBackgroundInputEnvelope
+    connect?: MapWhereUniqueInput | MapWhereUniqueInput[]
+  }
+
+  export type MapUncheckedCreateNestedManyWithoutBackgroundInput = {
+    create?: XOR<MapCreateWithoutBackgroundInput, MapUncheckedCreateWithoutBackgroundInput> | MapCreateWithoutBackgroundInput[] | MapUncheckedCreateWithoutBackgroundInput[]
+    connectOrCreate?: MapCreateOrConnectWithoutBackgroundInput | MapCreateOrConnectWithoutBackgroundInput[]
+    createMany?: MapCreateManyBackgroundInputEnvelope
+    connect?: MapWhereUniqueInput | MapWhereUniqueInput[]
+  }
+
+  export type MapUpdateManyWithoutBackgroundNestedInput = {
+    create?: XOR<MapCreateWithoutBackgroundInput, MapUncheckedCreateWithoutBackgroundInput> | MapCreateWithoutBackgroundInput[] | MapUncheckedCreateWithoutBackgroundInput[]
+    connectOrCreate?: MapCreateOrConnectWithoutBackgroundInput | MapCreateOrConnectWithoutBackgroundInput[]
+    upsert?: MapUpsertWithWhereUniqueWithoutBackgroundInput | MapUpsertWithWhereUniqueWithoutBackgroundInput[]
+    createMany?: MapCreateManyBackgroundInputEnvelope
+    set?: MapWhereUniqueInput | MapWhereUniqueInput[]
+    disconnect?: MapWhereUniqueInput | MapWhereUniqueInput[]
+    delete?: MapWhereUniqueInput | MapWhereUniqueInput[]
+    connect?: MapWhereUniqueInput | MapWhereUniqueInput[]
+    update?: MapUpdateWithWhereUniqueWithoutBackgroundInput | MapUpdateWithWhereUniqueWithoutBackgroundInput[]
+    updateMany?: MapUpdateManyWithWhereWithoutBackgroundInput | MapUpdateManyWithWhereWithoutBackgroundInput[]
+    deleteMany?: MapScalarWhereInput | MapScalarWhereInput[]
+  }
+
+  export type MapUncheckedUpdateManyWithoutBackgroundNestedInput = {
+    create?: XOR<MapCreateWithoutBackgroundInput, MapUncheckedCreateWithoutBackgroundInput> | MapCreateWithoutBackgroundInput[] | MapUncheckedCreateWithoutBackgroundInput[]
+    connectOrCreate?: MapCreateOrConnectWithoutBackgroundInput | MapCreateOrConnectWithoutBackgroundInput[]
+    upsert?: MapUpsertWithWhereUniqueWithoutBackgroundInput | MapUpsertWithWhereUniqueWithoutBackgroundInput[]
+    createMany?: MapCreateManyBackgroundInputEnvelope
+    set?: MapWhereUniqueInput | MapWhereUniqueInput[]
+    disconnect?: MapWhereUniqueInput | MapWhereUniqueInput[]
+    delete?: MapWhereUniqueInput | MapWhereUniqueInput[]
+    connect?: MapWhereUniqueInput | MapWhereUniqueInput[]
+    update?: MapUpdateWithWhereUniqueWithoutBackgroundInput | MapUpdateWithWhereUniqueWithoutBackgroundInput[]
+    updateMany?: MapUpdateManyWithWhereWithoutBackgroundInput | MapUpdateManyWithWhereWithoutBackgroundInput[]
+    deleteMany?: MapScalarWhereInput | MapScalarWhereInput[]
+  }
+
+  export type backgroundCreateNestedOneWithoutMapsInput = {
+    create?: XOR<backgroundCreateWithoutMapsInput, backgroundUncheckedCreateWithoutMapsInput>
+    connectOrCreate?: backgroundCreateOrConnectWithoutMapsInput
+    connect?: backgroundWhereUniqueInput
+  }
+
   export type mapElementsCreateNestedManyWithoutMapInput = {
     create?: XOR<mapElementsCreateWithoutMapInput, mapElementsUncheckedCreateWithoutMapInput> | mapElementsCreateWithoutMapInput[] | mapElementsUncheckedCreateWithoutMapInput[]
     connectOrCreate?: mapElementsCreateOrConnectWithoutMapInput | mapElementsCreateOrConnectWithoutMapInput[]
@@ -11035,6 +12595,16 @@ export namespace Prisma {
     connectOrCreate?: mapElementsCreateOrConnectWithoutMapInput | mapElementsCreateOrConnectWithoutMapInput[]
     createMany?: mapElementsCreateManyMapInputEnvelope
     connect?: mapElementsWhereUniqueInput | mapElementsWhereUniqueInput[]
+  }
+
+  export type backgroundUpdateOneWithoutMapsNestedInput = {
+    create?: XOR<backgroundCreateWithoutMapsInput, backgroundUncheckedCreateWithoutMapsInput>
+    connectOrCreate?: backgroundCreateOrConnectWithoutMapsInput
+    upsert?: backgroundUpsertWithoutMapsInput
+    disconnect?: backgroundWhereInput | boolean
+    delete?: backgroundWhereInput | boolean
+    connect?: backgroundWhereUniqueInput
+    update?: XOR<XOR<backgroundUpdateToOneWithWhereWithoutMapsInput, backgroundUpdateWithoutMapsInput>, backgroundUncheckedUpdateWithoutMapsInput>
   }
 
   export type mapElementsUpdateManyWithoutMapNestedInput = {
@@ -11403,6 +12973,8 @@ export namespace Prisma {
     id?: string
     username: string
     password: string
+    displayName?: string
+    profileImage?: string
     role: $Enums.Role
     avatar?: AvatarCreateNestedOneWithoutUserInput
   }
@@ -11411,6 +12983,8 @@ export namespace Prisma {
     id?: string
     username: string
     password: string
+    displayName?: string
+    profileImage?: string
     avatarId?: string | null
     role: $Enums.Role
   }
@@ -11424,6 +12998,8 @@ export namespace Prisma {
     id?: string
     x: number
     y: number
+    height?: string
+    width?: string
     mapElement: ElementCreateNestedOneWithoutSpacesInput
   }
 
@@ -11432,6 +13008,8 @@ export namespace Prisma {
     elementId: string
     x: number
     y: number
+    height?: string
+    width?: string
   }
 
   export type spaceElementsCreateOrConnectWithoutSpaceInput = {
@@ -11459,6 +13037,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    displayName?: StringFieldUpdateOperationsInput | string
+    profileImage?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     avatar?: AvatarUpdateOneWithoutUserNestedInput
   }
@@ -11467,6 +13047,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    displayName?: StringFieldUpdateOperationsInput | string
+    profileImage?: StringFieldUpdateOperationsInput | string
     avatarId?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
   }
@@ -11496,6 +13078,8 @@ export namespace Prisma {
     spaceId?: StringFilter<"spaceElements"> | string
     x?: IntFilter<"spaceElements"> | number
     y?: IntFilter<"spaceElements"> | number
+    height?: StringFilter<"spaceElements"> | string
+    width?: StringFilter<"spaceElements"> | string
   }
 
   export type SpaceCreateWithoutElementsInput = {
@@ -11606,6 +13190,8 @@ export namespace Prisma {
     id?: string
     x: number
     y: number
+    height?: string
+    width?: string
     space: SpaceCreateNestedOneWithoutElementsInput
   }
 
@@ -11614,6 +13200,8 @@ export namespace Prisma {
     spaceId: string
     x: number
     y: number
+    height?: string
+    width?: string
   }
 
   export type spaceElementsCreateOrConnectWithoutMapElementInput = {
@@ -11628,6 +13216,8 @@ export namespace Prisma {
 
   export type mapElementsCreateWithoutElementInput = {
     id?: string
+    height?: string
+    width?: string
     x?: number | null
     y?: number | null
     map: MapCreateNestedOneWithoutElementsInput
@@ -11636,6 +13226,8 @@ export namespace Prisma {
   export type mapElementsUncheckedCreateWithoutElementInput = {
     id?: string
     mapId: string
+    height?: string
+    width?: string
     x?: number | null
     y?: number | null
   }
@@ -11689,12 +13281,87 @@ export namespace Prisma {
     id?: StringFilter<"mapElements"> | string
     mapId?: StringFilter<"mapElements"> | string
     elementId?: StringFilter<"mapElements"> | string
+    height?: StringFilter<"mapElements"> | string
+    width?: StringFilter<"mapElements"> | string
     x?: IntNullableFilter<"mapElements"> | number | null
     y?: IntNullableFilter<"mapElements"> | number | null
   }
 
+  export type MapCreateWithoutBackgroundInput = {
+    id?: string
+    width: number
+    height: number
+    name: string
+    thumbnail: string
+    elements?: mapElementsCreateNestedManyWithoutMapInput
+  }
+
+  export type MapUncheckedCreateWithoutBackgroundInput = {
+    id?: string
+    width: number
+    height: number
+    name: string
+    thumbnail: string
+    elements?: mapElementsUncheckedCreateNestedManyWithoutMapInput
+  }
+
+  export type MapCreateOrConnectWithoutBackgroundInput = {
+    where: MapWhereUniqueInput
+    create: XOR<MapCreateWithoutBackgroundInput, MapUncheckedCreateWithoutBackgroundInput>
+  }
+
+  export type MapCreateManyBackgroundInputEnvelope = {
+    data: MapCreateManyBackgroundInput | MapCreateManyBackgroundInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type MapUpsertWithWhereUniqueWithoutBackgroundInput = {
+    where: MapWhereUniqueInput
+    update: XOR<MapUpdateWithoutBackgroundInput, MapUncheckedUpdateWithoutBackgroundInput>
+    create: XOR<MapCreateWithoutBackgroundInput, MapUncheckedCreateWithoutBackgroundInput>
+  }
+
+  export type MapUpdateWithWhereUniqueWithoutBackgroundInput = {
+    where: MapWhereUniqueInput
+    data: XOR<MapUpdateWithoutBackgroundInput, MapUncheckedUpdateWithoutBackgroundInput>
+  }
+
+  export type MapUpdateManyWithWhereWithoutBackgroundInput = {
+    where: MapScalarWhereInput
+    data: XOR<MapUpdateManyMutationInput, MapUncheckedUpdateManyWithoutBackgroundInput>
+  }
+
+  export type MapScalarWhereInput = {
+    AND?: MapScalarWhereInput | MapScalarWhereInput[]
+    OR?: MapScalarWhereInput[]
+    NOT?: MapScalarWhereInput | MapScalarWhereInput[]
+    id?: StringFilter<"Map"> | string
+    width?: IntFilter<"Map"> | number
+    height?: IntFilter<"Map"> | number
+    name?: StringFilter<"Map"> | string
+    thumbnail?: StringFilter<"Map"> | string
+    backgroundId?: StringNullableFilter<"Map"> | string | null
+  }
+
+  export type backgroundCreateWithoutMapsInput = {
+    id?: string
+    Url: string
+  }
+
+  export type backgroundUncheckedCreateWithoutMapsInput = {
+    id?: string
+    Url: string
+  }
+
+  export type backgroundCreateOrConnectWithoutMapsInput = {
+    where: backgroundWhereUniqueInput
+    create: XOR<backgroundCreateWithoutMapsInput, backgroundUncheckedCreateWithoutMapsInput>
+  }
+
   export type mapElementsCreateWithoutMapInput = {
     id?: string
+    height?: string
+    width?: string
     x?: number | null
     y?: number | null
     element: ElementCreateNestedOneWithoutMapInput
@@ -11703,6 +13370,8 @@ export namespace Prisma {
   export type mapElementsUncheckedCreateWithoutMapInput = {
     id?: string
     elementId: string
+    height?: string
+    width?: string
     x?: number | null
     y?: number | null
   }
@@ -11715,6 +13384,27 @@ export namespace Prisma {
   export type mapElementsCreateManyMapInputEnvelope = {
     data: mapElementsCreateManyMapInput | mapElementsCreateManyMapInput[]
     skipDuplicates?: boolean
+  }
+
+  export type backgroundUpsertWithoutMapsInput = {
+    update: XOR<backgroundUpdateWithoutMapsInput, backgroundUncheckedUpdateWithoutMapsInput>
+    create: XOR<backgroundCreateWithoutMapsInput, backgroundUncheckedCreateWithoutMapsInput>
+    where?: backgroundWhereInput
+  }
+
+  export type backgroundUpdateToOneWithWhereWithoutMapsInput = {
+    where?: backgroundWhereInput
+    data: XOR<backgroundUpdateWithoutMapsInput, backgroundUncheckedUpdateWithoutMapsInput>
+  }
+
+  export type backgroundUpdateWithoutMapsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    Url?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type backgroundUncheckedUpdateWithoutMapsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    Url?: StringFieldUpdateOperationsInput | string
   }
 
   export type mapElementsUpsertWithWhereUniqueWithoutMapInput = {
@@ -11739,6 +13429,7 @@ export namespace Prisma {
     height: number
     name: string
     thumbnail: string
+    background?: backgroundCreateNestedOneWithoutMapsInput
   }
 
   export type MapUncheckedCreateWithoutElementsInput = {
@@ -11747,6 +13438,7 @@ export namespace Prisma {
     height: number
     name: string
     thumbnail: string
+    backgroundId?: string | null
   }
 
   export type MapCreateOrConnectWithoutElementsInput = {
@@ -11794,6 +13486,7 @@ export namespace Prisma {
     height?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     thumbnail?: StringFieldUpdateOperationsInput | string
+    background?: backgroundUpdateOneWithoutMapsNestedInput
   }
 
   export type MapUncheckedUpdateWithoutElementsInput = {
@@ -11802,6 +13495,7 @@ export namespace Prisma {
     height?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     thumbnail?: StringFieldUpdateOperationsInput | string
+    backgroundId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ElementUpsertWithoutMapInput = {
@@ -11837,6 +13531,8 @@ export namespace Prisma {
     id?: string
     username: string
     password: string
+    displayName?: string
+    profileImage?: string
     role: $Enums.Role
     spaces?: SpaceCreateNestedManyWithoutCreatorInput
   }
@@ -11845,6 +13541,8 @@ export namespace Prisma {
     id?: string
     username: string
     password: string
+    displayName?: string
+    profileImage?: string
     role: $Enums.Role
     spaces?: SpaceUncheckedCreateNestedManyWithoutCreatorInput
   }
@@ -11882,6 +13580,8 @@ export namespace Prisma {
     id?: StringFilter<"User"> | string
     username?: StringFilter<"User"> | string
     password?: StringFilter<"User"> | string
+    displayName?: StringFilter<"User"> | string
+    profileImage?: StringFilter<"User"> | string
     avatarId?: StringNullableFilter<"User"> | string | null
     role?: EnumRoleFilter<"User"> | $Enums.Role
   }
@@ -11925,12 +13625,16 @@ export namespace Prisma {
     elementId: string
     x: number
     y: number
+    height?: string
+    width?: string
   }
 
   export type spaceElementsUpdateWithoutSpaceInput = {
     id?: StringFieldUpdateOperationsInput | string
     x?: IntFieldUpdateOperationsInput | number
     y?: IntFieldUpdateOperationsInput | number
+    height?: StringFieldUpdateOperationsInput | string
+    width?: StringFieldUpdateOperationsInput | string
     mapElement?: ElementUpdateOneRequiredWithoutSpacesNestedInput
   }
 
@@ -11939,6 +13643,8 @@ export namespace Prisma {
     elementId?: StringFieldUpdateOperationsInput | string
     x?: IntFieldUpdateOperationsInput | number
     y?: IntFieldUpdateOperationsInput | number
+    height?: StringFieldUpdateOperationsInput | string
+    width?: StringFieldUpdateOperationsInput | string
   }
 
   export type spaceElementsUncheckedUpdateManyWithoutSpaceInput = {
@@ -11946,6 +13652,8 @@ export namespace Prisma {
     elementId?: StringFieldUpdateOperationsInput | string
     x?: IntFieldUpdateOperationsInput | number
     y?: IntFieldUpdateOperationsInput | number
+    height?: StringFieldUpdateOperationsInput | string
+    width?: StringFieldUpdateOperationsInput | string
   }
 
   export type spaceElementsCreateManyMapElementInput = {
@@ -11953,11 +13661,15 @@ export namespace Prisma {
     spaceId: string
     x: number
     y: number
+    height?: string
+    width?: string
   }
 
   export type mapElementsCreateManyElementInput = {
     id?: string
     mapId: string
+    height?: string
+    width?: string
     x?: number | null
     y?: number | null
   }
@@ -11966,6 +13678,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     x?: IntFieldUpdateOperationsInput | number
     y?: IntFieldUpdateOperationsInput | number
+    height?: StringFieldUpdateOperationsInput | string
+    width?: StringFieldUpdateOperationsInput | string
     space?: SpaceUpdateOneRequiredWithoutElementsNestedInput
   }
 
@@ -11974,6 +13688,8 @@ export namespace Prisma {
     spaceId?: StringFieldUpdateOperationsInput | string
     x?: IntFieldUpdateOperationsInput | number
     y?: IntFieldUpdateOperationsInput | number
+    height?: StringFieldUpdateOperationsInput | string
+    width?: StringFieldUpdateOperationsInput | string
   }
 
   export type spaceElementsUncheckedUpdateManyWithoutMapElementInput = {
@@ -11981,10 +13697,14 @@ export namespace Prisma {
     spaceId?: StringFieldUpdateOperationsInput | string
     x?: IntFieldUpdateOperationsInput | number
     y?: IntFieldUpdateOperationsInput | number
+    height?: StringFieldUpdateOperationsInput | string
+    width?: StringFieldUpdateOperationsInput | string
   }
 
   export type mapElementsUpdateWithoutElementInput = {
     id?: StringFieldUpdateOperationsInput | string
+    height?: StringFieldUpdateOperationsInput | string
+    width?: StringFieldUpdateOperationsInput | string
     x?: NullableIntFieldUpdateOperationsInput | number | null
     y?: NullableIntFieldUpdateOperationsInput | number | null
     map?: MapUpdateOneRequiredWithoutElementsNestedInput
@@ -11993,6 +13713,8 @@ export namespace Prisma {
   export type mapElementsUncheckedUpdateWithoutElementInput = {
     id?: StringFieldUpdateOperationsInput | string
     mapId?: StringFieldUpdateOperationsInput | string
+    height?: StringFieldUpdateOperationsInput | string
+    width?: StringFieldUpdateOperationsInput | string
     x?: NullableIntFieldUpdateOperationsInput | number | null
     y?: NullableIntFieldUpdateOperationsInput | number | null
   }
@@ -12000,19 +13722,59 @@ export namespace Prisma {
   export type mapElementsUncheckedUpdateManyWithoutElementInput = {
     id?: StringFieldUpdateOperationsInput | string
     mapId?: StringFieldUpdateOperationsInput | string
+    height?: StringFieldUpdateOperationsInput | string
+    width?: StringFieldUpdateOperationsInput | string
     x?: NullableIntFieldUpdateOperationsInput | number | null
     y?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type MapCreateManyBackgroundInput = {
+    id?: string
+    width: number
+    height: number
+    name: string
+    thumbnail: string
+  }
+
+  export type MapUpdateWithoutBackgroundInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    width?: IntFieldUpdateOperationsInput | number
+    height?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    thumbnail?: StringFieldUpdateOperationsInput | string
+    elements?: mapElementsUpdateManyWithoutMapNestedInput
+  }
+
+  export type MapUncheckedUpdateWithoutBackgroundInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    width?: IntFieldUpdateOperationsInput | number
+    height?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    thumbnail?: StringFieldUpdateOperationsInput | string
+    elements?: mapElementsUncheckedUpdateManyWithoutMapNestedInput
+  }
+
+  export type MapUncheckedUpdateManyWithoutBackgroundInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    width?: IntFieldUpdateOperationsInput | number
+    height?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    thumbnail?: StringFieldUpdateOperationsInput | string
   }
 
   export type mapElementsCreateManyMapInput = {
     id?: string
     elementId: string
+    height?: string
+    width?: string
     x?: number | null
     y?: number | null
   }
 
   export type mapElementsUpdateWithoutMapInput = {
     id?: StringFieldUpdateOperationsInput | string
+    height?: StringFieldUpdateOperationsInput | string
+    width?: StringFieldUpdateOperationsInput | string
     x?: NullableIntFieldUpdateOperationsInput | number | null
     y?: NullableIntFieldUpdateOperationsInput | number | null
     element?: ElementUpdateOneRequiredWithoutMapNestedInput
@@ -12021,6 +13783,8 @@ export namespace Prisma {
   export type mapElementsUncheckedUpdateWithoutMapInput = {
     id?: StringFieldUpdateOperationsInput | string
     elementId?: StringFieldUpdateOperationsInput | string
+    height?: StringFieldUpdateOperationsInput | string
+    width?: StringFieldUpdateOperationsInput | string
     x?: NullableIntFieldUpdateOperationsInput | number | null
     y?: NullableIntFieldUpdateOperationsInput | number | null
   }
@@ -12028,6 +13792,8 @@ export namespace Prisma {
   export type mapElementsUncheckedUpdateManyWithoutMapInput = {
     id?: StringFieldUpdateOperationsInput | string
     elementId?: StringFieldUpdateOperationsInput | string
+    height?: StringFieldUpdateOperationsInput | string
+    width?: StringFieldUpdateOperationsInput | string
     x?: NullableIntFieldUpdateOperationsInput | number | null
     y?: NullableIntFieldUpdateOperationsInput | number | null
   }
@@ -12036,6 +13802,8 @@ export namespace Prisma {
     id?: string
     username: string
     password: string
+    displayName?: string
+    profileImage?: string
     role: $Enums.Role
   }
 
@@ -12043,6 +13811,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    displayName?: StringFieldUpdateOperationsInput | string
+    profileImage?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     spaces?: SpaceUpdateManyWithoutCreatorNestedInput
   }
@@ -12051,6 +13821,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    displayName?: StringFieldUpdateOperationsInput | string
+    profileImage?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     spaces?: SpaceUncheckedUpdateManyWithoutCreatorNestedInput
   }
@@ -12059,6 +13831,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    displayName?: StringFieldUpdateOperationsInput | string
+    profileImage?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
   }
 

@@ -9,19 +9,26 @@ generator client {
   output   = "../src/generated/prisma"
 }
 
+// generator client {
+//   provider      = "prisma-client-js"
+//  binaryTargets = ["native", "linux-musl"]
+// }
+
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://postgres:mysecretpassword@localhost:5432/mydb"
+  url      = env("DATABASE_URL")
 }
 
 model User {
-  id       String  @id @unique @default(cuid())
-  username String  @unique
-  password String
-  avatarId String?
-  role     Role
-  spaces   Space[]
-  avatar   Avatar? @relation(fields: [avatarId], references: [id])
+  id           String  @id @unique @default(cuid())
+  username     String  @unique
+  password     String
+  displayName  String  @default("")
+  profileImage String  @default("")
+  avatarId     String?
+  role         Role
+  spaces       Space[]
+  avatar       Avatar? @relation(fields: [avatarId], references: [id])
 }
 
 model Space {
@@ -41,6 +48,8 @@ model spaceElements {
   spaceId    String
   x          Int
   y          Int
+  height     String  @default("")
+  width      String  @default("")
   space      Space   @relation(fields: [spaceId], references: [id])
   mapElement Element @relation(fields: [elementId], references: [id])
 }
@@ -55,19 +64,29 @@ model Element {
   map      mapElements[]
 }
 
+model background {
+  id   String @id @unique @default(cuid())
+  Url  String
+  maps Map[]
+}
+
 model Map {
-  id        String        @id @unique @default(cuid())
-  width     Int
-  height    Int
-  name      String
-  thumbnail String
-  elements  mapElements[]
+  id           String        @id @unique @default(cuid())
+  width        Int
+  height       Int
+  name         String
+  thumbnail    String
+  backgroundId String?
+  background   background?   @relation(fields: [backgroundId], references: [id])
+  elements     mapElements[]
 }
 
 model mapElements {
   id        String  @id @unique @default(cuid())
   mapId     String
   elementId String
+  height    String  @default("")
+  width     String  @default("")
   x         Int?
   y         Int?
   map       Map     @relation(fields: [mapId], references: [id])
