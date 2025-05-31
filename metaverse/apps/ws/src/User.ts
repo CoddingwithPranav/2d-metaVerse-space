@@ -88,7 +88,7 @@ export class User {
             type: "space-joined",
             payload: {
               userId: this.id,
-              spawn: { x: this.x, y: this.y },
+              spawn: { x: this.x/20, y: this.y/20 },  ///divided because cellzise is 20px
               users: existing,
             },
           });

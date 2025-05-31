@@ -35,6 +35,7 @@ spaceRouter.post("/", userMiddleware, async (req, res) => {
       select: {
         width: true,
         height: true,
+        background:true,
         elements: {
           select: {
             elementId: true,
@@ -49,7 +50,6 @@ spaceRouter.post("/", userMiddleware, async (req, res) => {
     if (!map) {
       return res.status(400).json({ message: "Map not found" });
     }
-
     // Create space and copy elements
     const space = await dbClient.$transaction(async () => {
       const newSpace = await dbClient.space.create({
@@ -57,6 +57,7 @@ spaceRouter.post("/", userMiddleware, async (req, res) => {
           name,
           width: map.width,
           height: map.height,
+          backgroundUrl:map.background?.Url,
           creatorId: req.userId!,
         },
       });
@@ -215,56 +216,57 @@ spaceRouter.post("/element", userMiddleware, async (req, res) => {
     }
 })
 
-spaceRouter.get("/:spaceId", async (req, res) => {
-    try {
-      const space = await dbClient.space.findUnique({
-        where: {
-          id: req.params.spaceId,
-        },
-        include: {
-          elements: {
-            select: {
-              id: true,
-              x: true,
-              y: true,
-              mapElement: {
-                select: {
-                  id: true,
-                  imageUrl: true,
-                  width: true,
-                  height: true,
-                  static: true,
+  spaceRouter.get("/:spaceId", async (req, res) => {
+      try {
+        const space = await dbClient.space.findUnique({
+          where: {
+            id: req.params.spaceId,
+          },
+          include: {
+            elements: {
+              select: {
+                id: true,
+                x: true,
+                y: true,
+                mapElement: {
+                  select: {
+                    id: true,
+                    imageUrl: true,
+                    width: true,
+                    height: true,
+                    static: true,
+                  },
                 },
               },
             },
           },
-        },
-      });
-  
-      if (!space) {
-        res.status(400).json({ message: "Space not found" });
-        return;
+        });
+    
+        if (!space) {
+          res.status(400).json({ message: "Space not found" });
+          return;
+        }
+    
+        res.json({
+          dimensions: `${space.width}x${space.height}`,
+          backgroundUrl: space.backgroundUrl,
+          elements: space.elements.map(e => ({
+            id: e.id,
+            element: {
+              id: e.mapElement.id,
+              imageUrl: e.mapElement.imageUrl,
+              width: e.mapElement.width,
+              height: e.mapElement.height,
+              static: e.mapElement.static,
+            },
+            x: e.x,
+            y: e.y,
+          })),
+        });
+      } catch (error) {
+        console.error("Error fetching space:", error);
+        res.status(500).json({ message: "Internal server error", error });
       }
-  
-      res.json({
-        dimensions: `${space.width}x${space.height}`,
-        elements: space.elements.map(e => ({
-          id: e.id,
-          element: {
-            id: e.mapElement.id,
-            imageUrl: e.mapElement.imageUrl,
-            width: e.mapElement.width,
-            height: e.mapElement.height,
-            static: e.mapElement.static,
-          },
-          x: e.x,
-          y: e.y,
-        })),
-      });
-    } catch (error) {
-      console.error("Error fetching space:", error);
-      res.status(500).json({ message: "Internal server error", error });
-    }
-  });
+    });
   
   

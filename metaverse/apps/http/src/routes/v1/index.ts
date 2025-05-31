@@ -85,7 +85,7 @@ router.get("/elements",async(req, res)=>{
       elements: elements.map((element) => ({
         id: element.id,
         imageUrl: element.imageUrl,
-        with: element.width,
+        width: element.width,
         height: element.height,
         static: element.static,
       })),
