@@ -32,14 +32,15 @@ model User {
 }
 
 model Space {
-  id        String          @id @unique @default(cuid())
-  name      String
-  width     Int
-  height    Int?
-  thumbnail String?
-  creatorId String
-  creator   User            @relation(fields: [creatorId], references: [id])
-  elements  spaceElements[]
+  id            String          @id @unique @default(cuid())
+  name          String
+  width         Int
+  height        Int?
+  thumbnail     String?
+  backgroundUrl String?
+  creatorId     String
+  creator       User            @relation(fields: [creatorId], references: [id])
+  elements      spaceElements[]
 }
 
 model spaceElements {
