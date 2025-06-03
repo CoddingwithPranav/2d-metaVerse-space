@@ -2878,6 +2878,7 @@ export namespace Prisma {
     width: number | null
     height: number | null
     thumbnail: string | null
+    backgroundUrl: string | null
     creatorId: string | null
   }
 
@@ -2887,6 +2888,7 @@ export namespace Prisma {
     width: number | null
     height: number | null
     thumbnail: string | null
+    backgroundUrl: string | null
     creatorId: string | null
   }
 
@@ -2896,6 +2898,7 @@ export namespace Prisma {
     width: number
     height: number
     thumbnail: number
+    backgroundUrl: number
     creatorId: number
     _all: number
   }
@@ -2917,6 +2920,7 @@ export namespace Prisma {
     width?: true
     height?: true
     thumbnail?: true
+    backgroundUrl?: true
     creatorId?: true
   }
 
@@ -2926,6 +2930,7 @@ export namespace Prisma {
     width?: true
     height?: true
     thumbnail?: true
+    backgroundUrl?: true
     creatorId?: true
   }
 
@@ -2935,6 +2940,7 @@ export namespace Prisma {
     width?: true
     height?: true
     thumbnail?: true
+    backgroundUrl?: true
     creatorId?: true
     _all?: true
   }
@@ -3031,6 +3037,7 @@ export namespace Prisma {
     width: number
     height: number | null
     thumbnail: string | null
+    backgroundUrl: string | null
     creatorId: string
     _count: SpaceCountAggregateOutputType | null
     _avg: SpaceAvgAggregateOutputType | null
@@ -3059,6 +3066,7 @@ export namespace Prisma {
     width?: boolean
     height?: boolean
     thumbnail?: boolean
+    backgroundUrl?: boolean
     creatorId?: boolean
     creator?: boolean | UserDefaultArgs<ExtArgs>
     elements?: boolean | Space$elementsArgs<ExtArgs>
@@ -3071,6 +3079,7 @@ export namespace Prisma {
     width?: boolean
     height?: boolean
     thumbnail?: boolean
+    backgroundUrl?: boolean
     creatorId?: boolean
     creator?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["space"]>
@@ -3081,6 +3090,7 @@ export namespace Prisma {
     width?: boolean
     height?: boolean
     thumbnail?: boolean
+    backgroundUrl?: boolean
     creatorId?: boolean
     creator?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["space"]>
@@ -3091,10 +3101,11 @@ export namespace Prisma {
     width?: boolean
     height?: boolean
     thumbnail?: boolean
+    backgroundUrl?: boolean
     creatorId?: boolean
   }
 
-  export type SpaceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "width" | "height" | "thumbnail" | "creatorId", ExtArgs["result"]["space"]>
+  export type SpaceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "width" | "height" | "thumbnail" | "backgroundUrl" | "creatorId", ExtArgs["result"]["space"]>
   export type SpaceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     creator?: boolean | UserDefaultArgs<ExtArgs>
     elements?: boolean | Space$elementsArgs<ExtArgs>
@@ -3119,6 +3130,7 @@ export namespace Prisma {
       width: number
       height: number | null
       thumbnail: string | null
+      backgroundUrl: string | null
       creatorId: string
     }, ExtArgs["result"]["space"]>
     composites: {}
@@ -3550,6 +3562,7 @@ export namespace Prisma {
     readonly width: FieldRef<"Space", 'Int'>
     readonly height: FieldRef<"Space", 'Int'>
     readonly thumbnail: FieldRef<"Space", 'String'>
+    readonly backgroundUrl: FieldRef<"Space", 'String'>
     readonly creatorId: FieldRef<"Space", 'String'>
   }
     
@@ -10651,6 +10664,7 @@ export namespace Prisma {
     width: 'width',
     height: 'height',
     thumbnail: 'thumbnail',
+    backgroundUrl: 'backgroundUrl',
     creatorId: 'creatorId'
   };
 
@@ -10895,6 +10909,7 @@ export namespace Prisma {
     width?: IntFilter<"Space"> | number
     height?: IntNullableFilter<"Space"> | number | null
     thumbnail?: StringNullableFilter<"Space"> | string | null
+    backgroundUrl?: StringNullableFilter<"Space"> | string | null
     creatorId?: StringFilter<"Space"> | string
     creator?: XOR<UserScalarRelationFilter, UserWhereInput>
     elements?: SpaceElementsListRelationFilter
@@ -10906,6 +10921,7 @@ export namespace Prisma {
     width?: SortOrder
     height?: SortOrderInput | SortOrder
     thumbnail?: SortOrderInput | SortOrder
+    backgroundUrl?: SortOrderInput | SortOrder
     creatorId?: SortOrder
     creator?: UserOrderByWithRelationInput
     elements?: spaceElementsOrderByRelationAggregateInput
@@ -10920,6 +10936,7 @@ export namespace Prisma {
     width?: IntFilter<"Space"> | number
     height?: IntNullableFilter<"Space"> | number | null
     thumbnail?: StringNullableFilter<"Space"> | string | null
+    backgroundUrl?: StringNullableFilter<"Space"> | string | null
     creatorId?: StringFilter<"Space"> | string
     creator?: XOR<UserScalarRelationFilter, UserWhereInput>
     elements?: SpaceElementsListRelationFilter
@@ -10931,6 +10948,7 @@ export namespace Prisma {
     width?: SortOrder
     height?: SortOrderInput | SortOrder
     thumbnail?: SortOrderInput | SortOrder
+    backgroundUrl?: SortOrderInput | SortOrder
     creatorId?: SortOrder
     _count?: SpaceCountOrderByAggregateInput
     _avg?: SpaceAvgOrderByAggregateInput
@@ -10948,6 +10966,7 @@ export namespace Prisma {
     width?: IntWithAggregatesFilter<"Space"> | number
     height?: IntNullableWithAggregatesFilter<"Space"> | number | null
     thumbnail?: StringNullableWithAggregatesFilter<"Space"> | string | null
+    backgroundUrl?: StringNullableWithAggregatesFilter<"Space"> | string | null
     creatorId?: StringWithAggregatesFilter<"Space"> | string
   }
 
@@ -11380,6 +11399,7 @@ export namespace Prisma {
     width: number
     height?: number | null
     thumbnail?: string | null
+    backgroundUrl?: string | null
     creator: UserCreateNestedOneWithoutSpacesInput
     elements?: spaceElementsCreateNestedManyWithoutSpaceInput
   }
@@ -11390,6 +11410,7 @@ export namespace Prisma {
     width: number
     height?: number | null
     thumbnail?: string | null
+    backgroundUrl?: string | null
     creatorId: string
     elements?: spaceElementsUncheckedCreateNestedManyWithoutSpaceInput
   }
@@ -11400,6 +11421,7 @@ export namespace Prisma {
     width?: IntFieldUpdateOperationsInput | number
     height?: NullableIntFieldUpdateOperationsInput | number | null
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    backgroundUrl?: NullableStringFieldUpdateOperationsInput | string | null
     creator?: UserUpdateOneRequiredWithoutSpacesNestedInput
     elements?: spaceElementsUpdateManyWithoutSpaceNestedInput
   }
@@ -11410,6 +11432,7 @@ export namespace Prisma {
     width?: IntFieldUpdateOperationsInput | number
     height?: NullableIntFieldUpdateOperationsInput | number | null
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    backgroundUrl?: NullableStringFieldUpdateOperationsInput | string | null
     creatorId?: StringFieldUpdateOperationsInput | string
     elements?: spaceElementsUncheckedUpdateManyWithoutSpaceNestedInput
   }
@@ -11420,6 +11443,7 @@ export namespace Prisma {
     width: number
     height?: number | null
     thumbnail?: string | null
+    backgroundUrl?: string | null
     creatorId: string
   }
 
@@ -11429,6 +11453,7 @@ export namespace Prisma {
     width?: IntFieldUpdateOperationsInput | number
     height?: NullableIntFieldUpdateOperationsInput | number | null
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    backgroundUrl?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SpaceUncheckedUpdateManyInput = {
@@ -11437,6 +11462,7 @@ export namespace Prisma {
     width?: IntFieldUpdateOperationsInput | number
     height?: NullableIntFieldUpdateOperationsInput | number | null
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    backgroundUrl?: NullableStringFieldUpdateOperationsInput | string | null
     creatorId?: StringFieldUpdateOperationsInput | string
   }
 
@@ -11967,6 +11993,7 @@ export namespace Prisma {
     width?: SortOrder
     height?: SortOrder
     thumbnail?: SortOrder
+    backgroundUrl?: SortOrder
     creatorId?: SortOrder
   }
 
@@ -11981,6 +12008,7 @@ export namespace Prisma {
     width?: SortOrder
     height?: SortOrder
     thumbnail?: SortOrder
+    backgroundUrl?: SortOrder
     creatorId?: SortOrder
   }
 
@@ -11990,6 +12018,7 @@ export namespace Prisma {
     width?: SortOrder
     height?: SortOrder
     thumbnail?: SortOrder
+    backgroundUrl?: SortOrder
     creatorId?: SortOrder
   }
 
@@ -12879,6 +12908,7 @@ export namespace Prisma {
     width: number
     height?: number | null
     thumbnail?: string | null
+    backgroundUrl?: string | null
     elements?: spaceElementsCreateNestedManyWithoutSpaceInput
   }
 
@@ -12888,6 +12918,7 @@ export namespace Prisma {
     width: number
     height?: number | null
     thumbnail?: string | null
+    backgroundUrl?: string | null
     elements?: spaceElementsUncheckedCreateNestedManyWithoutSpaceInput
   }
 
@@ -12943,6 +12974,7 @@ export namespace Prisma {
     width?: IntFilter<"Space"> | number
     height?: IntNullableFilter<"Space"> | number | null
     thumbnail?: StringNullableFilter<"Space"> | string | null
+    backgroundUrl?: StringNullableFilter<"Space"> | string | null
     creatorId?: StringFilter<"Space"> | string
   }
 
@@ -13088,6 +13120,7 @@ export namespace Prisma {
     width: number
     height?: number | null
     thumbnail?: string | null
+    backgroundUrl?: string | null
     creator: UserCreateNestedOneWithoutSpacesInput
   }
 
@@ -13097,6 +13130,7 @@ export namespace Prisma {
     width: number
     height?: number | null
     thumbnail?: string | null
+    backgroundUrl?: string | null
     creatorId: string
   }
 
@@ -13145,6 +13179,7 @@ export namespace Prisma {
     width?: IntFieldUpdateOperationsInput | number
     height?: NullableIntFieldUpdateOperationsInput | number | null
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    backgroundUrl?: NullableStringFieldUpdateOperationsInput | string | null
     creator?: UserUpdateOneRequiredWithoutSpacesNestedInput
   }
 
@@ -13154,6 +13189,7 @@ export namespace Prisma {
     width?: IntFieldUpdateOperationsInput | number
     height?: NullableIntFieldUpdateOperationsInput | number | null
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    backgroundUrl?: NullableStringFieldUpdateOperationsInput | string | null
     creatorId?: StringFieldUpdateOperationsInput | string
   }
 
@@ -13592,6 +13628,7 @@ export namespace Prisma {
     width: number
     height?: number | null
     thumbnail?: string | null
+    backgroundUrl?: string | null
   }
 
   export type SpaceUpdateWithoutCreatorInput = {
@@ -13600,6 +13637,7 @@ export namespace Prisma {
     width?: IntFieldUpdateOperationsInput | number
     height?: NullableIntFieldUpdateOperationsInput | number | null
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    backgroundUrl?: NullableStringFieldUpdateOperationsInput | string | null
     elements?: spaceElementsUpdateManyWithoutSpaceNestedInput
   }
 
@@ -13609,6 +13647,7 @@ export namespace Prisma {
     width?: IntFieldUpdateOperationsInput | number
     height?: NullableIntFieldUpdateOperationsInput | number | null
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    backgroundUrl?: NullableStringFieldUpdateOperationsInput | string | null
     elements?: spaceElementsUncheckedUpdateManyWithoutSpaceNestedInput
   }
 
@@ -13618,6 +13657,7 @@ export namespace Prisma {
     width?: IntFieldUpdateOperationsInput | number
     height?: NullableIntFieldUpdateOperationsInput | number | null
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    backgroundUrl?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type spaceElementsCreateManySpaceInput = {

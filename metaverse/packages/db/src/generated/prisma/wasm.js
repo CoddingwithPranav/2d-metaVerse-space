@@ -136,6 +136,7 @@ exports.Prisma.SpaceScalarFieldEnum = {
   width: 'width',
   height: 'height',
   thumbnail: 'thumbnail',
+  backgroundUrl: 'backgroundUrl',
   creatorId: 'creatorId'
 };
 

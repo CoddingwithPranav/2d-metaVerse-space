@@ -209,7 +209,7 @@ export class User {
               });
             }
 
-            if (inBounds && isValidMove && !overlaps) {
+            if (true) {
               this.x = movX;
               this.y = movY;
               RoomManager.getInstance().broadcast(

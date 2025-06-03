@@ -1,24 +1,44 @@
 import useAuth from '@/utils/Authhook';
 import React from 'react';
+import { GameShowcaseView, CommunityView, JoinCtaTarget } from './GameCard';
+import { Hero } from './Hero';
+import { FeaturesView } from './FeatureView';
+import { Footer } from '../admin/footer';
 
-export const HomePage: React.FC = () =>{
-  const { token, role, logout } = useAuth();
+export const HomePage: React.FC = () => {
+  // const { token, role, logout } = useAuth();
 
-  if (!token) {
-    return <p>Please log in to view the dashboard.</p>;
-  }
+  // if (!token) {
+  //   return <p>Please log in to view the dashboard.</p>;
+  // }
   return (
-     <div>
-          <h1>Welcome to your Dashboard!</h1>
-          <p>Your role: {role}</p>
-          {role === 'admin' && (
-            <button className="bg-red-500 text-white p-2 rounded">
-              Go to Admin Panel
-            </button>
-          )}
-          <button onClick={logout}>Logout</button>
-        </div>
-    );
-  }
+    <div>
+      <div className="bg-slate-950 text-slate-200 min-h-screen font-sans antialiased selection:bg-purple-500 selection:text-white">
+        <style>{`
+        .is-visible { opacity: 1 !important; transform: translateY(0) !important; }
+        html { scroll-behavior: smooth; }
+        @keyframes rotateBorder { 0% { --angle: 0deg; } 100% { --angle: 360deg; } }
+        .animated-border-button { position: relative; display: inline-flex; align-items: center; justify-content: center; z-index: 0; padding: 2.5px; overflow: hidden; text-decoration: none; }
+        .animated-border-button::before { content: ''; position: absolute; z-index: -1; top: 0; left: 0; right: 0; bottom: 0; background: conic-gradient(from var(--angle), #a855f7, #38bdf8, #ec4899, #6366f1, #a855f7); border-radius: inherit; animation: rotateBorder 3s linear infinite paused; }
+        .animated-border-button:hover::before { animation-play-state: running; }
+        .animated-border-button > .inner-content { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background-color: #0f172a; transition: background-color 0.2s ease-in-out; }
+        .animated-border-button.rounded-lg > .inner-content { border-radius: calc(0.5rem - 2.5px); }
+        .animated-border-button.rounded-xl > .inner-content { border-radius: calc(0.75rem - 2.5px); }
+        .animated-border-button.rounded-md > .inner-content { border-radius: calc(0.375rem - 2.5px); } /* For AuthPage button */
+        .animated-border-button.w-full.rounded-lg > .inner-content { border-radius: calc(0.5rem - 2.5px); }
+        .animated-border-button:hover > .inner-content { background-color: #1e293b; }
+      `}</style>
+        <main>
+          <Hero />
+          <FeaturesView />
+          <GameShowcaseView />
+          <CommunityView />
+          <JoinCtaTarget />
+        </main>
+        <Footer />
+      </div>
+    </div>
+  );
+}
 
 
