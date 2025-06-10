@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { PublicLayout } from '../layouts/PublicLayout';
 import { UserLayout } from '../layouts/UserLayout';
 import { AdminLayout } from '../layouts/AdminLayout';
@@ -21,11 +21,12 @@ import { BackgroundsPage } from '@/pages/admin/Background';
 export const AppRoutes: React.FC = () => (
   <Router>
     <Routes>
+      <Route path="/" element={<Navigate to="/home" replace />} />
+        <Route path="/login" element={<Authentication />} />
       {/* public routes */}
       <Route element={<PublicLayout />}>
         <Route path="/home" element={<HomePage />} />
         <Route path="/arena" element={<Arena />} />
-        <Route path="/login" element={<Authentication />} />
         <Route path="/maps" element={<MapList />} />
         <Route path="/spaces" element={<UserSpace />} />
         <Route path="/profile" element={<Profile />} />

@@ -822,7 +822,7 @@ export default function Arena() {
 
   // Main Arena View
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 text-white p-4 selection:bg-indigo-500 selection:text-white relative overflow-hidden">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 text-white p-4 pt-24 selection:bg-indigo-500 selection:text-white relative overflow-hidden">
       {/* Emoji Panel */}
       <div
         className={`fixed bottom-0 left-1/2 transform -translate-x-1/2 mb-5 z-50 transition-all duration-300 ease-out
