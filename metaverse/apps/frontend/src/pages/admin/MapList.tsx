@@ -8,11 +8,11 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { AnimatedPageWrapper } from "../user/Profile"; // Assuming path is correct
 
 // Services & Config
 import { spaceService } from '@/service/spaceService';
 import { BACKEND_URL } from '@/config';
+import { AnimatedPageWrapper } from '@/components/ui/AnimatedPageWrapper';
 
 // Define the structure of a Map object
 interface Map {

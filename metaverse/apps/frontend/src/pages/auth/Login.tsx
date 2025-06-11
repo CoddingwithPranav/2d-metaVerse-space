@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { authService } from '@/service/authService';
 import useAuth from '@/utils/Authhook';
 import { useScrollAnimation } from '@/utils/ScrollHook';
-import { AnimatedPageWrapper } from '../user/Profile';
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 import { AlertCircle } from 'lucide-react';
+import  { AnimatedPageWrapper } from '@/components/ui/AnimatedPageWrapper';
 
 // Utility InputField component
 const InputField: React.FC<{ id: string; type: string; label: string; placeholder?: string; icon?: React.ComponentType<{ className?: string; size?: number }>; value: string; onChange: (val: string) => void; disabled?: boolean }> = ({ id, type, label, placeholder, icon: Icon, value, onChange, disabled }) => (

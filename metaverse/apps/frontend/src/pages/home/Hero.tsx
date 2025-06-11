@@ -2,6 +2,7 @@ import { useScrollAnimation } from "@/utils/ScrollHook";
 import { ArrowRight } from "lucide-react";
 import { useRef, useEffect } from "react";
 import { PixelCharacter } from "./PixcelCharacter";
+import '../../App.css'
 
 export const Hero = () => {
   const addToObserve = useScrollAnimation();
@@ -32,7 +33,7 @@ export const Hero = () => {
     // });
   }, [addToObserve]);
   return (
-    <section id="hero" className="min-h-screen flex items-center justify-center pt-20 bg-gradient-to-br from-slate-950 via-slate-900 to-gray-900 relative overflow-hidden">
+ <section id="hero" className="min-h-screen flex items-center justify-center pt-20 bg-gradient-to-br from-slate-950 via-slate-900 to-gray-900 relative overflow-hidden">
       <div className="absolute inset-0 opacity-10"><svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="pixelGrid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M0 10h20M10 0v20" stroke="rgba(100, 116, 139, 0.3)" strokeWidth="0.5"/></pattern></defs><rect width="100%" height="100%" fill="url(#pixelGrid)"/></svg></div>
       <div className="container mx-auto px-4 md:px-6 text-center relative z-10">
         <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12">

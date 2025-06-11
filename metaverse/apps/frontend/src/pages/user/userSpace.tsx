@@ -7,10 +7,10 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { AnimatedPageWrapper } from './Profile'; // Assuming the path is correct
 
 // Services
 import { spaceService } from '@/service/spaceService';
+import  { AnimatedPageWrapper } from '@/components/ui/AnimatedPageWrapper';
 
 // Define the data structure for a Space
 interface Space {

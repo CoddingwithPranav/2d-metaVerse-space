@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardDescription,
+  CardFooter,
+} from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import {
@@ -11,9 +18,11 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import { Loader2, PlusCircle, Map, Ruler } from "lucide-react"; // Re-importing icons
 import axios from "axios";
 import { BACKEND_URL } from "@/config";
 import { mapService } from "@/service/mapservice";
+import { toast } from "sonner"; // Assuming sonner is configured
 
 interface MapOption {
   id: string;
@@ -24,25 +33,36 @@ interface MapOption {
 
 export const SpaceCreator: React.FC = () => {
   const navigate = useNavigate();
-  const [maps, setMaps] = useState<MapOption[]>([]);
-  const [selectedMap, setSelectedMap] = useState<string>("none");
-  const [name, setName] = useState<string>("");
-  const [dimensions, setDimensions] = useState<string>("50x50");
-  const [loading, setLoading] = useState<boolean>(false);
+  const [maps, setMaps] = useState<MapOption[]>([]);// Stores available maps
+  const [selectedMap, setSelectedMap] = useState<string>("none"); // "none" for custom dimensions
+  const [name, setName] = useState<string>(""); // Space name input
+  const [dimensions, setDimensions] = useState<string>("500x500"); // Custom dimensions input
+  const [loading, setLoading] = useState<boolean>(false); // State for form submission loading
+  const [fetchingMaps, setFetchingMaps] = useState<boolean>(true); // State for fetching maps loading
+  const [nameError, setNameError] = useState<boolean>(false); // State for name validation error
 
-  // Fetch available maps
+  // Fetch available maps on component mount
   useEffect(() => {
+    setFetchingMaps(true);
     mapService
       .list()
       .then((list) => {
-        setMaps(
-          list.map((m) => ({ id: m.id, name: m.name, width: m.width, height: m.height }))
-        );
+        setMaps(list.map((m) => ({ id: m.id, name: m.name, width: m.width, height: m.height })));
+        // If maps are available and no map is yet selected, default to the first one
+        if (list.length > 0 && selectedMap === "none") {
+          setSelectedMap(list[0].id);
+        }
       })
-      .catch(console.error);
+      .catch((error) => {
+        console.error("Failed to fetch maps:", error);
+        toast.error("Failed to load available maps. Please try again.");
+      })
+      .finally(() => {
+        setFetchingMaps(false);
+      });
   }, []);
 
-  // Auto-fill dimensions when a map is selected
+  // Auto-fill dimensions when a map is selected or reset for custom
   useEffect(() => {
     if (selectedMap !== "none") {
       const map = maps.find((m) => m.id === selectedMap);
@@ -50,97 +70,185 @@ export const SpaceCreator: React.FC = () => {
         setDimensions(`${map.width}x${map.height}`);
       }
     } else {
-      setDimensions("50x50");
+      // Only reset to default if it's not already a valid custom input
+      if (!dimensions.match(/^\d+x\d+$/) || (parseInt(dimensions.split('x')[0], 10) !== 500 && parseInt(dimensions.split('x')[1], 10) !== 500)) {
+         setDimensions("500x500");
+      }
     }
-  }, [selectedMap, maps]);
+  }, [selectedMap, maps]); // `dimensions` is deliberately excluded here to avoid infinite loop with its own update
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    try {
-      const payload: any = { name };
+    setNameError(false); // Reset name error on new submission attempt
 
-      if (selectedMap !== "none") {
-        // Creating space from an existing map
-        payload.mapId = selectedMap;
-      } else {
-        // Creating custom space dimensions
-        const [w, h] = dimensions.split("x").map((v) => parseInt(v, 10));
-        payload.width = w;
-        payload.height = h;
+    if (!name.trim()) {
+        toast.error("Please enter a name for your space.");
+        setNameError(true); // Set name error state
+        setLoading(false);
+        return;
+    }
+
+    let payload: any = { name };
+
+    if (selectedMap !== "none") {
+      payload.mapId = selectedMap;
+    } else {
+      const [widthStr, heightStr] = dimensions.split("x");
+      const w = parseInt(widthStr, 10);
+      const h = parseInt(heightStr, 10);
+
+      if (isNaN(w) || isNaN(h) || w <= 0 || h <= 0) {
+        toast.error("Please enter valid positive dimensions (e.g., 800x600).");
+        setLoading(false);
+        return;
       }
+      payload.width = w;
+      payload.height = h;
+    }
 
-      const res = await axios.post(
-        `${BACKEND_URL}/space`,
-        payload,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-          },
-        }
-      );
-
+    try {
+      await axios.post(`${BACKEND_URL}/space`, payload, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      });
+      toast.success("Space created successfully!");
       navigate(`/user/spaces`);
-    } catch (err) {
+    } catch (err: any) {
       console.error("Failed to create space", err);
-      alert("Failed to create space");
+      const errorMessage = err.response?.data?.message || "Failed to create space. Please try again.";
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <Card className="max-w-md mx-auto mt-8">
-      <CardHeader>
-        <CardTitle>Create New Space</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <Label htmlFor="name">Space Name</Label>
-            <Input
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
-          </div>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 to-gray-950 p-4">
+      <Card className="w-full max-w-md bg-slate-800 text-slate-50 border-slate-700 shadow-xl rounded-lg">
+        <CardHeader className="pb-6 border-b border-slate-700">
+          <CardTitle className="text-3xl font-extrabold text-center text-purple-400 flex items-center justify-center gap-3">
+            <PlusCircle className="w-8 h-8 text-cyan-400" /> Create New Space
+          </CardTitle>
+          <CardDescription className="text-center text-slate-400 mt-2">
+            Design your ideal virtual environment. Choose a pre-built map or set custom dimensions.
+          </CardDescription>
+        </CardHeader>
 
-          <div>
-            <Label htmlFor="map">Select Map</Label>
-            <Select onValueChange={setSelectedMap} value={selectedMap}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select a map" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="none">None</SelectItem>
-                {maps.map((map) => (
-                  <SelectItem key={map.id} value={map.id}>
-                    {map.name}
+        <CardContent className="pt-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Space Name Input */}
+            <div className="space-y-2">
+              <Label htmlFor="name" className="text-slate-300 flex items-center gap-2">
+                <Map className="w-4 h-4 text-emerald-400" /> Space Name
+              </Label>
+              <Input
+                id="name"
+                value={name}
+                onChange={(e) => {
+                  setName(e.target.value);
+                  if (nameError) setNameError(false); // Clear error on typing
+                }}
+                placeholder="e.g., My Awesome Office"
+                className={`bg-slate-700 border-slate-600 text-slate-50 placeholder:text-slate-400 focus-visible:ring-offset-slate-900 focus-visible:ring-purple-500
+                            ${nameError ? "border-red-500 focus-visible:ring-red-500" : ""}`}
+                required
+                aria-invalid={nameError ? "true" : "false"}
+                aria-describedby={nameError ? "name-error" : undefined}
+              />
+              {nameError && (
+                <p id="name-error" className="text-sm text-red-400">Space name cannot be empty.</p>
+              )}
+            </div>
+
+            {/* Select Base Map */}
+            <div className="space-y-2">
+              <Label htmlFor="map-select" className="text-slate-300 flex items-center gap-2">
+                <Map className="w-4 h-4 text-blue-400" /> Select Base Map
+              </Label>
+              <Select onValueChange={setSelectedMap} value={selectedMap} aria-label="Select a base map">
+                <SelectTrigger id="map-select" className="w-full bg-slate-700 border-slate-600 text-slate-50 focus-visible:ring-offset-slate-900 focus-visible:ring-purple-500">
+                  <SelectValue placeholder="Select a map or choose custom" />
+                </SelectTrigger>
+                <SelectContent className="bg-slate-700 border-slate-600 text-slate-50">
+                  <SelectItem value="none" className="text-slate-300 hover:bg-slate-600 focus:bg-slate-600">
+                    Custom Dimensions (No Base Map)
                   </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+                  {fetchingMaps ? (
+                    <SelectItem value="loading" disabled className="text-slate-500">
+                      <span className="flex items-center">
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" aria-label="Loading maps" /> Loading maps...
+                      </span>
+                    </SelectItem>
+                  ) : maps.length === 0 ? (
+                    <SelectItem value="no-maps" disabled className="text-slate-500">
+                      No maps available
+                    </SelectItem>
+                  ) : (
+                    maps.map((map) => (
+                      <SelectItem key={map.id} value={map.id} className="hover:bg-slate-600 focus:bg-slate-600">
+                        {map.name} ({map.width}x{map.height}px)
+                      </SelectItem>
+                    ))
+                  )}
+                </SelectContent>
+              </Select>
+              {selectedMap === "none" ? (
+                <p className="text-sm text-slate-400 mt-1">
+                  You've chosen **custom dimensions**. Define them below.
+                </p>
+              ) : (
+                <p className="text-sm text-slate-400 mt-1">
+                  Dimensions for your space will be inherited from the selected map.
+                </p>
+              )}
+            </div>
 
-          <div>
-            <Label htmlFor="dimensions">Dimensions</Label>
-            <Input
-              id="dimensions"
-              value={dimensions}
-              onChange={(e) => setDimensions(e.target.value)}
-              disabled={selectedMap !== "none"}
-              placeholder="WidthxHeight"
-              required={selectedMap === "none"}
-            />
-          </div>
+            {/* Dimensions Input */}
+            <div className="space-y-2">
+              <Label htmlFor="dimensions" className="text-slate-300 flex items-center gap-2">
+                <Ruler className="w-4 h-4 text-orange-400" /> Dimensions
+              </Label>
+              <Input
+                id="dimensions"
+                value={dimensions}
+                onChange={(e) => setDimensions(e.target.value)}
+                disabled={selectedMap !== "none"}
+                placeholder="WidthxHeight (e.g., 800x600)"
+                className={`bg-slate-700 border-slate-600 text-slate-50 placeholder:text-slate-400 focus-visible:ring-offset-slate-900 focus-visible:ring-purple-500
+                            ${selectedMap !== "none" ? "bg-slate-800 opacity-70 cursor-not-allowed" : ""}`}
+                required={selectedMap === "none"}
+              />
+              {selectedMap === "none" && (
+                <p className="text-sm text-slate-400 mt-1">
+                  Enter dimensions in **WidthxHeight** format (e.g., `800x600`).
+                </p>
+              )}
+            </div>
+          </form>
+        </CardContent>
 
-          <Button type="submit" disabled={loading} className="w-full">
-            {loading ? "Creating..." : "Create Space"}
+        <CardFooter className="pt-6 border-t border-slate-700">
+          <Button
+            type="submit"
+            onClick={handleSubmit}
+            disabled={loading || fetchingMaps || !name.trim() || (selectedMap === "none" && !dimensions.match(/^\d+x\d+$/))}
+            className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-semibold py-2.5 rounded-lg shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105"
+          >
+            {loading ? (
+              <span className="flex items-center justify-center" aria-live="polite" aria-busy="true">
+                <Loader2 className="mr-2 h-5 w-5 animate-spin" /> Creating Space...
+              </span>
+            ) : (
+              <span className="flex items-center justify-center">
+                <PlusCircle className="mr-2 h-5 w-5" /> Create Space
+              </span>
+            )}
           </Button>
-        </form>
-      </CardContent>
-    </Card>
+        </CardFooter>
+      </Card>
+    </div>
   );
 };
 
