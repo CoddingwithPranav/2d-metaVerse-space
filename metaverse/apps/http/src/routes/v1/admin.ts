@@ -55,26 +55,7 @@ adminRouter.put("/element/:elementId", async (req, res) => {
     res.status(400).json({ message: "Element not found" });
   }
 });
-adminRouter.post("/avatar", AdminMiddleware, async (req, res) => {
-  try {
-    const parsedData = CreateAvatarSchema.safeParse(req.body);
-    if (!parsedData.success) {
-      return res.status(400).json({ message: "Validation failed" });
-    }
-    const avatar = await dbClient.avatar.create({
-      data: {
-        name: parsedData.data.name,
-        imageUrl: parsedData.data.imageUrl,
-      },
-    });
-    res.json({
-      id: avatar.id,
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(400).json({ message: "Avatar already exists" });
-  }
-});
+
 adminRouter.post("/map", AdminMiddleware, async (req, res) => {
   try {
     const parsedData = CreateMapSchema.safeParse(req.body);

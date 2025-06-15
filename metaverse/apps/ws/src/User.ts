@@ -33,6 +33,8 @@ interface Space {
 }
 
 export class User {
+  private RENDER_CHARACTER_WIDTH = 50;
+  private RENDER_CHARACTER_HEIGHT = 100;
   private ws: WebSocket;
   public id: string; // socket/session ID
   public userId?: string; // JWT user ID
@@ -52,13 +54,22 @@ export class User {
     this.initHandlers();
   }
 
-  private isValidSpawn(x: number, y: number, spaceElements: SpaceElement[]): boolean {
+  private isValidSpawn(x: number, y: number): boolean {
     const userLeft = x * this.CELL_SIZE;
-    const userRight = (x + 1) * this.CELL_SIZE;
     const userTop = y * this.CELL_SIZE;
-    const userBottom = (y + 1) * this.CELL_SIZE;
-
-    return !spaceElements.some((el) => {
+    const userRight = userLeft + this.RENDER_CHARACTER_WIDTH;
+    const userBottom = userTop + this.RENDER_CHARACTER_HEIGHT;
+    // Check if user fits within arena boundaries
+    if (
+      userLeft < 0 ||
+      userTop < 0 ||
+      userRight > this.spaceWidth ||
+      userBottom > this.spaceHeight
+    ) {
+      return false;
+    }
+    // Check for overlap with static elements
+    return !this.space.elements.some((el) => {
       if (!el.mapElement.static) return false;
       const elLeft = el.x;
       const elRight = el.x + el.mapElement.width;
@@ -132,21 +143,22 @@ export class User {
             this.spaceHeight = this.space.height;
 
             // Improved spawn logic
-            const maxAttempts = 100;
+            const maxX = Math.floor((this.spaceWidth - this.RENDER_CHARACTER_WIDTH) / this.CELL_SIZE);
+            const maxY = Math.floor((this.spaceHeight - this.RENDER_CHARACTER_HEIGHT) / this.CELL_SIZE);
             let attempts = 0;
-            let validSpawn = false;
+            const maxAttempts = 100;
             do {
-              this.x = Math.floor(Math.random() * (this.spaceWidth / this.CELL_SIZE));
-              this.y = Math.floor(Math.random() * (this.spaceHeight / this.CELL_SIZE));
-              validSpawn = this.isValidSpawn(this.x, this.y, this.space.elements);
+              this.x = Math.floor(Math.random() * (maxX + 1));
+              this.y = Math.floor(Math.random() * (maxY + 1));
               attempts++;
-            } while (!validSpawn && attempts < maxAttempts);
+            } while (!this.isValidSpawn(this.x, this.y) && attempts < maxAttempts);
 
-            if (!validSpawn) {
-              this.send({ type: "error", payload: { message: "No valid spawn position found" } });
+            if (attempts >= maxAttempts) {
+              this.ws.send(JSON.stringify({ type: "error", payload: { message: "No valid spawn position found" } }));
               this.ws.close();
               return;
             }
+
 
             const existing = roomManager
               .rooms.get(spaceId)!
@@ -215,7 +227,7 @@ export class User {
               RoomManager.getInstance().broadcast(
                 {
                   type: "user-moved",
-                  payload: { id: this.id, x: this.x, y: this.y },
+                  payload: { id: this.userId, x: this.x, y: this.y },
                 },
                 this,
                 this.spaceId!
@@ -223,7 +235,7 @@ export class User {
             } else {
               this.send({
                 type: "movement-rejected",
-                payload: { x: this.x, y: this.y },
+                payload: { x: this.userId, y: this.y },
               });
             }
             break;
@@ -233,7 +245,7 @@ export class User {
             if (action === "show-emoji" && userId === this.id && this.spaceId && typeof emoji === "string") {
               const message = {
                 type: "user-action",
-                payload: { action: "show-emoji", userId: this.id, emoji },
+                payload: { action: "show-emoji", userId: this.userId, emoji },
               };
               RoomManager.getInstance().broadcast(message, this, this.spaceId);
               this.send(message);
@@ -246,7 +258,7 @@ export class User {
               RoomManager.getInstance().broadcast(
                 {
                   type: "message-received",
-                  payload: { userId: this.id, message },
+                  payload: { userId: this.userId, message },
                 },
                 this,
                 this.spaceId
@@ -254,7 +266,7 @@ export class User {
               // Optionally send confirmation back to the sender
               this.send({
                 type: "message-received",
-                payload: { userId: this.id, message },
+                payload: { userId: this.userId, message },
               });
             } else {
               this.send({ type: "error", payload: { message: "Invalid message" } });
@@ -274,7 +286,7 @@ export class User {
   destroy() {
     if (!this.spaceId) return;
     RoomManager.getInstance().broadcast(
-      { type: "user-left", payload: { userId: this.id } },
+      { type: "user-left", payload: { userId: this.userId } },
       this,
       this.spaceId
     );

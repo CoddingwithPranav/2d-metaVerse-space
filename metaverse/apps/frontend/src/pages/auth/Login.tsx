@@ -5,7 +5,8 @@ import useAuth from '@/utils/Authhook';
 import { useScrollAnimation } from '@/utils/ScrollHook';
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 import { AlertCircle } from 'lucide-react';
-import  { AnimatedPageWrapper } from '@/components/ui/AnimatedPageWrapper';
+import { AnimatedPageWrapper } from '@/components/ui/AnimatedPageWrapper';
+import { avatarService } from '@/service/avatarService';
 
 // Utility InputField component
 const InputField: React.FC<{ id: string; type: string; label: string; placeholder?: string; icon?: React.ComponentType<{ className?: string; size?: number }>; value: string; onChange: (val: string) => void; disabled?: boolean }> = ({ id, type, label, placeholder, icon: Icon, value, onChange, disabled }) => (
@@ -35,6 +36,8 @@ const Authentication: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [avatars, setAvatars] = useState<any[]>([]);
+  const [selectedAvatarId, setSelectedAvatarId] = useState<string | null>(null);
 
   const { saveAuthData } = useAuth();
   const navigate = useNavigate();
@@ -44,6 +47,22 @@ const Authentication: React.FC = () => {
   useEffect(() => {
     if (formRef.current) addToObserve(formRef.current);
   }, [addToObserve]);
+
+  // Fetch avatars when switching to signup mode
+  useEffect(() => {
+    if (!isLogin) {
+      const fetchAvatars = async () => {
+        try {
+          const avatarList = await avatarService.list();
+          setAvatars(avatarList);
+        } catch (err) {
+          console.error('Error fetching avatars:', err);
+          setError('Failed to load avatars.');
+        }
+      };
+      fetchAvatars();
+    }
+  }, [isLogin]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -63,6 +82,13 @@ const Authentication: React.FC = () => {
       return;
     }
 
+    // Avatar validation for signup
+    if (!isLogin && !selectedAvatarId) {
+      setError('Please select an avatar.');
+      setLoading(false);
+      return;
+    }
+
     try {
       if (isLogin) {
         // Login flow
@@ -70,8 +96,8 @@ const Authentication: React.FC = () => {
         saveAuthData(data.token);
         navigate('/');
       } else {
-        // Signup flow
-        const newUser = await authService.register(email, password);
+        // Signup flow with avatar
+        const newUser = await authService.register(email, password, selectedAvatarId!);
         if (newUser) {
           const loginData = await authService.login(email, password);
           saveAuthData(loginData.token);
@@ -141,6 +167,27 @@ const Authentication: React.FC = () => {
               disabled={loading}
             />
           )}
+          {!isLogin && (
+            <div>
+              <label className="block text-sm font-medium text-slate-300 mb-1">Select Avatar</label>
+              {avatars.length > 0 ? (
+                <div className="grid grid-cols-3 gap-4">
+                  {avatars.map(avatar => (
+                    <div
+                      key={avatar.id}
+                      onClick={() => setSelectedAvatarId(avatar.id)}
+                      className={`cursor-pointer p-2 rounded-md ${selectedAvatarId === avatar.id ? 'bg-purple-500/30' : ''}`}
+                    >
+                      <img src={avatar.idleUrls.down} alt={avatar.name} className="w-24 h-24 object-cover rounded-md" />
+                      <p className="text-center text-sm mt-1">{avatar.name}</p>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-slate-400">Loading avatars...</p>
+              )}
+            </div>
+          )}
 
           {error && (
             <Alert variant="destructive" className="mt-2">
@@ -167,6 +214,7 @@ const Authentication: React.FC = () => {
             onClick={() => {
               setIsLogin(!isLogin);
               setError(null);
+              setSelectedAvatarId(null); // Reset avatar selection when switching
             }}
             className="ml-1 font-medium text-purple-400 hover:text-purple-300"
           >

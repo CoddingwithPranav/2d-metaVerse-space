@@ -31,7 +31,7 @@ const MOVE_TIMEOUT = 20;
 const FRAME_WIDTH = 50;
 const FRAME_HEIGHT = 120;
 const NUM_ANIMATION_FRAMES = 3;
-const ANIMATION_FRAME_DURATION = 200;
+const ANIMATION_FRAME_DURATION = 150;
 const RENDER_CHARACTER_WIDTH = 50;
 const RENDER_CHARACTER_HEIGHT = 100;
 
@@ -176,7 +176,7 @@ const useWebSocket = (
               if (action === "show-emoji" && emoji) {
                 setEmojis((prev) => [
                   ...prev.filter((e) => e.userId !== emittingUserId),
-                  { userId: emittingUserId, emoji, expiresAt: Date.now() + 3000 }, 
+                  { userId: emittingUserId, emoji, expiresAt: Date.now() + 3000 },
                 ]);
               }
               break;
@@ -286,9 +286,9 @@ export default function Arena() {
     isConnecting && criticalImagesLoaded
   );
 
-  // useEffect for fetching space data and assets ( 그대로 사용 )
+  // useEffect for fetching space data and assets 
   useEffect(() => {
-    if (!spaceId || !token || !isConnecting ) return;
+    if (!spaceId || !token || !isConnecting) return;
 
     const fetchSpaceAndElements = async () => {
       try {
@@ -299,9 +299,7 @@ export default function Arena() {
         });
         const BackgroundImageUrl = res.data.backgroundUrl;
         const [width, height] = res.data.dimensions.toLowerCase().split("x").map(Number);
-        const gridWidthCells = Math.floor(width / CELL_SIZE);
-        const gridHeightCells = Math.floor(height / CELL_SIZE);
-        setGridSize({ width: gridWidthCells, height: gridHeightCells });
+        setGridSize({ width, height });
 
         const fetchedElements: SpaceElementInState[] = res.data.elements.map((el: any) => ({
           id: el.id,
@@ -334,7 +332,7 @@ export default function Arena() {
               };
               img.onerror = () => {
                 setImageLoadError((prev) => prev || `Failed to load element: ${e.elementDefinition.imageUrl}`);
-                resolve(); 
+                resolve();
               };
             });
           }
@@ -360,16 +358,16 @@ export default function Arena() {
             }
           });
         });
-        
+
         if (!userImageCache["default"]) {
-            const img = new Image();
-            img.src = DEFAULT_SPRITE_URL;
-            userImageCache["default"] = { img, loaded: false };
-            const defaultPromise = new Promise<void>(resolve => {
-                img.onload = () => { userImageCache["default"].loaded = true; resolve();};
-                img.onerror = () => { console.error("Default sprite failed to load"); resolve(); };
-            });
-            characterSpritePromises.push(defaultPromise);
+          const img = new Image();
+          img.src = DEFAULT_SPRITE_URL;
+          userImageCache["default"] = { img, loaded: false };
+          const defaultPromise = new Promise<void>(resolve => {
+            img.onload = () => { userImageCache["default"].loaded = true; resolve(); };
+            img.onerror = () => { console.error("Default sprite failed to load"); resolve(); };
+          });
+          characterSpritePromises.push(defaultPromise);
         }
 
 
@@ -392,19 +390,19 @@ export default function Arena() {
         await Promise.all(imagePromises);
         const allSpritesLoaded = Object.values(SPRITE_SHEETS_URLS).every(key => userImageCache[key]?.loaded);
         if (!allSpritesLoaded && !imageLoadError) setImageLoadError("Some character sprites failed to load; using fallback where needed.");
-        
+
         setCriticalImagesLoaded(true);
       } catch (err) {
         console.error("Fetch Space Error:", err);
         setImageLoadError("Failed to load space data or critical assets.");
-        setCriticalImagesLoaded(true); 
+        setCriticalImagesLoaded(true);
       }
     };
 
     fetchSpaceAndElements();
   }, [spaceId, token, isConnecting]);
-  
-  // useEffect for user position initialization ( 그대로 사용 )
+
+  // useEffect for user position initialization
   useEffect(() => {
     setAnimatedUserPositions((prev) => {
       const newPositions = { ...prev };
@@ -425,13 +423,13 @@ export default function Arena() {
     });
   }, [users]);
 
-  // useEffect for animation loop ( 그대로 사용 )
-   useEffect(() => {
+  // useEffect for animation loop 
+  useEffect(() => {
     if (!connected || !criticalImagesLoaded || Object.keys(users).length === 0) {
-        if(animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
-        return;
+      if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
+      return;
     }
-    
+
     const animate = () => {
       setAnimatedUserPositions((prev) => {
         const nextPositions = { ...prev };
@@ -447,18 +445,18 @@ export default function Arena() {
             const diffX = targetPixelX - animatedPos.currentPixelX;
             const diffY = targetPixelY - animatedPos.currentPixelY;
 
-            if (Math.abs(diffX) < 0.5 && Math.abs(diffY) < 0.5) { 
+            if (Math.abs(diffX) < 0.5 && Math.abs(diffY) < 0.5) {
               if (animatedPos.currentPixelX !== targetPixelX || animatedPos.currentPixelY !== targetPixelY) {
                 animatedPos.currentPixelX = targetPixelX;
                 animatedPos.currentPixelY = targetPixelY;
                 needsUpdate = true;
               }
-            } else { 
+            } else {
               animatedPos.currentPixelX += diffX * ANIMATION_SPEED;
               animatedPos.currentPixelY += diffY * ANIMATION_SPEED;
               needsUpdate = true;
             }
-          } else if (animatedPos && !user) { 
+          } else if (animatedPos && !user) {
             delete nextPositions[userId];
             needsUpdate = true;
           }
@@ -474,7 +472,7 @@ export default function Arena() {
     };
   }, [connected, criticalImagesLoaded, users]);
 
-  // useEffect for emoji/chat cleanup ( 그대로 사용 )
+  // useEffect for emoji/chat cleanup
   useEffect(() => {
     const emojiInterval = setInterval(() => {
       setEmojis((prev) => prev.filter((e) => Date.now() < e.expiresAt));
@@ -488,28 +486,29 @@ export default function Arena() {
     };
   }, []);
 
-  // getSpriteDetails ( 그대로 사용 )
+  // getSpriteDetails 
   const getSpriteDetails = useCallback((userId: string, direction: string, currentX: number, currentY: number, targetX: number, targetY: number) => {
     const isVisuallyMoving = Math.abs(targetX * CELL_SIZE - currentX) > 1 || Math.abs(targetY * CELL_SIZE - currentY) > 1;
     const animState = isVisuallyMoving ? "run" : "idle";
     const spriteKey = `${animState}_${direction.toLowerCase()}`;
-    
+
     let spriteAsset = userImageCache[spriteKey];
     if (!spriteAsset || !spriteAsset.loaded) {
-      spriteAsset = userImageCache["default"]; 
+      spriteAsset = userImageCache["default"];
       if (!spriteAsset || !spriteAsset.loaded) return null;
     }
 
     let sourceX = 0;
     if (animState === "run") {
       const frameIndex = Math.floor(Date.now() / ANIMATION_FRAME_DURATION) % NUM_ANIMATION_FRAMES;
+      console.log(`Frame Index: ${frameIndex}`);
       sourceX = frameIndex * FRAME_WIDTH;
     }
 
     return {
       img: spriteAsset.img,
       sourceX,
-      sourceY: 0, 
+      sourceY: 0,
       sourceWidth: FRAME_WIDTH,
       sourceHeight: FRAME_HEIGHT,
     };
@@ -517,22 +516,22 @@ export default function Arena() {
 
   // Canvas Drawing Logic (useEffect) ( 그대로 사용 )
   useEffect(() => {
-    if (!canvasRef.current || !criticalImagesLoaded) return; 
+    if (!canvasRef.current || !criticalImagesLoaded) return;
     const ctx = canvasRef.current.getContext("2d");
     if (!ctx) return;
 
     const { width: gridW, height: gridH } = gridSize;
-    canvasRef.current.width = gridW * CELL_SIZE;
-    canvasRef.current.height = gridH * CELL_SIZE;
+    canvasRef.current.width = gridW;
+    canvasRef.current.height = gridH;
 
     ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
 
     if (backgroundImgRef.current && backgroundImgRef.current.complete && backgroundImgRef.current.naturalHeight !== 0) {
       ctx.drawImage(backgroundImgRef.current, 0, 0, canvasRef.current.width, canvasRef.current.height);
-    } else { 
-      ctx.fillStyle = "#1a202c"; 
-      ctx.fillRect(0,0, canvasRef.current.width, canvasRef.current.height);
-      ctx.strokeStyle = "#2d3748"; 
+    } else {
+      ctx.fillStyle = "#1a202c";
+      ctx.fillRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+      ctx.strokeStyle = "#2d3748";
       for (let x = 0; x <= gridW; x++) {
         ctx.beginPath(); ctx.moveTo(x * CELL_SIZE, 0); ctx.lineTo(x * CELL_SIZE, gridH * CELL_SIZE); ctx.stroke();
       }
@@ -545,19 +544,19 @@ export default function Arena() {
       const cache = elementImageCache[e.elementDefinition.id];
       if (cache?.loaded && cache.img.complete && cache.img.naturalHeight !== 0) {
         ctx.drawImage(cache.img, e.x, e.y, e.elementDefinition.width, e.elementDefinition.height);
-      } else { 
+      } else {
         ctx.fillStyle = "rgba(100, 100, 100, 0.5)";
         ctx.fillRect(e.x, e.y, e.elementDefinition.width, e.elementDefinition.height);
         ctx.strokeStyle = "rgba(200, 200, 200, 0.7)";
         ctx.strokeRect(e.x, e.y, e.elementDefinition.width, e.elementDefinition.height);
       }
     });
-    
-    Object.keys(animatedUserPositions).sort((a, b) => { 
-        const userA = animatedUserPositions[a];
-        const userB = animatedUserPositions[b];
-        if (!userA || !userB) return 0;
-        return userA.currentPixelY - userB.currentPixelY;
+
+    Object.keys(animatedUserPositions).sort((a, b) => {
+      const userA = animatedUserPositions[a];
+      const userB = animatedUserPositions[b];
+      if (!userA || !userB) return 0;
+      return userA.currentPixelY - userB.currentPixelY;
     }).forEach((userId) => {
       const user = users[userId];
       const animPos = animatedUserPositions[userId];
@@ -565,25 +564,25 @@ export default function Arena() {
 
       const spriteDetails = getSpriteDetails(user.id, user.direction, animPos.currentPixelX, animPos.currentPixelY, user.x, user.y);
 
-      if (spriteDetails && spriteDetails.img && spriteDetails.img.complete && spriteDetails.img.naturalHeight !==0) {
+      if (spriteDetails && spriteDetails.img && spriteDetails.img.complete && spriteDetails.img.naturalHeight !== 0) {
         try {
-            ctx.drawImage(
-              spriteDetails.img,
-              spriteDetails.sourceX, spriteDetails.sourceY,
-              spriteDetails.sourceWidth, spriteDetails.sourceHeight,
-              animPos.currentPixelX, animPos.currentPixelY,
-              RENDER_CHARACTER_WIDTH, RENDER_CHARACTER_HEIGHT
-            );
+          ctx.drawImage(
+            spriteDetails.img,
+            spriteDetails.sourceX, spriteDetails.sourceY,
+            spriteDetails.sourceWidth, spriteDetails.sourceHeight,
+            animPos.currentPixelX, animPos.currentPixelY,
+            RENDER_CHARACTER_WIDTH, RENDER_CHARACTER_HEIGHT
+          );
         } catch (e) {
-            console.error(`Error drawing sprite for user ${userId}:`, e, spriteDetails);
-            ctx.fillStyle = userId === selfId ? "rgba(99, 102, 241, 0.8)" : "rgba(239, 68, 68, 0.8)"; 
-            ctx.fillRect(animPos.currentPixelX + 2, animPos.currentPixelY + 2, RENDER_CHARACTER_WIDTH - 4, RENDER_CHARACTER_HEIGHT - 4);
+          console.error(`Error drawing sprite for user ${userId}:`, e, spriteDetails);
+          ctx.fillStyle = userId === selfId ? "rgba(99, 102, 241, 0.8)" : "rgba(239, 68, 68, 0.8)";
+          ctx.fillRect(animPos.currentPixelX + 2, animPos.currentPixelY + 2, RENDER_CHARACTER_WIDTH - 4, RENDER_CHARACTER_HEIGHT - 4);
         }
-      } else { 
-        ctx.fillStyle = userId === selfId ? "rgba(99, 102, 241, 0.8)" : "rgba(239, 68, 68, 0.8)"; 
+      } else {
+        ctx.fillStyle = userId === selfId ? "rgba(99, 102, 241, 0.8)" : "rgba(239, 68, 68, 0.8)";
         ctx.fillRect(animPos.currentPixelX + 2, animPos.currentPixelY + 2, RENDER_CHARACTER_WIDTH - 4, RENDER_CHARACTER_HEIGHT - 4);
       }
-      
+
       const activeEmoji = emojis.find(e => e.userId === userId);
       if (activeEmoji) {
         ctx.font = "24px Arial";
@@ -592,14 +591,14 @@ export default function Arena() {
         ctx.shadowColor = "rgba(255, 255, 255, 0.7)";
         ctx.shadowBlur = 5;
         ctx.fillText(activeEmoji.emoji, animPos.currentPixelX + RENDER_CHARACTER_WIDTH / 2, animPos.currentPixelY - 15);
-        ctx.shadowColor = "transparent"; 
+        ctx.shadowColor = "transparent";
         ctx.shadowBlur = 0;
       }
 
       const userChatMessages = chatMessages.filter(msg => msg.userId === userId);
       userChatMessages.forEach((msg, index) => {
-        const yOffset = - (activeEmoji ? 45 : 15) - (index * 25); 
-        
+        const yOffset = - (activeEmoji ? 45 : 15) - (index * 25);
+
         ctx.font = "bold 13px 'Segoe UI', sans-serif";
         const textWidth = ctx.measureText(msg.message).width;
         const bubblePadding = 8;
@@ -607,14 +606,14 @@ export default function Arena() {
         const bubbleX = animPos.currentPixelX + RENDER_CHARACTER_WIDTH / 2 - textWidth / 2 - bubblePadding;
         const bubbleY = animPos.currentPixelY + yOffset - bubbleHeight;
 
-        ctx.fillStyle = "rgba(255, 255, 255, 0.9)"; 
+        ctx.fillStyle = "rgba(255, 255, 255, 0.9)";
         ctx.strokeStyle = "rgba(0,0,0,0.3)";
         ctx.lineWidth = 1;
         ctx.beginPath();
         ctx.moveTo(bubbleX + 5, bubbleY);
         ctx.lineTo(bubbleX + textWidth + bubblePadding * 2 - 5, bubbleY);
         ctx.quadraticCurveTo(bubbleX + textWidth + bubblePadding * 2, bubbleY, bubbleX + textWidth + bubblePadding * 2, bubbleY + 5);
-        ctx.lineTo(bubbleX + textWidth + bubblePadding * 2, bubbleY + bubbleHeight -5);
+        ctx.lineTo(bubbleX + textWidth + bubblePadding * 2, bubbleY + bubbleHeight - 5);
         ctx.quadraticCurveTo(bubbleX + textWidth + bubblePadding * 2, bubbleY + bubbleHeight, bubbleX + textWidth + bubblePadding * 2 - 5, bubbleY + bubbleHeight);
         ctx.lineTo(bubbleX + 5, bubbleY + bubbleHeight);
         ctx.quadraticCurveTo(bubbleX, bubbleY + bubbleHeight, bubbleX, bubbleY + bubbleHeight - 5);
@@ -624,94 +623,119 @@ export default function Arena() {
         ctx.fill();
         ctx.stroke();
 
-        ctx.fillStyle = "#1e293b"; 
+        ctx.fillStyle = "#1e293b";
         ctx.textAlign = "center";
         ctx.fillText(msg.message, animPos.currentPixelX + RENDER_CHARACTER_WIDTH / 2, animPos.currentPixelY + yOffset - bubblePadding / 2);
       });
     });
   }, [animatedUserPositions, users, spaceElements, criticalImagesLoaded, gridSize, selfId, emojis, chatMessages, getSpriteDetails]);
 
-  // isPositionValid ( 그대로 사용 )
+  // isPositionValid 
   const isPositionValid = useCallback((x: number, y: number) => {
-    const userPixelLeft = x * CELL_SIZE;
-    const userPixelRight = userPixelLeft + RENDER_CHARACTER_WIDTH;
-    const userPixelTop = y * CELL_SIZE;
-    const userPixelBottom = userPixelTop + RENDER_CHARACTER_HEIGHT;
+   // Calculate the full pixel positions for the user (based on render size)
+  const userPixelLeft = x * CELL_SIZE;
+  const userPixelRight = userPixelLeft + RENDER_CHARACTER_WIDTH;
+  const userPixelTop = y * CELL_SIZE;
+  const userPixelBottom = userPixelTop + RENDER_CHARACTER_HEIGHT;
 
-    if (userPixelLeft < 0 || userPixelRight > gridSize.width * CELL_SIZE || 
-        userPixelTop < 0 || userPixelBottom > gridSize.height * CELL_SIZE) {
-      return false;
-    }
-    
-    // const staticCollision = spaceElements.some(e => {
-    //   if (!e.elementDefinition.static) return false;
-    //   const elLeft = e.x;
-    //   const elRight = elLeft + e.elementDefinition.width;
-    //   const elTop = e.y;
-    //   const elBottom = elTop + e.elementDefinition.height;
-    //   console.log(elLeft,elBottom,elTop,elRight)
-    //   return userPixelLeft < elRight && userPixelRight > elLeft && userPixelTop < elBottom && userPixelBottom > elTop;
-    // });
-    // if (staticCollision) return false;
-    return true;
+  // Optional: Keep boundary check with full size if it exists
+  if (userPixelLeft < 0 || userPixelRight -10 > gridSize.width || 
+      userPixelTop < 0 || userPixelBottom -20 > gridSize.height) {
+    return false;
+  }
+
+  // Define a smaller collision box for the user
+  const collisionScale = 0.1; // 10% of original size, adjust as needed
+  const collisionWidth = RENDER_CHARACTER_WIDTH * collisionScale;
+  const collisionHeight = (RENDER_CHARACTER_HEIGHT) * collisionScale;
+  const collisionLeftOffset = (RENDER_CHARACTER_WIDTH - collisionWidth) / 2;
+  const collisionTopOffset = (RENDER_CHARACTER_HEIGHT - collisionHeight+50) / 2;
+
+  // Calculate the smaller collision box coordinates
+  const userCollisionLeft = userPixelLeft + collisionLeftOffset;
+  const userCollisionRight = userCollisionLeft + collisionWidth;
+  const userCollisionTop = userPixelTop + collisionTopOffset;
+  const userCollisionBottom = userCollisionTop + collisionHeight;
+
+  // Check collision with static elements using the smaller collision box
+  const staticCollision = spaceElements.some(e => {
+    if (!e.elementDefinition.static) return false;
+    const elLeft = e.x;
+    const elRight = elLeft + e.elementDefinition.width;
+    const elTop = e.y;
+    const elBottom = elTop + e.elementDefinition.height;
+    const value = userCollisionLeft < elRight && 
+                  userCollisionRight > elLeft && 
+                  userCollisionTop < elBottom && 
+                  userCollisionBottom > elTop;
+    return value;
+  });
+
+  return !staticCollision;
   }, [spaceElements, gridSize, selfId]);
 
 
   // Key Actions (movement and panel toggles)
   const keyActions = useCallback(() => ({
-    ArrowLeft: () => { if (selfId && users[selfId] && !isMovingSelf) { const nx = users[selfId].x - 1; const ny = users[selfId].y; if (isPositionValid(nx, ny)) moveUser(nx, ny); }},
-    ArrowRight: () => { if (selfId && users[selfId] && !isMovingSelf) { const nx = users[selfId].x + 1; const ny = users[selfId].y; if (isPositionValid(nx, ny)) moveUser(nx, ny); }},
-    ArrowUp: () => { if (selfId && users[selfId] && !isMovingSelf) { const nx = users[selfId].x; const ny = users[selfId].y - 1; if (isPositionValid(nx, ny)) moveUser(nx, ny); }},
-    ArrowDown: () => { if (selfId && users[selfId] && !isMovingSelf) { const nx = users[selfId].x; const ny = users[selfId].y + 1; if (isPositionValid(nx, ny)) moveUser(nx, ny); }},
+    ArrowLeft: () => { if (selfId && users[selfId] && !isMovingSelf) { const nx = users[selfId].x - 1; const ny = users[selfId].y; if (isPositionValid(nx, ny)) moveUser(nx, ny); } },
+    ArrowRight: () => { if (selfId && users[selfId] && !isMovingSelf) { const nx = users[selfId].x + 1; const ny = users[selfId].y; if (isPositionValid(nx, ny)) moveUser(nx, ny); } },
+    ArrowUp: () => { if (selfId && users[selfId] && !isMovingSelf) { const nx = users[selfId].x; const ny = users[selfId].y - 1; if (isPositionValid(nx, ny)) moveUser(nx, ny); } },
+    ArrowDown: () => { if (selfId && users[selfId] && !isMovingSelf) { const nx = users[selfId].x; const ny = users[selfId].y + 1; if (isPositionValid(nx, ny)) moveUser(nx, ny); } },
     h: () => setShowEmojiPanel(prev => !prev), // Toggle emoji panel
     i: () => { // Open message input
-        if (!showMessageInput) {
-            setShowMessageInput(true);
-            setShowEmojiPanel(false); // Close emoji panel if opening message input
-        }
+      if (!showMessageInput) {
+        setShowMessageInput(true);
+        setShowEmojiPanel(false); // Close emoji panel if opening message input
+      }
     },
   }), [selfId, users, moveUser, isPositionValid, isMovingSelf, showMessageInput, setShowMessageInput, setShowEmojiPanel]);
 
   // Centralized KeyDown Handler
   const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLCanvasElement>) => {
     if (!connected || !selfId || !users[selfId]) return;
-
     // Priority 1: Message input is open
     if (showMessageInput) {
-        if (e.key === "Escape") {
-            setShowMessageInput(false);
-            setMessageInput("");
-            e.preventDefault();
-        }
-        // Allow text input, Enter/Escape are handled by the input's onKeyDown prop
-        return;
+      if (e.key === "Escape") {
+        setShowMessageInput(false);
+        setMessageInput("");
+        e.preventDefault();
+      }
+
+      // Allow text input, Enter/Escape are handled by the input's onKeyDown prop
+      return;
     }
 
     // Priority 2: Emoji panel is open
     if (showEmojiPanel) {
-        const keyNumber = parseInt(e.key, 10);
-        if (!isNaN(keyNumber) && keyNumber >= 1 && keyNumber <= EMOJI_OPTIONS.length) {
-            const selectedEmoji = EMOJI_OPTIONS[keyNumber - 1];
-            sendAction("show-emoji", selectedEmoji);
-            setShowEmojiPanel(false);
-            e.preventDefault();
-        } else if (e.key.toLowerCase() === 'h' || e.key === "Escape") {
-            setShowEmojiPanel(false);
-            e.preventDefault();
-        } else {
-            // Prevent other game actions (like movement) while emoji panel is open
-            e.preventDefault();
-        }
-        return; // Key handled (or intentionally blocked)
+      const keyNumber = parseInt(e.key, 10);
+      if (!isNaN(keyNumber) && keyNumber >= 1 && keyNumber <= EMOJI_OPTIONS.length) {
+        const selectedEmoji = EMOJI_OPTIONS[keyNumber - 1];
+        sendAction("show-emoji", selectedEmoji);
+        setShowEmojiPanel(false);
+        e.preventDefault();
+      } else if (e.key.toLowerCase() === 'h' || e.key === "Escape") {
+        setShowEmojiPanel(false);
+        e.preventDefault();
+
+      } else {
+        // Prevent other game actions (like movement) while emoji panel is open
+        e.preventDefault();
+      }
+      if (canvasRef.current) {
+        canvasRef.current.focus();
+      }
+      return; // Key handled (or intentionally blocked)
     }
+
+
 
     // Priority 3: General game controls (movement, opening panels)
     const actionsForKey = keyActions();
-    const action = actionsForKey[e.key.toLowerCase() as keyof typeof actionsForKey] || actionsForKey[e.key as keyof typeof actionsForKey] ;
+    const action = actionsForKey[e.key.toLowerCase() as keyof typeof actionsForKey] || actionsForKey[e.key as keyof typeof actionsForKey];
 
     if (action) {
-        action();
-        e.preventDefault();
+      action();
+      e.preventDefault();
     }
   }, [
     connected, selfId, users,
@@ -720,7 +744,6 @@ export default function Arena() {
     keyActions
   ]);
 
-  // UI States ( 그대로 사용, 이전 버전의 개선된 UI )
   if (!token || !spaceId) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-slate-900 text-white p-4">
@@ -750,7 +773,7 @@ export default function Arena() {
       </div>
     );
   }
-  
+
   if (!criticalImagesLoaded && !imageLoadError) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-slate-900 text-white p-4">
@@ -767,7 +790,7 @@ export default function Arena() {
     );
   }
 
-  if (imageLoadError && !connected) { 
+  if (imageLoadError && !connected) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-slate-900 text-white p-4">
         <Card className="w-96 bg-slate-800 border border-slate-700 text-slate-100">
@@ -786,8 +809,8 @@ export default function Arena() {
       </div>
     );
   }
-  
-  if (!connected && !wsError && isConnecting) { 
+
+  if (!connected && !wsError && isConnecting) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-slate-900 text-white p-4">
         <Card className="w-96 bg-slate-800 border border-slate-700 text-slate-100">
@@ -809,7 +832,7 @@ export default function Arena() {
           <CardContent className="space-y-4">
             <p className="text-red-300 mb-4">{wsError}</p>
             <button
-              onClick={() => {setIsConnecting(false); setCriticalImagesLoaded(false); setImageLoadError(null);}}
+              onClick={() => { setIsConnecting(false); setCriticalImagesLoaded(false); setImageLoadError(null); }}
               className="w-full bg-slate-600 hover:bg-slate-500 text-white py-2 px-4 rounded-md transition-colors"
             >
               Go Back
@@ -858,7 +881,7 @@ export default function Arena() {
         </div>
       </div>
 
-      {/* Message Input Modal ( 그대로 사용 ) */}
+      {/* Message Input Modal */}
       {showMessageInput && (
         <div
           className={`fixed inset-0 flex items-center justify-center bg-black/70 backdrop-blur-sm z-50 transition-opacity duration-300 ease-out
@@ -885,10 +908,17 @@ export default function Arena() {
                   sendMessage(messageInput);
                   setShowMessageInput(false);
                   setMessageInput("");
+                  if (canvasRef.current) {
+                    canvasRef.current.focus();
+                  }
                 } else if (e.key === "Escape") {
                   setShowMessageInput(false);
                   setMessageInput("");
+                  if (canvasRef.current) {
+                    canvasRef.current.focus();
+                  }
                 }
+
               }}
               className="border border-slate-600 bg-slate-700 text-slate-100 p-3 rounded-md w-full focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none placeholder-slate-400"
               placeholder="Type your message (max 50 chars)..."
@@ -900,6 +930,9 @@ export default function Arena() {
                 onClick={() => {
                   setShowMessageInput(false);
                   setMessageInput("");
+                   if (canvasRef.current) {
+                    canvasRef.current.focus();
+                  }
                 }}
                 className="px-5 py-2 rounded-md text-slate-300 bg-slate-600 hover:bg-slate-500 transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400"
               >
@@ -911,6 +944,9 @@ export default function Arena() {
                     sendMessage(messageInput);
                     setShowMessageInput(false);
                     setMessageInput("");
+                     if (canvasRef.current) {
+                    canvasRef.current.focus();
+                  }
                   }
                 }}
                 className="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md font-semibold transition-colors disabled:opacity-60 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-indigo-400"
@@ -922,7 +958,7 @@ export default function Arena() {
           </div>
         </div>
       )}
-      
+
       <canvas
         ref={canvasRef}
         tabIndex={0}
@@ -931,30 +967,30 @@ export default function Arena() {
         onKeyDown={handleKeyDown} // Centralized handler
         style={{ imageRendering: "pixelated" }}
       />
-      
-      {/* Controls Info Box ( 그대로 사용 ) */}
-       <div className="mt-2 p-4 bg-slate-800/70 backdrop-blur-md border border-slate-700/80 rounded-lg shadow-xl text-sm text-slate-300 w-full max-w-lg flex flex-col space-y-2">
+
+      {/* Controls Info Box */}
+      <div className="mt-2 p-4 bg-slate-800/70 backdrop-blur-md border border-slate-700/80 rounded-lg shadow-xl text-sm text-slate-300 w-full max-w-lg flex flex-col space-y-2">
         <div className="flex justify-between items-center">
-            <div className="font-bold text-indigo-300 text-base">Controls:</div>
-            {selfId && users[selfId] && (
-              <div className="text-xs text-slate-400">
-                Pos: ({users[selfId].x}, {users[selfId].y}) | Dir: {users[selfId].direction}
-              </div>
-            )}
+          <div className="font-bold text-indigo-300 text-base">Controls:</div>
+          {selfId && users[selfId] && (
+            <div className="text-xs text-slate-400">
+              Pos: ({users[selfId].x}, {users[selfId].y}) | Dir: {users[selfId].direction}
+            </div>
+          )}
         </div>
         <div className="grid grid-cols-2 gap-x-4 gap-y-1">
-            <span className="flex items-center gap-1.5"><span className="font-mono w-8 text-center px-2 py-1 bg-slate-700 border border-slate-600 rounded-md text-indigo-300 shadow-sm">←</span> Move Left</span>
-            <span className="flex items-center gap-1.5"><span className="font-mono w-8 text-center px-2 py-1 bg-slate-700 border border-slate-600 rounded-md text-indigo-300 shadow-sm">↑</span> Move Up</span>
-            <span className="flex items-center gap-1.5"><span className="font-mono w-8 text-center px-2 py-1 bg-slate-700 border border-slate-600 rounded-md text-indigo-300 shadow-sm">→</span> Move Right</span>
-            <span className="flex items-center gap-1.5"><span className="font-mono w-8 text-center px-2 py-1 bg-slate-700 border border-slate-600 rounded-md text-indigo-300 shadow-sm">↓</span> Move Down</span>
+          <span className="flex items-center gap-1.5"><span className="font-mono w-8 text-center px-2 py-1 bg-slate-700 border border-slate-600 rounded-md text-indigo-300 shadow-sm">←</span> Move Left</span>
+          <span className="flex items-center gap-1.5"><span className="font-mono w-8 text-center px-2 py-1 bg-slate-700 border border-slate-600 rounded-md text-indigo-300 shadow-sm">↑</span> Move Up</span>
+          <span className="flex items-center gap-1.5"><span className="font-mono w-8 text-center px-2 py-1 bg-slate-700 border border-slate-600 rounded-md text-indigo-300 shadow-sm">→</span> Move Right</span>
+          <span className="flex items-center gap-1.5"><span className="font-mono w-8 text-center px-2 py-1 bg-slate-700 border border-slate-600 rounded-md text-indigo-300 shadow-sm">↓</span> Move Down</span>
         </div>
         <div className="flex items-center gap-4 pt-2 border-t border-slate-700/50">
-          <span className="flex items-center gap-1.5"><span className="font-mono w-8 text-center px-2 py-1 bg-slate-700 border border-slate-600 rounded-md text-indigo-300 shadow-sm">H</span> Toggle Emojis <SmilePlus size={16} className="inline text-yellow-400"/></span>
-          <span className="flex items-center gap-1.5"><span className="font-mono w-8 text-center px-2 py-1 bg-slate-700 border border-slate-600 rounded-md text-indigo-300 shadow-sm">I</span> Send Message <MessageSquareText size={16} className="inline text-sky-400"/></span>
+          <span className="flex items-center gap-1.5"><span className="font-mono w-8 text-center px-2 py-1 bg-slate-700 border border-slate-600 rounded-md text-indigo-300 shadow-sm">H</span> Toggle Emojis <SmilePlus size={16} className="inline text-yellow-400" /></span>
+          <span className="flex items-center gap-1.5"><span className="font-mono w-8 text-center px-2 py-1 bg-slate-700 border border-slate-600 rounded-md text-indigo-300 shadow-sm">I</span> Send Message <MessageSquareText size={16} className="inline text-sky-400" /></span>
         </div>
         <div className="text-xs text-slate-400 pt-1">When emoji panel is open, use <span className="font-mono text-indigo-300">1-{EMOJI_OPTIONS.length}</span> to select, <span className="font-mono text-indigo-300">Esc</span> or <span className="font-mono text-indigo-300">H</span> to close.</div>
         {imageLoadError && !connected && <p className="text-xs text-amber-400 mt-1">Note: {imageLoadError} Some visuals may be affected.</p>}
       </div>
     </div>
   );
-}
+};

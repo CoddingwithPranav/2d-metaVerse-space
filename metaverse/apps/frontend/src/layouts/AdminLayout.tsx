@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
-import { Home, Box, Image, Map, Rocket, Users, Settings, LayoutDashboard } from 'lucide-react'; // Added Settings, LayoutDashboard for better fit
+import { Home, Box, Image, Map, Rocket, Users, Settings, LayoutDashboard, Ghost } from 'lucide-react'; // Added Settings, LayoutDashboard for better fit
 import useAuth from '@/utils/Authhook';
 
 export const AdminLayout: React.FC = () => {
@@ -9,6 +9,7 @@ export const AdminLayout: React.FC = () => {
   const navItems = [
     { to: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard }, // Changed to LayoutDashboard
     { to: '/admin/elements', label: 'Elements', icon: Box },
+    { to: '/admin/avatars', label: 'Avatars', icon: Ghost },
     { to: '/admin/background', label: 'Background', icon: Image },
     { to: '/admin/map', label: 'Map', icon: Map },
     { to: '/admin/space', label: 'Space', icon: Rocket },

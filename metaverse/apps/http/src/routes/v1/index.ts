@@ -8,6 +8,7 @@ import { adminRouter } from "./admin";
 import { spaceRouter } from "./space";
 import { userRouter } from "./user";
 import ImageKit from "imagekit";
+import { useAvatar } from "./avatar";
 export const router = Router();
 
 const imagekit = new ImageKit({
@@ -17,33 +18,28 @@ const imagekit = new ImageKit({
   });
   
 
-router.post("/signup",async (req, res)=>{
-    const parsedData = SignupSchema.safeParse(req.body)
-    if(!parsedData.success){  
+router.post("/signup", async (req, res) => {
+  const parsedData = SignupSchema.safeParse(req.body);
+  if (!parsedData.success) {
+    return res.status(400).json({ message: "Validation Failed" });
+  }
 
-        return res.status(400).json({message:"Validation Failed"})
-    }
-
-    const hashedPassword = await bcrypt.hash(parsedData.data.password, 10)
-    try{
-     const user = await  dbClient.user.create({
-        data:{
-            username: parsedData.data.username,
-            password: hashedPassword,
-            role: parsedData.data.role === "admin" ? "Admin" : "User",
-        }
-     })
-     res.json({
-        userId: user.id,
-    })
-
-    }catch(error){
-    console.log(error)
-
-        return res.status(400).json({message:"User Already Exists"})
-    }
-
-})
+  const hashedPassword = await bcrypt.hash(parsedData.data.password, 10);
+  try {
+    const user = await dbClient.user.create({
+      data: {
+        username: parsedData.data.username,
+        password: hashedPassword,
+        role: parsedData.data.role === "admin" ? "Admin" : "User",
+        avatarId: parsedData.data.avatarId, // Include avatarId if provided
+      },
+    });
+    res.json({ userId: user.id });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ message: "User Already Exists" });
+  }
+});
 
 router.post("/signin", async (req, res)=>{
     const parsedData = SigninSchema.safeParse(req.body)
@@ -118,20 +114,7 @@ router.get("/element/:id", async (req, res) => {
   });
   
 
-router.get("/avatars",async (req,res)=>{
-  try {
-   const avatars =await  dbClient.avatar.findMany();
-   res.json({
-    avatars:avatars.map((avatar)=>({
-        id: avatar.id,
-        name: avatar.name,
-        imageUrl: avatar.imageUrl,
-    }))
-   })
-  } catch (error) {
-    res.status(400).json({message:"Internal Server Error"})
-  }
-})
+
 router.get("/maps", async (req, res) => {
   try {
     const maps = await dbClient.map.findMany({
@@ -181,3 +164,4 @@ router.get('/image-auth', function (req, res) {
 router.use("/user", userRouter);
 router.use("/space", spaceRouter);
 router.use("/admin", adminRouter);
+router.use("/avatar", useAvatar);
