@@ -162,13 +162,13 @@ export class User {
 
             const existing = roomManager
               .rooms.get(spaceId)!
-              .filter((u) => u.id !== this.id)
-              .map((u) => ({ id: u.id, x: u.x, y: u.y }));
+              .filter((u) => u.userId !== this.userId)
+              .map((u) => ({ id: u.userId, x: u.x, y: u.y }));
 
             this.send({
               type: "space-joined",
               payload: {
-                userId: this.id,
+                userId: this.userId,
                 spawn: { x: this.x, y: this.y },
                 users: existing,
               },
@@ -177,7 +177,7 @@ export class User {
             roomManager.broadcast(
               {
                 type: "user-joined",
-                payload: { userId: this.id, x: this.x, y: this.y },
+                payload: { userId: this.userId, x: this.x, y: this.y },
               },
               this,
               spaceId
@@ -242,7 +242,7 @@ export class User {
           }
           case "user-action": {
             const { action, userId, emoji } = parseData.payload;
-            if (action === "show-emoji" && userId === this.id && this.spaceId && typeof emoji === "string") {
+            if (action === "show-emoji" && userId === this.userId && this.spaceId && typeof emoji === "string") {
               const message = {
                 type: "user-action",
                 payload: { action: "show-emoji", userId: this.userId, emoji },

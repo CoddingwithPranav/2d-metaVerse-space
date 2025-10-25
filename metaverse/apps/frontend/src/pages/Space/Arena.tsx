@@ -35,21 +35,15 @@ const ANIMATION_FRAME_DURATION = 150;
 const RENDER_CHARACTER_WIDTH = 50;
 const RENDER_CHARACTER_HEIGHT = 100;
 
-// Sprite Imports (ensure paths are correct)
-import run_down from './Run_down.png';
-import run_up from './Run_up.png';
-import run_right from './Run_right.png';
-import run_left from './Run_left.png';
-import Idle_up from './Idle_up.png';
-import Idle_down from './Idle_down.png';
-import Idle_left from './Idle_left.png';
-import Idle_right from './Idle_right.png';
-
-const SPRITE_SHEETS_URLS: Record<string, string> = {
-  idle_down: Idle_down, run_down: run_down, idle_left: Idle_left, idle_right: Idle_right,
-  idle_up: Idle_up, run_left: run_left, run_right: run_right, run_up: run_up,
+type UserSpriteCache = {
+  idle: Record<string, HTMLImageElement>;
+  run: Record<string, HTMLImageElement>;
+  loaded: boolean;
 };
-const DEFAULT_SPRITE_URL = "https://openclipart.org/image/2000px/248259";
+const userSpriteCache: Record<string, UserSpriteCache> = {};
+
+import { avatarService, type Avatar } from "@/service/avatarService";
+
 
 const userImageCache: Record<string, { img: HTMLImageElement; loaded: boolean }> = {};
 const elementImageCache: Record<string, { img: HTMLImageElement; width: number; height: number; loaded: boolean }> = {};
@@ -67,7 +61,8 @@ const useWebSocket = (
   setChatMessages: React.Dispatch<React.SetStateAction<ChatMessage[]>>,
   gridWidth: number,
   gridHeight: number,
-  shouldConnect: boolean
+  shouldConnect: boolean,
+  loadUserAvatar:any
 ) => {
   const wsRef = useRef<WebSocket | null>(null);
   const [connected, setConnected] = useState(false);
@@ -123,6 +118,9 @@ const useWebSocket = (
                 };
                 return newPositions;
               });
+              debugger
+              msg.payload.users.forEach(u => loadUserAvatar(u.id));          // NEW
+              loadUserAvatar(msg.payload.userId);
               break;
             case "user-joined":
               setUsers((prev) => ({
@@ -133,6 +131,7 @@ const useWebSocket = (
                 ...prev,
                 [msg.payload.userId]: { currentPixelX: msg.payload.x * CELL_SIZE, currentPixelY: msg.payload.y * CELL_SIZE },
               }));
+              loadUserAvatar(msg.payload.userId);
               break;
             case "user-moved":
               setUsers((prev) => {
@@ -263,6 +262,7 @@ const useWebSocket = (
 export default function Arena() {
   const { spaceId } = useParams<{ spaceId: string }>();
   const { token } = useAuth();
+  const [avatarLoaded, setAvatarLoaded] = useState<Record<string, boolean>>({});
   // ... other state variables ...
   const [spaceElements, setSpaceElements] = useState<SpaceElementInState[]>([]);
   const [gridSize, setGridSize] = useState(GRID_DEFAULT);
@@ -278,13 +278,69 @@ export default function Arena() {
   const [messageInput, setMessageInput] = useState("");
   const [showEmojiPanel, setShowEmojiPanel] = useState(false);
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
+    const loadUserAvatar = useCallback(async (userId: string) => {
+    if (userSpriteCache[userId]) return;                     // already loading/loaded
+
+    const avatar: Avatar | null = await avatarService.getByUserId(userId);
+    debugger
+    if (!avatar) {
+      // No avatar → keep using default sprites
+      return;
+    }
+
+    // initialise cache entry
+    userSpriteCache[userId] = {
+      idle: {},
+      run: {},
+      loaded: false,
+    };
+
+    const directions = ["down", "left", "right", "up"] as const;
+    const promises: Promise<void>[] = [];
+
+    // preload idle frames
+    directions.forEach(dir => {
+      const url = avatar.idleUrls[dir];
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+      img.src = url;
+      userSpriteCache[userId].idle[dir] = img;
+
+      const p = new Promise<void>(resolve => {
+        img.onload = () => resolve();
+        img.onerror = () => resolve();               // ignore single-frame errors
+      });
+      promises.push(p);
+    });
+
+    // preload run frames
+    directions.forEach(dir => {
+      const url = avatar.runUrls[dir];
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+      img.src = url;
+      userSpriteCache[userId].run[dir] = img;
+
+      const p = new Promise<void>(resolve => {
+        img.onload = () => resolve();
+        img.onerror = () => resolve();
+      });
+      promises.push(p);
+    });
+
+    await Promise.all(promises);
+    userSpriteCache[userId].loaded = true;
+    setAvatarLoaded(prev => ({ ...prev, [userId]: true }));
+  }, []);
 
   const { connected, selfId, users, moveUser, sendAction, sendMessage, error: wsError, isMovingSelf } = useWebSocket(
     WS_URL, token || "", spaceId || "",
     setAnimatedUserPositions, setEmojis, setChatMessages,
     gridSize.width, gridSize.height,
-    isConnecting && criticalImagesLoaded
+    isConnecting && criticalImagesLoaded,
+    loadUserAvatar
   );
+
 
   // useEffect for fetching space data and assets 
   useEffect(() => {
@@ -338,40 +394,7 @@ export default function Arena() {
           }
           return Promise.resolve();
         });
-
-        const characterSpritePromises = Object.entries(SPRITE_SHEETS_URLS).map(([key, url]) => {
-          return new Promise<void>((resolve) => {
-            if (!userImageCache[key]) {
-              const img = new Image();
-              img.src = url;
-              userImageCache[key] = { img, loaded: false };
-              img.onload = () => {
-                userImageCache[key].loaded = true;
-                resolve();
-              };
-              img.onerror = () => {
-                setImageLoadError((prev) => prev || `Failed to load sprite: ${url}`);
-                resolve();
-              };
-            } else {
-              resolve();
-            }
-          });
-        });
-
-        if (!userImageCache["default"]) {
-          const img = new Image();
-          img.src = DEFAULT_SPRITE_URL;
-          userImageCache["default"] = { img, loaded: false };
-          const defaultPromise = new Promise<void>(resolve => {
-            img.onload = () => { userImageCache["default"].loaded = true; resolve(); };
-            img.onerror = () => { console.error("Default sprite failed to load"); resolve(); };
-          });
-          characterSpritePromises.push(defaultPromise);
-        }
-
-
-        const imagePromises = [...elementImagePromises, ...characterSpritePromises];
+        const imagePromises = [...elementImagePromises];
         if (BackgroundImageUrl) {
           const bgImg = new Image();
           bgImg.src = BackgroundImageUrl;
@@ -388,8 +411,6 @@ export default function Arena() {
         }
 
         await Promise.all(imagePromises);
-        const allSpritesLoaded = Object.values(SPRITE_SHEETS_URLS).every(key => userImageCache[key]?.loaded);
-        if (!allSpritesLoaded && !imageLoadError) setImageLoadError("Some character sprites failed to load; using fallback where needed.");
 
         setCriticalImagesLoaded(true);
       } catch (err) {
@@ -487,33 +508,36 @@ export default function Arena() {
   }, []);
 
   // getSpriteDetails 
-  const getSpriteDetails = useCallback((userId: string, direction: string, currentX: number, currentY: number, targetX: number, targetY: number) => {
-    const isVisuallyMoving = Math.abs(targetX * CELL_SIZE - currentX) > 1 || Math.abs(targetY * CELL_SIZE - currentY) > 1;
-    const animState = isVisuallyMoving ? "run" : "idle";
-    const spriteKey = `${animState}_${direction.toLowerCase()}`;
+// 3. SIMPLIFY getSpriteDetails — ONLY CUSTOM
+const getSpriteDetails = useCallback((
+  userId: string,
+  direction: string,
+  currentX: number,
+  currentY: number,
+  targetX: number,
+  targetY: number
+) => {
+  const userCache = userSpriteCache[userId];
+  if (!userCache?.loaded) return null;
 
-    let spriteAsset = userImageCache[spriteKey];
-    if (!spriteAsset || !spriteAsset.loaded) {
-      spriteAsset = userImageCache["default"];
-      if (!spriteAsset || !spriteAsset.loaded) return null;
-    }
+  const isMoving = Math.abs(targetX * CELL_SIZE - currentX) > 1 ||
+                   Math.abs(targetY * CELL_SIZE - currentY) > 1;
+  const sheet = isMoving ? userCache.run[direction] : userCache.idle[direction];
 
-    let sourceX = 0;
-    if (animState === "run") {
-      const frameIndex = Math.floor(Date.now() / ANIMATION_FRAME_DURATION) % NUM_ANIMATION_FRAMES;
-      console.log(`Frame Index: ${frameIndex}`);
-      sourceX = frameIndex * FRAME_WIDTH;
-    }
+  if (!sheet?.complete || sheet.naturalHeight === 0) return null;
 
-    return {
-      img: spriteAsset.img,
-      sourceX,
-      sourceY: 0,
-      sourceWidth: FRAME_WIDTH,
-      sourceHeight: FRAME_HEIGHT,
-    };
-  }, []);
+  const frameIdx = isMoving
+    ? Math.floor(Date.now() / ANIMATION_FRAME_DURATION) % NUM_ANIMATION_FRAMES
+    : 0;
 
+  return {
+    img: sheet,
+    sourceX: frameIdx * FRAME_WIDTH,
+    sourceY: 0,
+    sourceWidth: FRAME_WIDTH,
+    sourceHeight: FRAME_HEIGHT,
+  };
+}, []);
   // Canvas Drawing Logic (useEffect) ( 그대로 사용 )
   useEffect(() => {
     if (!canvasRef.current || !criticalImagesLoaded) return;
@@ -561,10 +585,9 @@ export default function Arena() {
       const user = users[userId];
       const animPos = animatedUserPositions[userId];
       if (!user || !animPos) return;
-
       const spriteDetails = getSpriteDetails(user.id, user.direction, animPos.currentPixelX, animPos.currentPixelY, user.x, user.y);
 
-      if (spriteDetails && spriteDetails.img && spriteDetails.img.complete && spriteDetails.img.naturalHeight !== 0) {
+      if (spriteDetails) {
         try {
           ctx.drawImage(
             spriteDetails.img,
@@ -578,9 +601,6 @@ export default function Arena() {
           ctx.fillStyle = userId === selfId ? "rgba(99, 102, 241, 0.8)" : "rgba(239, 68, 68, 0.8)";
           ctx.fillRect(animPos.currentPixelX + 2, animPos.currentPixelY + 2, RENDER_CHARACTER_WIDTH - 4, RENDER_CHARACTER_HEIGHT - 4);
         }
-      } else {
-        ctx.fillStyle = userId === selfId ? "rgba(99, 102, 241, 0.8)" : "rgba(239, 68, 68, 0.8)";
-        ctx.fillRect(animPos.currentPixelX + 2, animPos.currentPixelY + 2, RENDER_CHARACTER_WIDTH - 4, RENDER_CHARACTER_HEIGHT - 4);
       }
 
       const activeEmoji = emojis.find(e => e.userId === userId);
