@@ -13,17 +13,18 @@ export const router = Router();
 
 const imagekit = new ImageKit({
     urlEndpoint: 'https://ik.imagekit.io/sekvmxelf', // https://ik.imagekit.io/your_imagekit_id
-    publicKey: IMAGEKIT_PUBLIC_KEY ?? "",
-    privateKey: IMAGEKIT_PRIVATE_KEY ?? ""
+    publicKey: IMAGEKIT_PUBLIC_KEY!,
+    privateKey: IMAGEKIT_PRIVATE_KEY!
   });
   
 
 router.post("/signup", async (req, res) => {
   const parsedData = SignupSchema.safeParse(req.body);
+  console.log(req.body);
   if (!parsedData.success) {
     return res.status(400).json({ message: "Validation Failed" });
   }
-
+  
   const hashedPassword = await bcrypt.hash(parsedData.data.password, 10);
   try {
     const user = await dbClient.user.create({

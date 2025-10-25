@@ -22,7 +22,6 @@ import { Loader2, PlusCircle, Map, Ruler } from "lucide-react"; // Re-importing 
 import axios from "axios";
 import { BACKEND_URL } from "@/config";
 import { mapService } from "@/service/mapservice";
-import { toast } from "sonner"; // Assuming sonner is configured
 
 interface MapOption {
   id: string;
@@ -55,7 +54,6 @@ export const SpaceCreator: React.FC = () => {
       })
       .catch((error) => {
         console.error("Failed to fetch maps:", error);
-        toast.error("Failed to load available maps. Please try again.");
       })
       .finally(() => {
         setFetchingMaps(false);
@@ -83,7 +81,6 @@ export const SpaceCreator: React.FC = () => {
     setNameError(false); // Reset name error on new submission attempt
 
     if (!name.trim()) {
-        toast.error("Please enter a name for your space.");
         setNameError(true); // Set name error state
         setLoading(false);
         return;
@@ -99,7 +96,6 @@ export const SpaceCreator: React.FC = () => {
       const h = parseInt(heightStr, 10);
 
       if (isNaN(w) || isNaN(h) || w <= 0 || h <= 0) {
-        toast.error("Please enter valid positive dimensions (e.g., 800x600).");
         setLoading(false);
         return;
       }
@@ -113,12 +109,10 @@ export const SpaceCreator: React.FC = () => {
           Authorization: `Bearer ${localStorage.getItem("authToken")}`,
         },
       });
-      toast.success("Space created successfully!");
       navigate(`/user/spaces`);
     } catch (err: any) {
       console.error("Failed to create space", err);
       const errorMessage = err.response?.data?.message || "Failed to create space. Please try again.";
-      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
