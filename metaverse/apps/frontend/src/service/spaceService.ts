@@ -5,6 +5,7 @@ const API = axios.create({ baseURL: BACKEND_URL });
 const token = localStorage.getItem('authToken');
 
 export const spaceService = {
+
   myspace: async () => {
     const res = await API.get('/space/all', {
       headers: {
