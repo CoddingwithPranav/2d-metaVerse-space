@@ -112,7 +112,6 @@ export const SpaceCreator: React.FC = () => {
       navigate(`/user/spaces`);
     } catch (err: any) {
       console.error("Failed to create space", err);
-      const errorMessage = err.response?.data?.message || "Failed to create space. Please try again.";
     } finally {
       setLoading(false);
     }

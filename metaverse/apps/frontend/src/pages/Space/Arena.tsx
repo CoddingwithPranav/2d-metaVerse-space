@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import axios from "axios";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { ArrowUp, ArrowDown, ArrowLeft, ArrowRight, MessageSquareText, SmilePlus, X } from "lucide-react";
+import { MessageSquareText, SmilePlus, X } from "lucide-react";
 import { BACKEND_URL, WS_URL } from "@/config";
 import useAuth from "@/utils/Authhook";
 import { useParams } from "react-router-dom";
@@ -45,7 +45,6 @@ const userSpriteCache: Record<string, UserSpriteCache> = {};
 import { avatarService, type Avatar } from "@/service/avatarService";
 
 
-const userImageCache: Record<string, { img: HTMLImageElement; loaded: boolean }> = {};
 const elementImageCache: Record<string, { img: HTMLImageElement; width: number; height: number; loaded: boolean }> = {};
 
 // Emoji options for the panel and keybinds
@@ -262,8 +261,6 @@ const useWebSocket = (
 export default function Arena() {
   const { spaceId } = useParams<{ spaceId: string }>();
   const { token } = useAuth();
-  const [avatarLoaded, setAvatarLoaded] = useState<Record<string, boolean>>({});
-  // ... other state variables ...
   const [spaceElements, setSpaceElements] = useState<SpaceElementInState[]>([]);
   const [gridSize, setGridSize] = useState(GRID_DEFAULT);
   const [criticalImagesLoaded, setCriticalImagesLoaded] = useState(false);
@@ -330,7 +327,6 @@ export default function Arena() {
 
     await Promise.all(promises);
     userSpriteCache[userId].loaded = true;
-    setAvatarLoaded(prev => ({ ...prev, [userId]: true }));
   }, []);
 
   const { connected, selfId, users, moveUser, sendAction, sendMessage, error: wsError, isMovingSelf } = useWebSocket(

@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
-import { Home, Box, Image, Map, Rocket, Users, Settings, LayoutDashboard, Ghost } from 'lucide-react'; // Added Settings, LayoutDashboard for better fit
+import { Box, Image, Map, Rocket, Users, Settings, LayoutDashboard, Ghost } from 'lucide-react'; // Added Settings, LayoutDashboard for better fit
 import useAuth from '@/utils/Authhook';
 
 export const AdminLayout: React.FC = () => {

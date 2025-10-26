@@ -1,4 +1,3 @@
-import useAuth from '@/utils/Authhook';
 import React from 'react';
 import { GameShowcaseView, CommunityView, JoinCtaTarget } from './GameCard';
 import { Hero } from './Hero';

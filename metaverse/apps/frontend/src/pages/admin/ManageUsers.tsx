@@ -1,9 +1,8 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'; // Import table components
-import { UserPlus, Edit, Trash2 } from 'lucide-react'; // Import icons
+import {  Edit, Trash2 } from 'lucide-react'; // Import icons
 
 interface User {
   id: string;
@@ -13,7 +12,6 @@ interface User {
 }
 
 export const ManageUsersPage: React.FC = () => {
-  const navigate = useNavigate();
 
   // Dummy user data
   const dummyUsers: User[] = [

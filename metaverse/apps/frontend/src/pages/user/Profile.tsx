@@ -1,12 +1,9 @@
-import React, { useState, useEffect, useRef, type ReactNode } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { Pencil, LayoutDashboard, UploadCloud } from 'lucide-react'; // Added UploadCloud icon
 import { useNavigate } from 'react-router-dom';
-
-// Utility & Service Imports
-import { useScrollAnimation } from '@/utils/ScrollHook';
 import { authService } from '@/service/authService';
 import '../../App.css'; // Assuming this imports global styles if needed
 

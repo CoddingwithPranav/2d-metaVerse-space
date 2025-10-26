@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import UploadExample from "@/components/ui/imageupload";
 import { elementService } from "@/service/elementService";
-import { PlusCircle, XCircle, Image as ImageIcon, Ruler, SquareCheckBig, Loader2, ArrowLeft } from "lucide-react"; // Import Lucide icons
+import { PlusCircle, Image as ImageIcon, Ruler, SquareCheckBig, Loader2, ArrowLeft } from "lucide-react"; // Import Lucide icons
 import  { AnimatedPageWrapper } from "@/components/ui/AnimatedPageWrapper";
 interface Element {
   id: string;
