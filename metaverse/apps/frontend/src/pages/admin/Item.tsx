@@ -1,4 +1,4 @@
-import { useScrollAnimation } from "@/utils/ScrollHook";
+import { useScrollAnimation } from "@/hooks/ScrollHook";
 import { Layers, ArrowRight } from "lucide-react";
 import { useEffect, useRef } from "react";
 

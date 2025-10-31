@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authService } from '@/service/authService';
-import useAuth from '@/utils/Authhook';
-import { useScrollAnimation } from '@/utils/ScrollHook';
+import useAuth from '@/hooks/Authhook';
+import { useScrollAnimation } from '@/hooks/ScrollHook';
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 import { AlertCircle } from 'lucide-react';
 import { AnimatedPageWrapper } from '@/components/ui/AnimatedPageWrapper';

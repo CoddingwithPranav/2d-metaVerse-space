@@ -31,12 +31,10 @@ export const AvatarsPage: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoadingAvatars, setIsLoadingAvatars] = useState(true);
 
-  // Form state
   const [name, setName] = useState<string>("");
   const [idleUrls, setIdleUrls] = useState({ down: "", left: "", right: "", up: "" });
   const [runUrls, setRunUrls] = useState({ down: "", left: "", right: "", up: "" });
 
-  // Fetch avatars
   const fetchAvatars = async () => {
     setIsLoadingAvatars(true);
     try {
@@ -64,11 +62,10 @@ export const AvatarsPage: React.FC = () => {
     try {
       await avatarService.create({ name, idleUrls, runUrls });
       setShowForm(false);
-      // Reset form
       setName("");
       setIdleUrls({ down: "", left: "", right: "", up: "" });
       setRunUrls({ down: "", left: "", right: "", up: "" });
-      fetchAvatars(); // Re-fetch list after creation
+      fetchAvatars(); 
     } catch (error) {
       console.error("Create avatar failed:", error);
       alert("Failed to create avatar");

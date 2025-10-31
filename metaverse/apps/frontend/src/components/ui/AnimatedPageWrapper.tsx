@@ -1,4 +1,4 @@
-import { useScrollAnimation } from "@/utils/ScrollHook";
+import { useScrollAnimation } from "@/hooks/ScrollHook";
 import { type ReactNode, useRef, useEffect } from "react";
 
 // Animated wrapper component (Slightly adjusted for better animation kickoff)

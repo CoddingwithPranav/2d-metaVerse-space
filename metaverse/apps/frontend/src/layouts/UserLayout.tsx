@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navbar } from '../components/ui/Navbar';
 import { Outlet } from 'react-router-dom';
-import useAuth from '@/utils/Authhook';
+import useAuth from '@/hooks/Authhook';
 
 export const UserLayout: React.FC = () => {
    const {token}= useAuth();

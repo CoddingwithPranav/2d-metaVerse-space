@@ -1,6 +1,6 @@
 import React, { type JSX } from 'react';
 import { Navigate } from 'react-router-dom';
-import useAuth from '@/utils/Authhook';
+import useAuth from '@/hooks/Authhook';
 
 interface RoleBasedRouteProps {
   roleInput: 'Admin' | 'User';

@@ -1,4 +1,4 @@
-import { useScrollAnimation } from "@/utils/ScrollHook";
+import { useScrollAnimation } from "@/hooks/ScrollHook";
 import { useRef, useEffect } from "react";
 
 type FeatureCardProps = {

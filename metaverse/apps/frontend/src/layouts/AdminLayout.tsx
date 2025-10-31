@@ -1,13 +1,13 @@
 import React from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
-import { Box, Image, Map, Rocket, Users, Settings, LayoutDashboard, Ghost } from 'lucide-react'; // Added Settings, LayoutDashboard for better fit
-import useAuth from '@/utils/Authhook';
+import { Box, Image, Map, Rocket, Users, Settings, LayoutDashboard, Ghost } from 'lucide-react'; 
+import useAuth from '@/hooks/Authhook';
 
 export const AdminLayout: React.FC = () => {
   const {logout} = useAuth(); 
   const navigate = useNavigate();
   const navItems = [
-    { to: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard }, // Changed to LayoutDashboard
+    { to: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard }, 
     { to: '/admin/elements', label: 'Elements', icon: Box },
     { to: '/admin/avatars', label: 'Avatars', icon: Ghost },
     { to: '/admin/background', label: 'Background', icon: Image },
@@ -17,9 +17,9 @@ export const AdminLayout: React.FC = () => {
   ];
 
   return (
-    <div className="flex min-h-screen bg-slate-950 text-slate-100"> {/* Dark background, light text */}
+    <div className="flex min-h-screen bg-slate-950 text-slate-100"> 
       {/* Sidebar */}
-      <nav className="w-64 bg-slate-900 shadow-2xl flex-shrink-0 border-r border-slate-800"> {/* Darker sidebar, strong shadow, subtle border */}
+      <nav className="w-64 bg-slate-900 shadow-2xl flex-shrink-0 border-r border-slate-800"> 
         <div onClick={()=>{navigate('/')}} className="cursor-pointer p-6 font-extrabold text-2xl text-center border-b border-slate-800 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400"> {/* Gradient title */}
           PixelVerse Admin
         </div>
@@ -31,8 +31,8 @@ export const AdminLayout: React.FC = () => {
                 className={({ isActive }) =>
                   `flex items-center px-6 py-3 text-lg font-medium rounded-lg mx-3 transition-all duration-200 ease-in-out
                   ${isActive
-                    ? 'bg-purple-600/30 text-white shadow-lg transform translate-x-1 border border-purple-500' // Active state with purple theme
-                    : 'text-slate-300 hover:bg-slate-800 hover:text-purple-400' // Hover state for non-active items
+                    ? 'bg-purple-600/30 text-white shadow-lg transform translate-x-1 border border-purple-500' 
+                    : 'text-slate-300 hover:bg-slate-800 hover:text-purple-400' 
                   }`
                 }
               >
@@ -51,7 +51,7 @@ export const AdminLayout: React.FC = () => {
       </nav>
 
       {/* Main Content */}
-      <main className="flex-1 p-10 overflow-auto bg-slate-950"> {/* Matches body background */}
+      <main className="flex-1 p-10 overflow-auto bg-slate-950"> 
         <Outlet />
       </main>
     </div>

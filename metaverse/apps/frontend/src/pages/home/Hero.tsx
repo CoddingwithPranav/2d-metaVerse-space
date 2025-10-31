@@ -1,4 +1,4 @@
-import { useScrollAnimation } from "@/utils/ScrollHook";
+import { useScrollAnimation } from "@/hooks/ScrollHook";
 import { ArrowRight } from "lucide-react";
 import { useRef, useEffect } from "react";
 import { PixelCharacter } from "./PixcelCharacter";

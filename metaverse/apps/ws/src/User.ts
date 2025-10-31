@@ -241,8 +241,8 @@ export class User {
             break;
           }
           case "user-action": {
-            const { action, userId, emoji } = parseData.payload;
-            if (action === "show-emoji" && userId === this.userId && this.spaceId && typeof emoji === "string") {
+            const { action, emoji } = parseData.payload;
+            if (action === "show-emoji" && this.spaceId && typeof emoji === "string") {
               const message = {
                 type: "user-action",
                 payload: { action: "show-emoji", userId: this.userId, emoji },

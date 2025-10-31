@@ -1,4 +1,4 @@
-import { useScrollAnimation } from "@/utils/ScrollHook";
+import { useScrollAnimation } from "@/hooks/ScrollHook";
 import { Gamepad2, ArrowRight, MessageSquare, Twitter } from "lucide-react";
 import { useRef, useEffect } from "react";
 

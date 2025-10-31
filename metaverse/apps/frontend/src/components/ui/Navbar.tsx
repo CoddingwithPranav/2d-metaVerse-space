@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom'; // import useLocation
 import { Home, Menu, X, UserCircle, LogIn, Map, Layers } from 'lucide-react';
-import useAuth from '@/utils/Authhook';
+import useAuth from '@/hooks/Authhook';
 
 export const Navbar: React.FC = () => {
   const { token, logout } = useAuth();
