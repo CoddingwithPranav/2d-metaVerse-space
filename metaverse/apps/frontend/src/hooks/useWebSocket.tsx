@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { CELL_SIZE, EMOJI_DURATION, CHAT_DURATION } from "@/constants";
 import type { UserState, AnimatedUserDisplayState, Emoji, ChatMessage, IncomingMessage } from "@/types";
-import  { WebSocketService } from "@/service/websocket";
+import { WebSocketService } from "@/service/websocket";
 
 interface UseWebSocketProps {
   url: string;
@@ -28,7 +28,7 @@ export const useWebSocket = ({
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isMovingSelf, setIsMovingSelf] = useState(false);
-
+  const prevShouldConnectRef = useRef(false);
   const handleMessage = useCallback((msg: IncomingMessage) => {
     switch (msg.type) {
       case "space-joined":
@@ -132,16 +132,25 @@ export const useWebSocket = ({
   }, [selfId, loadUserAvatar]);
 
   useEffect(() => {
-    if (!shouldConnect || !token || !spaceId) return;
+    const shouldConnectNow = shouldConnect && !!token && !!spaceId;
+    const wasConnecting = prevShouldConnectRef.current;
 
-    const wsService = new WebSocketService(url, handleMessage);
-    wsServiceRef.current = wsService;
-    wsService.connect(token, spaceId);
-    setConnected(true);
+    if (shouldConnectNow && !wasConnecting && !connected) {
+      const wsService = new WebSocketService(url, handleMessage);
+      wsServiceRef.current = wsService;
+      wsService.connect(token, spaceId);
+      setConnected(true);
+    }
+    prevShouldConnectRef.current = shouldConnectNow;
+
     return () => {
-      wsService.close();
+      if (!shouldConnect && wsServiceRef.current) {
+        wsServiceRef.current.close();
+        wsServiceRef.current = null;
+        setConnected(false);
+      }
     };
-  }, [shouldConnect, token, spaceId, url, handleMessage]);
+  }, [shouldConnect, token, spaceId, url, handleMessage, connected]);
 
   const moveUser = useCallback((x: number, y: number) => {
     if (!selfId || !connected || isMovingSelf || !users[selfId]) return;

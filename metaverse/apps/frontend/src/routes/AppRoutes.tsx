@@ -32,14 +32,12 @@ export const AppRoutes: React.FC = () => (
         <Route path="/spaces" element={<UserSpace />} />
         <Route path="/profile" element={<Profile />} />
       </Route>
-
       {/* user routes */}
       <Route element={<ProtectedRoute><UserLayout /></ProtectedRoute>}>
         <Route path="/user/profile" element={<Profile />} />
         <Route path="/user/spaces" element={<UserSpace />} />
         <Route path="/user/arena/:spaceId" element={<Arena />} />
       </Route>
-
       {/* admin routes */}
       <Route
         element={

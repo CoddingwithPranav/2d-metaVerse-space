@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { PlusCircle, Users, Box, Rocket, Activity, AlertCircle, CheckCircle } from 'lucide-react'; // Added Activity, AlertCircle, CheckCircle
+import { PlusCircle, Users, Box, Rocket, Activity, AlertCircle, CheckCircle } from 'lucide-react';
 
 export const AdminDashboard: React.FC = () => {
   const navigate = useNavigate();
@@ -22,40 +22,38 @@ export const AdminDashboard: React.FC = () => {
   };
 
   return (
-    <div className="bg-slate-800 p-8 rounded-xl shadow-xl border border-slate-700"> {/* Dark card structure */}
+    <div className="bg-slate-800 p-8 rounded-xl shadow-xl border border-slate-700">
       <h2 className="text-3xl font-extrabold mb-6 pb-4 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400 border-b border-slate-700"> {/* Gradient title */}
         Dashboard Overview
       </h2>
 
-      {/* Stats Section */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <div className="bg-slate-700 p-6 rounded-lg shadow-md flex items-center justify-between border border-slate-600 transition-transform duration-300 hover:scale-105 hover:border-purple-500">
           <div>
             <p className="text-sm font-medium text-slate-400">Total Users</p>
-            <p className="text-3xl font-bold text-cyan-400">1,234</p> {/* Cyan accent */}
+            <p className="text-3xl font-bold text-cyan-400">1,234</p> 
           </div>
           <Users className="h-10 w-10 text-cyan-500 opacity-70" />
         </div>
         <div className="bg-slate-700 p-6 rounded-lg shadow-md flex items-center justify-between border border-slate-600 transition-transform duration-300 hover:scale-105 hover:border-cyan-500">
           <div>
             <p className="text-sm font-medium text-slate-400">Elements Created</p>
-            <p className="text-3xl font-bold text-purple-400">567</p> {/* Purple accent */}
+            <p className="text-3xl font-bold text-purple-400">567</p>
           </div>
           <Box className="h-10 w-10 text-purple-500 opacity-70" />
         </div>
         <div className="bg-slate-700 p-6 rounded-lg shadow-md flex items-center justify-between border border-slate-600 transition-transform duration-300 hover:scale-105 hover:border-indigo-500">
           <div>
             <p className="text-sm font-medium text-slate-400">Active Sessions</p>
-            <p className="text-3xl font-bold text-indigo-400">89</p> {/* New accent color for variety */}
+            <p className="text-3xl font-bold text-indigo-400">89</p> 
           </div>
           <Rocket className="h-10 w-10 text-indigo-500 opacity-70" />
         </div>
       </div>
 
-      {/* Recent Activity Section */}
       <div className="mb-8">
         <h3 className="text-2xl font-semibold text-slate-200 mb-4 flex items-center">
-          <Activity className="h-6 w-6 mr-2 text-purple-400" /> {/* Activity icon with purple accent */}
+          <Activity className="h-6 w-6 mr-2 text-purple-400" /> 
           Recent Activity
         </h3>
         <div className="bg-slate-800 rounded-xl border border-slate-700 shadow-md overflow-hidden">
@@ -80,7 +78,6 @@ export const AdminDashboard: React.FC = () => {
         </div>
       </div>
 
-      {/* Action Button */}
       <button
         onClick={() => navigate('/admin/dashboard/add')}
         className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-purple-600 to-cyan-500 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-75"

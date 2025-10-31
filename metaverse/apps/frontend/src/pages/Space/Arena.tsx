@@ -42,7 +42,7 @@ export default function ArenaPage() {
     url: WS_URL,
     token: token || "",
     spaceId: spaceId || "",
-    shouldConnect: isConnecting && !!token && !!spaceId,
+    shouldConnect: isConnecting,
     loadUserAvatar,
   });
 

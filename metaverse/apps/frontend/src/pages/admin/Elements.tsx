@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import UploadExample from "@/components/ui/imageupload";
 import { elementService } from "@/service/elementService";
-import { PlusCircle, Image as ImageIcon, Ruler, SquareCheckBig, Loader2, ArrowLeft } from "lucide-react"; // Import Lucide icons
+import { PlusCircle, Image as ImageIcon, Ruler, SquareCheckBig, Loader2, ArrowLeft } from "lucide-react";
 import  { AnimatedPageWrapper } from "@/components/ui/AnimatedPageWrapper";
 interface Element {
   id: string;
@@ -20,7 +20,7 @@ export const ElementsPage: React.FC = () => {
   const [elements, setElements] = useState<Element[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isLoadingElements, setIsLoadingElements] = useState(true); // New loading state for elements list
+  const [isLoadingElements, setIsLoadingElements] = useState(true); 
 
   // Form state
   const [imageUrl, setImageUrl] = useState<string>("");
@@ -36,7 +36,6 @@ export const ElementsPage: React.FC = () => {
       setElements(list);
     } catch (err) {
       console.error("Error fetching elements:", err);
-      // TODO: Display an error message to the user
     } finally {
       setIsLoadingElements(false);
     }
@@ -49,7 +48,7 @@ export const ElementsPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!imageUrl) {
-      alert("Please upload an image first"); // Consider using a toast/notification system
+      alert("Please upload an image first"); 
       return;
     }
 
@@ -67,23 +66,23 @@ export const ElementsPage: React.FC = () => {
       setWidth(1);
       setHeight(1);
       setIsStatic(false);
-      fetchElements(); // Re-fetch list after creation
+      fetchElements(); 
     } catch (error) {
       console.error("Create element failed:", error);
-      alert("Failed to create element"); // Consider using a toast/notification system
+      alert("Failed to create element");
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <AnimatedPageWrapper id="elements-page" className="bg-slate-950"> {/* Use AnimatedPageWrapper */}
+    <AnimatedPageWrapper id="elements-page" className="bg-slate-950">
       <h2 className="text-4xl md:text-5xl font-bold text-center mb-12 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">
         Manage Game Elements
       </h2>
 
       {!showForm ? (
-        <div className="space-y-8"> {/* Increased space-y */}
+        <div className="space-y-8">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
             <h3 className="text-3xl font-semibold text-slate-100">Elements Library</h3>
             <Button
@@ -104,7 +103,7 @@ export const ElementsPage: React.FC = () => {
                 No elements found. Click "Add New Element" to get started!
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"> {/* More responsive grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"> 
               {elements.map((el) => (
                 <Card
                   key={el.id}
@@ -116,7 +115,7 @@ export const ElementsPage: React.FC = () => {
                       Element ID: {el.id.substring(0, 8)}...
                     </CardTitle>
                   </CardHeader>
-                  <CardContent className="p-4 space-y-3"> {/* Increased space-y */}
+                  <CardContent className="p-4 space-y-3">
                     <div className="w-full h-48 bg-slate-700 rounded-md overflow-hidden flex items-center justify-center border border-slate-600">
                       {el.imageUrl ? (
                         <img
@@ -140,7 +139,6 @@ export const ElementsPage: React.FC = () => {
                         <SquareCheckBig className="h-4 w-4 mr-2 text-purple-400" />
                         <p><span className="font-medium">Static:</span> {el.static ? "Yes" : "No"}</p>
                     </div>
-                    {/* Add edit/delete buttons here later if needed */}
                   </CardContent>
                 </Card>
               ))}
@@ -171,7 +169,7 @@ export const ElementsPage: React.FC = () => {
                 )}
               </div>
 
-              <div className="space-y-2"> {/* space-y-1 to space-y-2 */}
+              <div className="space-y-2"> 
                 <Label htmlFor="width" className="text-slate-300 flex items-center gap-2">
                     <Ruler className="h-4 w-4 text-purple-400" /> Width (pixels)
                 </Label>
@@ -185,7 +183,7 @@ export const ElementsPage: React.FC = () => {
                 />
               </div>
 
-              <div className="space-y-2"> {/* space-y-1 to space-y-2 */}
+              <div className="space-y-2"> 
                 <Label htmlFor="height" className="text-slate-300 flex items-center gap-2">
                     <Ruler className="h-4 w-4 text-cyan-400" /> Height (pixels)
                 </Label>
@@ -199,7 +197,7 @@ export const ElementsPage: React.FC = () => {
                 />
               </div>
 
-              <div className="flex items-center space-x-3 pt-2"> {/* Increased space-x and pt */}
+              <div className="flex items-center space-x-3 pt-2"> 
                 <Checkbox
                   id="static"
                   checked={isStatic}
@@ -211,7 +209,7 @@ export const ElementsPage: React.FC = () => {
                 </Label>
               </div>
 
-              <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 pt-4"> {/* Responsive buttons */}
+              <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 pt-4"> 
                 <Button 
                   type="submit" 
                   disabled={isSubmitting}
