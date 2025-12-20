@@ -8,6 +8,14 @@ export const ANIMATION_FRAME_DURATION = 150;
 export const ANIMATION_SPEED = 0.1;
 export const MOVE_TIMEOUT = 20;
 
-export const EMOJI_OPTIONS = ["😆", "🥲", "🥸", "🫵", "👍", "👎", "😿"] as const;
+export const EMOJI_OPTIONS = [
+  "😆",
+  "🥲",
+  "🥸",
+  "🫵",
+  "👍",
+  "👎",
+  "😿",
+] as const;
 export const EMOJI_DURATION = 3000;
 export const CHAT_DURATION = 7000;

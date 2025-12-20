@@ -8,18 +8,23 @@ type FeatureCardProps = {
   delay: number;
 };
 
-export const FeatureCard = ({ icon: Icon, title, description, delay }: FeatureCardProps) => {
+export const FeatureCard = ({
+  icon: Icon,
+  title,
+  description,
+  delay,
+}: FeatureCardProps) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const addToObserve = useScrollAnimation();
   useEffect(() => {
     if (cardRef.current) {
       cardRef.current.classList.add(
-        'opacity-0',
-        'transform',
-        'translate-y-12',
-        'motion-safe:transition-all',
-        'motion-safe:duration-700',
-        'motion-safe:ease-out'
+        "opacity-0",
+        "transform",
+        "translate-y-12",
+        "motion-safe:transition-all",
+        "motion-safe:duration-700",
+        "motion-safe:ease-out",
       );
       cardRef.current.style.transitionDelay = `${delay}ms`;
       addToObserve(cardRef.current);

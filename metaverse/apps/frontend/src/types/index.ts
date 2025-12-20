@@ -45,21 +45,21 @@ export interface Avatar {
 
 export type IncomingMessage =
   | {
-    type: "space-joined";
-    payload: {
-      userId: string;
-      spawn: { x: number; y: number };
-      users: { id: string; x: number; y: number }[];
-    };
-  }
+      type: "space-joined";
+      payload: {
+        userId: string;
+        spawn: { x: number; y: number };
+        users: { id: string; x: number; y: number }[];
+      };
+    }
   | { type: "user-joined"; payload: { userId: string; x: number; y: number } }
   | { type: "user-moved"; payload: { id: string; x: number; y: number } }
   | { type: "movement-rejected"; payload: { x: number; y: number } }
   | { type: "user-left"; payload: { userId: string } }
   | {
-    type: "user-action";
-    payload: { action: string; userId: string; emoji?: string };
-  }
+      type: "user-action";
+      payload: { action: string; userId: string; emoji?: string };
+    }
   | { type: "message-received"; payload: { message: string; userId: string } }
   | { type: "error"; payload: { message: string } };
 
@@ -70,7 +70,7 @@ export interface BackGround {
 
 export interface User {
   email: string;
-  role: 'admin' | 'user';
+  role: "admin" | "user";
 }
 
 export interface AuthState {

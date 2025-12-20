@@ -10,14 +10,22 @@ interface UseArenaAssetsProps {
   isConnecting: boolean;
 }
 
-export const useArenaAssets = ({ spaceId, token, isConnecting }: UseArenaAssetsProps) => {
+export const useArenaAssets = ({
+  spaceId,
+  token,
+  isConnecting,
+}: UseArenaAssetsProps) => {
   const [spaceElements, setSpaceElements] = useState<SpaceElementInState[]>([]);
   const [gridSize, setGridSize] = useState({ width: 50, height: 50 });
-  const [backgroundImg, setBackgroundImg] = useState<HTMLImageElement | null>(null);
+  const [backgroundImg, setBackgroundImg] = useState<HTMLImageElement | null>(
+    null,
+  );
   const [criticalImagesLoaded, setCriticalImagesLoaded] = useState(false);
   const [imageLoadError, setImageLoadError] = useState<string | null>(null);
 
-  const elementImageCache = useRef<Record<string, { img: HTMLImageElement; loaded: boolean }>>({});
+  const elementImageCache = useRef<
+    Record<string, { img: HTMLImageElement; loaded: boolean }>
+  >({});
 
   useEffect(() => {
     if (!spaceId || !token || !isConnecting) return;
@@ -35,18 +43,20 @@ export const useArenaAssets = ({ spaceId, token, isConnecting }: UseArenaAssetsP
         const [w, h] = dimensions.toLowerCase().split("x").map(Number);
         setGridSize({ width: w, height: h });
 
-        const fetchedElements: SpaceElementInState[] = elements.map((el: any) => ({
-          id: el.id,
-          x: el.x,
-          y: el.y,
-          elementDefinition: {
-            id: el.element.id,
-            imageUrl: el.element.imageUrl,
-            width: Number(el.element.width),
-            height: Number(el.element.height),
-            static: el.element.static,
-          },
-        }));
+        const fetchedElements: SpaceElementInState[] = elements.map(
+          (el: any) => ({
+            id: el.id,
+            x: el.x,
+            y: el.y,
+            elementDefinition: {
+              id: el.element.id,
+              imageUrl: el.element.imageUrl,
+              width: Number(el.element.width),
+              height: Number(el.element.height),
+              static: el.element.static,
+            },
+          }),
+        );
         setSpaceElements(fetchedElements);
 
         const promises: Promise<void>[] = [];
@@ -55,15 +65,19 @@ export const useArenaAssets = ({ spaceId, token, isConnecting }: UseArenaAssetsP
           if (!elementImageCache.current[e.elementDefinition.id]) {
             const img = new Image();
             img.src = e.elementDefinition.imageUrl;
-            elementImageCache.current[e.elementDefinition.id] = { img, loaded: false };
+            elementImageCache.current[e.elementDefinition.id] = {
+              img,
+              loaded: false,
+            };
             promises.push(
               new Promise<void>((resolve) => {
                 img.onload = () => {
-                  elementImageCache.current[e.elementDefinition.id].loaded = true;
+                  elementImageCache.current[e.elementDefinition.id].loaded =
+                    true;
                   resolve();
                 };
                 img.onerror = () => resolve();
-              })
+              }),
             );
           }
         });
@@ -78,7 +92,7 @@ export const useArenaAssets = ({ spaceId, token, isConnecting }: UseArenaAssetsP
                 resolve();
               };
               bgImg.onerror = () => resolve();
-            })
+            }),
           );
         }
 

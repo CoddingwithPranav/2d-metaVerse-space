@@ -32,7 +32,7 @@ interface MapOption {
 
 export const SpaceCreator: React.FC = () => {
   const navigate = useNavigate();
-  const [maps, setMaps] = useState<MapOption[]>([]);// Stores available maps
+  const [maps, setMaps] = useState<MapOption[]>([]); // Stores available maps
   const [selectedMap, setSelectedMap] = useState<string>("none"); // "none" for custom dimensions
   const [name, setName] = useState<string>(""); // Space name input
   const [dimensions, setDimensions] = useState<string>("500x500"); // Custom dimensions input
@@ -46,7 +46,14 @@ export const SpaceCreator: React.FC = () => {
     mapService
       .list()
       .then((list) => {
-        setMaps(list.map((m) => ({ id: m.id, name: m.name, width: m.width, height: m.height })));
+        setMaps(
+          list.map((m) => ({
+            id: m.id,
+            name: m.name,
+            width: m.width,
+            height: m.height,
+          })),
+        );
         // If maps are available and no map is yet selected, default to the first one
         if (list.length > 0 && selectedMap === "none") {
           setSelectedMap(list[0].id);
@@ -69,8 +76,12 @@ export const SpaceCreator: React.FC = () => {
       }
     } else {
       // Only reset to default if it's not already a valid custom input
-      if (!dimensions.match(/^\d+x\d+$/) || (parseInt(dimensions.split('x')[0], 10) !== 500 && parseInt(dimensions.split('x')[1], 10) !== 500)) {
-         setDimensions("500x500");
+      if (
+        !dimensions.match(/^\d+x\d+$/) ||
+        (parseInt(dimensions.split("x")[0], 10) !== 500 &&
+          parseInt(dimensions.split("x")[1], 10) !== 500)
+      ) {
+        setDimensions("500x500");
       }
     }
   }, [selectedMap, maps]); // `dimensions` is deliberately excluded here to avoid infinite loop with its own update
@@ -81,9 +92,9 @@ export const SpaceCreator: React.FC = () => {
     setNameError(false); // Reset name error on new submission attempt
 
     if (!name.trim()) {
-        setNameError(true); // Set name error state
-        setLoading(false);
-        return;
+      setNameError(true); // Set name error state
+      setLoading(false);
+      return;
     }
 
     let payload: any = { name };
@@ -125,7 +136,8 @@ export const SpaceCreator: React.FC = () => {
             <PlusCircle className="w-8 h-8 text-cyan-400" /> Create New Space
           </CardTitle>
           <CardDescription className="text-center text-slate-400 mt-2">
-            Design your ideal virtual environment. Choose a pre-built map or set custom dimensions.
+            Design your ideal virtual environment. Choose a pre-built map or set
+            custom dimensions.
           </CardDescription>
         </CardHeader>
 
@@ -133,7 +145,10 @@ export const SpaceCreator: React.FC = () => {
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Space Name Input */}
             <div className="space-y-2">
-              <Label htmlFor="name" className="text-slate-300 flex items-center gap-2">
+              <Label
+                htmlFor="name"
+                className="text-slate-300 flex items-center gap-2"
+              >
                 <Map className="w-4 h-4 text-emerald-400" /> Space Name
               </Label>
               <Input
@@ -151,36 +166,67 @@ export const SpaceCreator: React.FC = () => {
                 aria-describedby={nameError ? "name-error" : undefined}
               />
               {nameError && (
-                <p id="name-error" className="text-sm text-red-400">Space name cannot be empty.</p>
+                <p id="name-error" className="text-sm text-red-400">
+                  Space name cannot be empty.
+                </p>
               )}
             </div>
 
             {/* Select Base Map */}
             <div className="space-y-2">
-              <Label htmlFor="map-select" className="text-slate-300 flex items-center gap-2">
+              <Label
+                htmlFor="map-select"
+                className="text-slate-300 flex items-center gap-2"
+              >
                 <Map className="w-4 h-4 text-blue-400" /> Select Base Map
               </Label>
-              <Select onValueChange={setSelectedMap} value={selectedMap} aria-label="Select a base map">
-                <SelectTrigger id="map-select" className="w-full bg-slate-700 border-slate-600 text-slate-50 focus-visible:ring-offset-slate-900 focus-visible:ring-purple-500">
+              <Select
+                onValueChange={setSelectedMap}
+                value={selectedMap}
+                aria-label="Select a base map"
+              >
+                <SelectTrigger
+                  id="map-select"
+                  className="w-full bg-slate-700 border-slate-600 text-slate-50 focus-visible:ring-offset-slate-900 focus-visible:ring-purple-500"
+                >
                   <SelectValue placeholder="Select a map or choose custom" />
                 </SelectTrigger>
                 <SelectContent className="bg-slate-700 border-slate-600 text-slate-50">
-                  <SelectItem value="none" className="text-slate-300 hover:bg-slate-600 focus:bg-slate-600">
+                  <SelectItem
+                    value="none"
+                    className="text-slate-300 hover:bg-slate-600 focus:bg-slate-600"
+                  >
                     Custom Dimensions (No Base Map)
                   </SelectItem>
                   {fetchingMaps ? (
-                    <SelectItem value="loading" disabled className="text-slate-500">
+                    <SelectItem
+                      value="loading"
+                      disabled
+                      className="text-slate-500"
+                    >
                       <span className="flex items-center">
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" aria-label="Loading maps" /> Loading maps...
+                        <Loader2
+                          className="mr-2 h-4 w-4 animate-spin"
+                          aria-label="Loading maps"
+                        />{" "}
+                        Loading maps...
                       </span>
                     </SelectItem>
                   ) : maps.length === 0 ? (
-                    <SelectItem value="no-maps" disabled className="text-slate-500">
+                    <SelectItem
+                      value="no-maps"
+                      disabled
+                      className="text-slate-500"
+                    >
                       No maps available
                     </SelectItem>
                   ) : (
                     maps.map((map) => (
-                      <SelectItem key={map.id} value={map.id} className="hover:bg-slate-600 focus:bg-slate-600">
+                      <SelectItem
+                        key={map.id}
+                        value={map.id}
+                        className="hover:bg-slate-600 focus:bg-slate-600"
+                      >
                         {map.name} ({map.width}x{map.height}px)
                       </SelectItem>
                     ))
@@ -193,14 +239,18 @@ export const SpaceCreator: React.FC = () => {
                 </p>
               ) : (
                 <p className="text-sm text-slate-400 mt-1">
-                  Dimensions for your space will be inherited from the selected map.
+                  Dimensions for your space will be inherited from the selected
+                  map.
                 </p>
               )}
             </div>
 
             {/* Dimensions Input */}
             <div className="space-y-2">
-              <Label htmlFor="dimensions" className="text-slate-300 flex items-center gap-2">
+              <Label
+                htmlFor="dimensions"
+                className="text-slate-300 flex items-center gap-2"
+              >
                 <Ruler className="w-4 h-4 text-orange-400" /> Dimensions
               </Label>
               <Input
@@ -226,12 +276,22 @@ export const SpaceCreator: React.FC = () => {
           <Button
             type="submit"
             onClick={handleSubmit}
-            disabled={loading || fetchingMaps || !name.trim() || (selectedMap === "none" && !dimensions.match(/^\d+x\d+$/))}
+            disabled={
+              loading ||
+              fetchingMaps ||
+              !name.trim() ||
+              (selectedMap === "none" && !dimensions.match(/^\d+x\d+$/))
+            }
             className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-semibold py-2.5 rounded-lg shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105"
           >
             {loading ? (
-              <span className="flex items-center justify-center" aria-live="polite" aria-busy="true">
-                <Loader2 className="mr-2 h-5 w-5 animate-spin" /> Creating Space...
+              <span
+                className="flex items-center justify-center"
+                aria-live="polite"
+                aria-busy="true"
+              >
+                <Loader2 className="mr-2 h-5 w-5 animate-spin" /> Creating
+                Space...
               </span>
             ) : (
               <span className="flex items-center justify-center">

@@ -1,18 +1,18 @@
 // src/services/elementService.ts
-import { BACKEND_URL } from '@/config';
-import axios from 'axios';
+import { BACKEND_URL } from "@/config";
+import axios from "axios";
 
 const API = axios.create({
   baseURL: BACKEND_URL,
   headers: {
-    authorization: `Bearer ${localStorage.getItem('authToken')}`,
+    authorization: `Bearer ${localStorage.getItem("authToken")}`,
   },
 });
 
 export const backgroundService = {
   // GET /admin/background
   list: async () => {
-    const res = await API.get('/backgrounds');
+    const res = await API.get("/backgrounds");
     return res.data as {
       id: string;
       Url: string;
@@ -21,8 +21,8 @@ export const backgroundService = {
 
   // POST /admin/background
   create: async (payload: { Url: string }) => {
-    const res = await API.post('/admin/background', payload);
-    debugger
+    const res = await API.post("/admin/background", payload);
+    debugger;
     return res.data.id as string;
   },
 

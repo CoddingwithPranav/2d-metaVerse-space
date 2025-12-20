@@ -1,6 +1,17 @@
 import { useEffect, useRef } from "react";
-import { CELL_SIZE, RENDER_CHARACTER_WIDTH, RENDER_CHARACTER_HEIGHT } from "@/constants";
-import type { UserState, AnimatedUserDisplayState, SpaceElementInState, Emoji, ChatMessage, Direction } from "@/types";
+import {
+  CELL_SIZE,
+  RENDER_CHARACTER_WIDTH,
+  RENDER_CHARACTER_HEIGHT,
+} from "@/constants";
+import type {
+  UserState,
+  AnimatedUserDisplayState,
+  SpaceElementInState,
+  Emoji,
+  ChatMessage,
+  Direction,
+} from "@/types";
 
 interface CanvasRendererProps {
   users: Record<string, UserState>;
@@ -47,22 +58,38 @@ export const CanvasRenderer = ({
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       ctx.strokeStyle = "#2d3748";
       for (let x = 0; x <= gridSize.width; x += CELL_SIZE) {
-        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, gridSize.height); ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, gridSize.height);
+        ctx.stroke();
       }
       for (let y = 0; y <= gridSize.height; y += CELL_SIZE) {
-        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(gridSize.width, y); ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(gridSize.width, y);
+        ctx.stroke();
       }
     }
 
     spaceElements.forEach((e) => {
       const cache = elementImageCache[e.elementDefinition.id];
       if (cache?.loaded && cache.img.complete) {
-        ctx.drawImage(cache.img, e.x, e.y, e.elementDefinition.width, e.elementDefinition.height);
+        ctx.drawImage(
+          cache.img,
+          e.x,
+          e.y,
+          e.elementDefinition.width,
+          e.elementDefinition.height,
+        );
       }
     });
 
     Object.keys(animatedPositions)
-      .sort((a, b) => (animatedPositions[a]?.currentPixelY || 0) - (animatedPositions[b]?.currentPixelY || 0))
+      .sort(
+        (a, b) =>
+          (animatedPositions[a]?.currentPixelY || 0) -
+          (animatedPositions[b]?.currentPixelY || 0),
+      )
       .forEach((userId) => {
         const user = users[userId];
         const pos = animatedPositions[userId];
@@ -70,7 +97,9 @@ export const CanvasRenderer = ({
 
         const targetX = user.x * CELL_SIZE;
         const targetY = user.y * CELL_SIZE;
-        const isMoving = Math.abs(targetX - pos.currentPixelX) > 1 || Math.abs(targetY - pos.currentPixelY) > 1;
+        const isMoving =
+          Math.abs(targetX - pos.currentPixelX) > 1 ||
+          Math.abs(targetY - pos.currentPixelY) > 1;
         const sprite = getSprite(userId, user.direction, isMoving);
 
         if (sprite) {
@@ -83,17 +112,29 @@ export const CanvasRenderer = ({
             pos.currentPixelX,
             pos.currentPixelY,
             RENDER_CHARACTER_WIDTH,
-            RENDER_CHARACTER_HEIGHT
+            RENDER_CHARACTER_HEIGHT,
           );
         } else {
-          ctx.fillStyle = userId === selfId ? "rgba(99, 102, 241, 0.8)" : "rgba(239, 68, 68, 0.8)";
-          ctx.fillRect(pos.currentPixelX + 2, pos.currentPixelY + 2, RENDER_CHARACTER_WIDTH - 4, RENDER_CHARACTER_HEIGHT - 4);
+          ctx.fillStyle =
+            userId === selfId
+              ? "rgba(99, 102, 241, 0.8)"
+              : "rgba(239, 68, 68, 0.8)";
+          ctx.fillRect(
+            pos.currentPixelX + 2,
+            pos.currentPixelY + 2,
+            RENDER_CHARACTER_WIDTH - 4,
+            RENDER_CHARACTER_HEIGHT - 4,
+          );
         }
 
         const emoji = emojis.find((e) => e.userId === userId);
         if (emoji) {
           ctx.font = "24px Arial";
-          ctx.fillText(emoji.emoji, pos.currentPixelX + RENDER_CHARACTER_WIDTH / 2, pos.currentPixelY - 15);
+          ctx.fillText(
+            emoji.emoji,
+            pos.currentPixelX + RENDER_CHARACTER_WIDTH / 2,
+            pos.currentPixelY - 15,
+          );
         }
 
         chatMessages
@@ -106,7 +147,26 @@ export const CanvasRenderer = ({
             ctx.fillText(msg.message, pos.currentPixelX + 50, y + 15);
           });
       });
-  }, [users, animatedPositions, spaceElements, backgroundImg, gridSize, emojis, chatMessages, selfId, getSprite, elementImageCache]);
+  }, [
+    users,
+    animatedPositions,
+    spaceElements,
+    backgroundImg,
+    gridSize,
+    emojis,
+    chatMessages,
+    selfId,
+    getSprite,
+    elementImageCache,
+  ]);
 
-  return <canvas autoFocus tabIndex={0} ref={canvasRef} className="border-2 border-slate-600 rounded-xl" style={{ imageRendering: "pixelated" }} />;
+  return (
+    <canvas
+      autoFocus
+      tabIndex={0}
+      ref={canvasRef}
+      className="border-2 border-slate-600 rounded-xl"
+      style={{ imageRendering: "pixelated" }}
+    />
+  );
 };

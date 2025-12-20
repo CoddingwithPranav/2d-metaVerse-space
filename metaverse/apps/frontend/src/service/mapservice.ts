@@ -1,6 +1,6 @@
 // src/services/mapService.ts
-import { BACKEND_URL } from '@/config';
-import axios from 'axios';
+import { BACKEND_URL } from "@/config";
+import axios from "axios";
 
 // Type definitions matching your backend schema additions
 export interface DefaultElementPlacement {
@@ -25,7 +25,7 @@ export interface MapItem {
 const API = axios.create({
   baseURL: BACKEND_URL,
   headers: {
-    authorization: `Bearer ${localStorage.getItem('authToken')}`,
+    authorization: `Bearer ${localStorage.getItem("authToken")}`,
   },
 });
 
@@ -34,7 +34,7 @@ export const mapService = {
    * Fetch all maps
    */
   list: async (): Promise<MapItem[]> => {
-    const res = await API.get('/maps');
+    const res = await API.get("/maps");
     return res.data.maps as MapItem[];
   },
 
@@ -49,7 +49,7 @@ export const mapService = {
     background: string;
     defaultElements: DefaultElementPlacement[];
   }): Promise<{ id: string }> => {
-    const res = await API.post('/admin/map', payload);
+    const res = await API.post("/admin/map", payload);
     return { id: res.data.id as string };
   },
 
@@ -65,7 +65,7 @@ export const mapService = {
       height: number;
       background: string;
       defaultElements: DefaultElementPlacement[];
-    }>
+    }>,
   ): Promise<{ id: string }> => {
     const res = await API.put(`/admin/map/${id}`, payload);
     return { id: res.data.id as string };

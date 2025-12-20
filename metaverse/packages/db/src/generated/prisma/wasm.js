@@ -184,7 +184,14 @@ exports.Prisma.MapElementsScalarFieldEnum = {
 
 exports.Prisma.AvatarScalarFieldEnum = {
   id: 'id',
-  imageUrl: 'imageUrl',
+  Idle_downUrl: 'Idle_downUrl',
+  Idle_leftUrl: 'Idle_leftUrl',
+  Idle_rightUrl: 'Idle_rightUrl',
+  Idle_upUrl: 'Idle_upUrl',
+  Run_downUrl: 'Run_downUrl',
+  Run_leftUrl: 'Run_leftUrl',
+  Run_rightUrl: 'Run_rightUrl',
+  Run_upUrl: 'Run_upUrl',
   name: 'name'
 };
 

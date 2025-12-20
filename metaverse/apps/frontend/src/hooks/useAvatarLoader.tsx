@@ -18,13 +18,18 @@ export const useAvatarLoader = () => {
     const avatar = await avatarService.getByUserId(userId);
     if (!avatar) return;
 
-    userSpriteCache[userId] = { idle: {} as any, run: {} as any, loaded: false };
+    userSpriteCache[userId] = {
+      idle: {} as any,
+      run: {} as any,
+      loaded: false,
+    };
     const directions: Direction[] = ["up", "down", "left", "right"];
     const promises: Promise<void>[] = [];
 
     directions.forEach((dir) => {
       ["idle", "run"].forEach((type) => {
-        const url = type === "idle" ? avatar.idleUrls[dir] : avatar.runUrls[dir];
+        const url =
+          type === "idle" ? avatar.idleUrls[dir] : avatar.runUrls[dir];
         const img = new Image();
         img.crossOrigin = "anonymous";
         img.src = url;
@@ -33,7 +38,7 @@ export const useAvatarLoader = () => {
         promises.push(
           new Promise<void>((resolve) => {
             img.onload = img.onerror = () => resolve();
-          })
+          }),
         );
       });
     });
@@ -42,7 +47,11 @@ export const useAvatarLoader = () => {
     userSpriteCache[userId].loaded = true;
   }, []);
 
-  const getSprite = (userId: string, direction: Direction, isMoving: boolean) => {
+  const getSprite = (
+    userId: string,
+    direction: Direction,
+    isMoving: boolean,
+  ) => {
     const cache = userSpriteCache[userId];
     if (!cache?.loaded) return null;
     const sheet = isMoving ? cache.run[direction] : cache.idle[direction];

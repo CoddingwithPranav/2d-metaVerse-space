@@ -52,7 +52,7 @@ export default function ArenaPage() {
     backgroundImg,
     criticalImagesLoaded,
     imageLoadError,
-    elementImageCache
+    elementImageCache,
   } = useArenaAssets({
     spaceId: spaceId!,
     token: token!,
@@ -61,7 +61,8 @@ export default function ArenaPage() {
 
   // Animation loop
   useEffect(() => {
-    if (!connected || !criticalImagesLoaded || Object.keys(users).length === 0) return;
+    if (!connected || !criticalImagesLoaded || Object.keys(users).length === 0)
+      return;
 
     let raf: number;
     const animate = () => {
@@ -113,7 +114,7 @@ export default function ArenaPage() {
       clearInterval(chatInterval);
     };
   }, [setEmojis, setChatMessages]);
- 
+
   useArenaKeyboard({
     selfId,
     users,
@@ -124,14 +125,16 @@ export default function ArenaPage() {
     showMessageInput,
     setShowMessageInput,
     sendAction,
-    emojiOptions: EMOJI_OPTIONS
+    emojiOptions: EMOJI_OPTIONS,
   });
   if (!token || !spaceId) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-slate-900 p-4">
         <Card className="w-96 bg-slate-800 text-slate-100">
           <CardHeader>
-            <CardTitle className="text-red-400">Authentication Required</CardTitle>
+            <CardTitle className="text-red-400">
+              Authentication Required
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <p>Missing token or space ID. Please log in and try again.</p>
@@ -147,11 +150,14 @@ export default function ArenaPage() {
         <Card className="w-full max-w-md bg-slate-800/90 backdrop-blur-md border-slate-700 text-slate-100 shadow-2xl">
           <CardHeader className="text-center">
             <CardTitle className="text-2xl text-indigo-400">
-              Join Space: <span className="font-mono text-slate-50">{spaceId}</span>
+              Join Space:{" "}
+              <span className="font-mono text-slate-50">{spaceId}</span>
             </CardTitle>
           </CardHeader>
           <CardContent className="flex flex-col items-center space-y-6 pt-4">
-            <p className="text-center text-slate-300">Ready to enter the arena?</p>
+            <p className="text-center text-slate-300">
+              Ready to enter the arena?
+            </p>
             <Button
               onClick={() => setIsConnecting(true)}
               size="lg"
@@ -187,7 +193,9 @@ export default function ArenaPage() {
       <div className="flex min-h-screen items-center justify-center bg-slate-900 p-4">
         <Card className="w-96 bg-slate-800 text-slate-100">
           <CardHeader>
-            <CardTitle className="text-amber-400">Asset Loading Failed</CardTitle>
+            <CardTitle className="text-amber-400">
+              Asset Loading Failed
+            </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <p className="text-slate-300">{imageLoadError}</p>
@@ -207,7 +215,7 @@ export default function ArenaPage() {
     );
   }
 
-  if (wsError) { 
+  if (wsError) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-slate-900 p-4">
         <Card className="w-96 bg-slate-800 text-slate-100">
@@ -242,7 +250,7 @@ export default function ArenaPage() {
           chatMessages={chatMessages}
           selfId={selfId}
           getSprite={getSprite}
-         elementImageCache={elementImageCache}
+          elementImageCache={elementImageCache}
         />
       </div>
 
@@ -282,7 +290,10 @@ export default function ArenaPage() {
                 autoFocus
               />
               <div className="flex justify-end gap-2">
-                <Button variant="ghost" onClick={() => setShowMessageInput(false)}>
+                <Button
+                  variant="ghost"
+                  onClick={() => setShowMessageInput(false)}
+                >
                   Cancel
                 </Button>
                 <Button
@@ -309,13 +320,15 @@ export default function ArenaPage() {
             onClick={() => setShowEmojiPanel((v) => !v)}
             className="flex items-center gap-2 rounded px-3 py-1 hover:bg-slate-700"
           >
-            <span>Emojis</span> <span className="font-mono text-indigo-400">H</span>
+            <span>Emojis</span>{" "}
+            <span className="font-mono text-indigo-400">H</span>
           </button>
           <button
             onClick={() => setShowMessageInput(true)}
             className="flex items-center gap-2 rounded px-3 py-1 hover:bg-slate-700"
           >
-            <span>Chat</span> <span className="font-mono text-indigo-400">I</span>
+            <span>Chat</span>{" "}
+            <span className="font-mono text-indigo-400">I</span>
           </button>
           {selfId && users[selfId] && (
             <div className="text-xs">

@@ -1,13 +1,16 @@
-import React, { type JSX } from 'react';
-import { Navigate } from 'react-router-dom';
-import useAuth from '@/hooks/Authhook';
+import React, { type JSX } from "react";
+import { Navigate } from "react-router-dom";
+import useAuth from "@/hooks/Authhook";
 
 interface RoleBasedRouteProps {
-  roleInput: 'Admin' | 'User';
+  roleInput: "Admin" | "User";
   children: JSX.Element;
 }
 
-const RoleBasedRoute: React.FC<RoleBasedRouteProps> = ({ roleInput, children }) => {
+const RoleBasedRoute: React.FC<RoleBasedRouteProps> = ({
+  roleInput,
+  children,
+}) => {
   const { role, loading } = useAuth();
 
   if (loading) {

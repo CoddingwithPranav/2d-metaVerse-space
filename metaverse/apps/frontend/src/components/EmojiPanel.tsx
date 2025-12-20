@@ -16,7 +16,10 @@ export const EmojiPanel = ({ show, onSelect, onClose }: EmojiPanelProps) => {
         {EMOJI_OPTIONS.map((emoji, i) => (
           <button
             key={emoji}
-            onClick={() => { onSelect(emoji); onClose(); }}
+            onClick={() => {
+              onSelect(emoji);
+              onClose();
+            }}
             className="text-3xl p-2 hover:bg-slate-600 rounded-lg relative"
           >
             {emoji}

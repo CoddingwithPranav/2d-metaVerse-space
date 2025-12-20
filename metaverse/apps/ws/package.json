@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "@repo/db": "*",
+    "@repo/typescript-config": "*",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/ws": "^8.18.1",
     "dotenv": "^16.5.0",

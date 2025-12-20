@@ -29,7 +29,6 @@ export const useArenaKeyboard = ({
 }: UseArenaKeyboardProps) => {
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
-
       // 1. Message input has priority
       if (showMessageInput) {
         if (e.key === "Escape") {
@@ -87,8 +86,7 @@ export const useArenaKeyboard = ({
           return;
       }
 
-     
-       moveUser(nx, ny);
+      moveUser(nx, ny);
       e.preventDefault();
     },
     [
@@ -102,7 +100,7 @@ export const useArenaKeyboard = ({
       setShowMessageInput,
       sendAction,
       emojiOptions,
-    ]
+    ],
   );
 
   // Attached to the document (so it works even if canvas loses focus)

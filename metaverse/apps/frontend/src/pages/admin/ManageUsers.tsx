@@ -1,8 +1,21 @@
-import React from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'; // Import table components
-import {  Edit, Trash2 } from 'lucide-react'; // Import icons
+import React from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"; // Import table components
+import { Edit, Trash2 } from "lucide-react"; // Import icons
 
 interface User {
   id: string;
@@ -12,14 +25,23 @@ interface User {
 }
 
 export const ManageUsersPage: React.FC = () => {
-
   // Dummy user data
   const dummyUsers: User[] = [
-    { id: '1', name: 'Alice Smith', email: 'alice@example.com', role: 'Admin' },
-    { id: '2', name: 'Bob Johnson', email: 'bob@example.com', role: 'Editor' },
-    { id: '3', name: 'Charlie Brown', email: 'charlie@example.com', role: 'Viewer' },
-    { id: '4', name: 'Diana Prince', email: 'diana@example.com', role: 'Editor' },
-    { id: '5', name: 'Eve Adams', email: 'eve@example.com', role: 'Viewer' },
+    { id: "1", name: "Alice Smith", email: "alice@example.com", role: "Admin" },
+    { id: "2", name: "Bob Johnson", email: "bob@example.com", role: "Editor" },
+    {
+      id: "3",
+      name: "Charlie Brown",
+      email: "charlie@example.com",
+      role: "Viewer",
+    },
+    {
+      id: "4",
+      name: "Diana Prince",
+      email: "diana@example.com",
+      role: "Editor",
+    },
+    { id: "5", name: "Eve Adams", email: "eve@example.com", role: "Viewer" },
   ];
 
   // Placeholder functions for user actions
@@ -46,8 +68,10 @@ export const ManageUsersPage: React.FC = () => {
         </CardHeader>
 
         <CardContent className="pt-6">
-          <h3 className="text-xl font-semibold mb-4 text-slate-200">Current Users</h3>
-          
+          <h3 className="text-xl font-semibold mb-4 text-slate-200">
+            Current Users
+          </h3>
+
           {dummyUsers.length === 0 ? (
             <div className="text-center text-slate-400 py-8">
               No users found. Click "Add New User" to get started!
@@ -57,20 +81,35 @@ export const ManageUsersPage: React.FC = () => {
               <Table>
                 <TableHeader className="bg-slate-700">
                   <TableRow>
-                    <TableHead className="w-[100px] text-slate-300">ID</TableHead>
+                    <TableHead className="w-[100px] text-slate-300">
+                      ID
+                    </TableHead>
                     <TableHead className="text-slate-300">Name</TableHead>
                     <TableHead className="text-slate-300">Email</TableHead>
                     <TableHead className="text-slate-300">Role</TableHead>
-                    <TableHead className="text-right text-slate-300">Actions</TableHead>
+                    <TableHead className="text-right text-slate-300">
+                      Actions
+                    </TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {dummyUsers.map((user) => (
-                    <TableRow key={user.id} className="even:bg-slate-700/[0.3] hover:bg-slate-700/[0.5] transition-colors">
-                      <TableCell className="font-medium text-slate-300">{user.id}</TableCell>
-                      <TableCell className="text-slate-200">{user.name}</TableCell>
-                      <TableCell className="text-slate-200">{user.email}</TableCell>
-                      <TableCell className="text-slate-200">{user.role}</TableCell>
+                    <TableRow
+                      key={user.id}
+                      className="even:bg-slate-700/[0.3] hover:bg-slate-700/[0.5] transition-colors"
+                    >
+                      <TableCell className="font-medium text-slate-300">
+                        {user.id}
+                      </TableCell>
+                      <TableCell className="text-slate-200">
+                        {user.name}
+                      </TableCell>
+                      <TableCell className="text-slate-200">
+                        {user.email}
+                      </TableCell>
+                      <TableCell className="text-slate-200">
+                        {user.role}
+                      </TableCell>
                       <TableCell className="text-right flex justify-end space-x-2">
                         <Button
                           variant="ghost"

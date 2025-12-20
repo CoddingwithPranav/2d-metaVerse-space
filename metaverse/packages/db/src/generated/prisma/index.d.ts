@@ -9599,19 +9599,40 @@ export namespace Prisma {
 
   export type AvatarMinAggregateOutputType = {
     id: string | null
-    imageUrl: string | null
+    Idle_downUrl: string | null
+    Idle_leftUrl: string | null
+    Idle_rightUrl: string | null
+    Idle_upUrl: string | null
+    Run_downUrl: string | null
+    Run_leftUrl: string | null
+    Run_rightUrl: string | null
+    Run_upUrl: string | null
     name: string | null
   }
 
   export type AvatarMaxAggregateOutputType = {
     id: string | null
-    imageUrl: string | null
+    Idle_downUrl: string | null
+    Idle_leftUrl: string | null
+    Idle_rightUrl: string | null
+    Idle_upUrl: string | null
+    Run_downUrl: string | null
+    Run_leftUrl: string | null
+    Run_rightUrl: string | null
+    Run_upUrl: string | null
     name: string | null
   }
 
   export type AvatarCountAggregateOutputType = {
     id: number
-    imageUrl: number
+    Idle_downUrl: number
+    Idle_leftUrl: number
+    Idle_rightUrl: number
+    Idle_upUrl: number
+    Run_downUrl: number
+    Run_leftUrl: number
+    Run_rightUrl: number
+    Run_upUrl: number
     name: number
     _all: number
   }
@@ -9619,19 +9640,40 @@ export namespace Prisma {
 
   export type AvatarMinAggregateInputType = {
     id?: true
-    imageUrl?: true
+    Idle_downUrl?: true
+    Idle_leftUrl?: true
+    Idle_rightUrl?: true
+    Idle_upUrl?: true
+    Run_downUrl?: true
+    Run_leftUrl?: true
+    Run_rightUrl?: true
+    Run_upUrl?: true
     name?: true
   }
 
   export type AvatarMaxAggregateInputType = {
     id?: true
-    imageUrl?: true
+    Idle_downUrl?: true
+    Idle_leftUrl?: true
+    Idle_rightUrl?: true
+    Idle_upUrl?: true
+    Run_downUrl?: true
+    Run_leftUrl?: true
+    Run_rightUrl?: true
+    Run_upUrl?: true
     name?: true
   }
 
   export type AvatarCountAggregateInputType = {
     id?: true
-    imageUrl?: true
+    Idle_downUrl?: true
+    Idle_leftUrl?: true
+    Idle_rightUrl?: true
+    Idle_upUrl?: true
+    Run_downUrl?: true
+    Run_leftUrl?: true
+    Run_rightUrl?: true
+    Run_upUrl?: true
     name?: true
     _all?: true
   }
@@ -9710,7 +9752,14 @@ export namespace Prisma {
 
   export type AvatarGroupByOutputType = {
     id: string
-    imageUrl: string | null
+    Idle_downUrl: string
+    Idle_leftUrl: string
+    Idle_rightUrl: string
+    Idle_upUrl: string
+    Run_downUrl: string
+    Run_leftUrl: string
+    Run_rightUrl: string
+    Run_upUrl: string
     name: string | null
     _count: AvatarCountAggregateOutputType | null
     _min: AvatarMinAggregateOutputType | null
@@ -9733,7 +9782,14 @@ export namespace Prisma {
 
   export type AvatarSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    imageUrl?: boolean
+    Idle_downUrl?: boolean
+    Idle_leftUrl?: boolean
+    Idle_rightUrl?: boolean
+    Idle_upUrl?: boolean
+    Run_downUrl?: boolean
+    Run_leftUrl?: boolean
+    Run_rightUrl?: boolean
+    Run_upUrl?: boolean
     name?: boolean
     user?: boolean | Avatar$userArgs<ExtArgs>
     _count?: boolean | AvatarCountOutputTypeDefaultArgs<ExtArgs>
@@ -9741,23 +9797,44 @@ export namespace Prisma {
 
   export type AvatarSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    imageUrl?: boolean
+    Idle_downUrl?: boolean
+    Idle_leftUrl?: boolean
+    Idle_rightUrl?: boolean
+    Idle_upUrl?: boolean
+    Run_downUrl?: boolean
+    Run_leftUrl?: boolean
+    Run_rightUrl?: boolean
+    Run_upUrl?: boolean
     name?: boolean
   }, ExtArgs["result"]["avatar"]>
 
   export type AvatarSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    imageUrl?: boolean
+    Idle_downUrl?: boolean
+    Idle_leftUrl?: boolean
+    Idle_rightUrl?: boolean
+    Idle_upUrl?: boolean
+    Run_downUrl?: boolean
+    Run_leftUrl?: boolean
+    Run_rightUrl?: boolean
+    Run_upUrl?: boolean
     name?: boolean
   }, ExtArgs["result"]["avatar"]>
 
   export type AvatarSelectScalar = {
     id?: boolean
-    imageUrl?: boolean
+    Idle_downUrl?: boolean
+    Idle_leftUrl?: boolean
+    Idle_rightUrl?: boolean
+    Idle_upUrl?: boolean
+    Run_downUrl?: boolean
+    Run_leftUrl?: boolean
+    Run_rightUrl?: boolean
+    Run_upUrl?: boolean
     name?: boolean
   }
 
-  export type AvatarOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "imageUrl" | "name", ExtArgs["result"]["avatar"]>
+  export type AvatarOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "Idle_downUrl" | "Idle_leftUrl" | "Idle_rightUrl" | "Idle_upUrl" | "Run_downUrl" | "Run_leftUrl" | "Run_rightUrl" | "Run_upUrl" | "name", ExtArgs["result"]["avatar"]>
   export type AvatarInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | Avatar$userArgs<ExtArgs>
     _count?: boolean | AvatarCountOutputTypeDefaultArgs<ExtArgs>
@@ -9772,7 +9849,14 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      imageUrl: string | null
+      Idle_downUrl: string
+      Idle_leftUrl: string
+      Idle_rightUrl: string
+      Idle_upUrl: string
+      Run_downUrl: string
+      Run_leftUrl: string
+      Run_rightUrl: string
+      Run_upUrl: string
       name: string | null
     }, ExtArgs["result"]["avatar"]>
     composites: {}
@@ -10199,7 +10283,14 @@ export namespace Prisma {
    */
   interface AvatarFieldRefs {
     readonly id: FieldRef<"Avatar", 'String'>
-    readonly imageUrl: FieldRef<"Avatar", 'String'>
+    readonly Idle_downUrl: FieldRef<"Avatar", 'String'>
+    readonly Idle_leftUrl: FieldRef<"Avatar", 'String'>
+    readonly Idle_rightUrl: FieldRef<"Avatar", 'String'>
+    readonly Idle_upUrl: FieldRef<"Avatar", 'String'>
+    readonly Run_downUrl: FieldRef<"Avatar", 'String'>
+    readonly Run_leftUrl: FieldRef<"Avatar", 'String'>
+    readonly Run_rightUrl: FieldRef<"Avatar", 'String'>
+    readonly Run_upUrl: FieldRef<"Avatar", 'String'>
     readonly name: FieldRef<"Avatar", 'String'>
   }
     
@@ -10419,7 +10510,7 @@ export namespace Prisma {
     /**
      * The data needed to create a Avatar.
      */
-    data?: XOR<AvatarCreateInput, AvatarUncheckedCreateInput>
+    data: XOR<AvatarCreateInput, AvatarUncheckedCreateInput>
   }
 
   /**
@@ -10730,7 +10821,14 @@ export namespace Prisma {
 
   export const AvatarScalarFieldEnum: {
     id: 'id',
-    imageUrl: 'imageUrl',
+    Idle_downUrl: 'Idle_downUrl',
+    Idle_leftUrl: 'Idle_leftUrl',
+    Idle_rightUrl: 'Idle_rightUrl',
+    Idle_upUrl: 'Idle_upUrl',
+    Run_downUrl: 'Run_downUrl',
+    Run_leftUrl: 'Run_leftUrl',
+    Run_rightUrl: 'Run_rightUrl',
+    Run_upUrl: 'Run_upUrl',
     name: 'name'
   };
 
@@ -11280,14 +11378,28 @@ export namespace Prisma {
     OR?: AvatarWhereInput[]
     NOT?: AvatarWhereInput | AvatarWhereInput[]
     id?: StringFilter<"Avatar"> | string
-    imageUrl?: StringNullableFilter<"Avatar"> | string | null
+    Idle_downUrl?: StringFilter<"Avatar"> | string
+    Idle_leftUrl?: StringFilter<"Avatar"> | string
+    Idle_rightUrl?: StringFilter<"Avatar"> | string
+    Idle_upUrl?: StringFilter<"Avatar"> | string
+    Run_downUrl?: StringFilter<"Avatar"> | string
+    Run_leftUrl?: StringFilter<"Avatar"> | string
+    Run_rightUrl?: StringFilter<"Avatar"> | string
+    Run_upUrl?: StringFilter<"Avatar"> | string
     name?: StringNullableFilter<"Avatar"> | string | null
     user?: UserListRelationFilter
   }
 
   export type AvatarOrderByWithRelationInput = {
     id?: SortOrder
-    imageUrl?: SortOrderInput | SortOrder
+    Idle_downUrl?: SortOrder
+    Idle_leftUrl?: SortOrder
+    Idle_rightUrl?: SortOrder
+    Idle_upUrl?: SortOrder
+    Run_downUrl?: SortOrder
+    Run_leftUrl?: SortOrder
+    Run_rightUrl?: SortOrder
+    Run_upUrl?: SortOrder
     name?: SortOrderInput | SortOrder
     user?: UserOrderByRelationAggregateInput
   }
@@ -11297,14 +11409,28 @@ export namespace Prisma {
     AND?: AvatarWhereInput | AvatarWhereInput[]
     OR?: AvatarWhereInput[]
     NOT?: AvatarWhereInput | AvatarWhereInput[]
-    imageUrl?: StringNullableFilter<"Avatar"> | string | null
+    Idle_downUrl?: StringFilter<"Avatar"> | string
+    Idle_leftUrl?: StringFilter<"Avatar"> | string
+    Idle_rightUrl?: StringFilter<"Avatar"> | string
+    Idle_upUrl?: StringFilter<"Avatar"> | string
+    Run_downUrl?: StringFilter<"Avatar"> | string
+    Run_leftUrl?: StringFilter<"Avatar"> | string
+    Run_rightUrl?: StringFilter<"Avatar"> | string
+    Run_upUrl?: StringFilter<"Avatar"> | string
     name?: StringNullableFilter<"Avatar"> | string | null
     user?: UserListRelationFilter
   }, "id" | "id">
 
   export type AvatarOrderByWithAggregationInput = {
     id?: SortOrder
-    imageUrl?: SortOrderInput | SortOrder
+    Idle_downUrl?: SortOrder
+    Idle_leftUrl?: SortOrder
+    Idle_rightUrl?: SortOrder
+    Idle_upUrl?: SortOrder
+    Run_downUrl?: SortOrder
+    Run_leftUrl?: SortOrder
+    Run_rightUrl?: SortOrder
+    Run_upUrl?: SortOrder
     name?: SortOrderInput | SortOrder
     _count?: AvatarCountOrderByAggregateInput
     _max?: AvatarMaxOrderByAggregateInput
@@ -11316,7 +11442,14 @@ export namespace Prisma {
     OR?: AvatarScalarWhereWithAggregatesInput[]
     NOT?: AvatarScalarWhereWithAggregatesInput | AvatarScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Avatar"> | string
-    imageUrl?: StringNullableWithAggregatesFilter<"Avatar"> | string | null
+    Idle_downUrl?: StringWithAggregatesFilter<"Avatar"> | string
+    Idle_leftUrl?: StringWithAggregatesFilter<"Avatar"> | string
+    Idle_rightUrl?: StringWithAggregatesFilter<"Avatar"> | string
+    Idle_upUrl?: StringWithAggregatesFilter<"Avatar"> | string
+    Run_downUrl?: StringWithAggregatesFilter<"Avatar"> | string
+    Run_leftUrl?: StringWithAggregatesFilter<"Avatar"> | string
+    Run_rightUrl?: StringWithAggregatesFilter<"Avatar"> | string
+    Run_upUrl?: StringWithAggregatesFilter<"Avatar"> | string
     name?: StringNullableWithAggregatesFilter<"Avatar"> | string | null
   }
 
@@ -11773,47 +11906,96 @@ export namespace Prisma {
 
   export type AvatarCreateInput = {
     id?: string
-    imageUrl?: string | null
+    Idle_downUrl: string
+    Idle_leftUrl: string
+    Idle_rightUrl: string
+    Idle_upUrl: string
+    Run_downUrl: string
+    Run_leftUrl: string
+    Run_rightUrl: string
+    Run_upUrl: string
     name?: string | null
     user?: UserCreateNestedManyWithoutAvatarInput
   }
 
   export type AvatarUncheckedCreateInput = {
     id?: string
-    imageUrl?: string | null
+    Idle_downUrl: string
+    Idle_leftUrl: string
+    Idle_rightUrl: string
+    Idle_upUrl: string
+    Run_downUrl: string
+    Run_leftUrl: string
+    Run_rightUrl: string
+    Run_upUrl: string
     name?: string | null
     user?: UserUncheckedCreateNestedManyWithoutAvatarInput
   }
 
   export type AvatarUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    Idle_downUrl?: StringFieldUpdateOperationsInput | string
+    Idle_leftUrl?: StringFieldUpdateOperationsInput | string
+    Idle_rightUrl?: StringFieldUpdateOperationsInput | string
+    Idle_upUrl?: StringFieldUpdateOperationsInput | string
+    Run_downUrl?: StringFieldUpdateOperationsInput | string
+    Run_leftUrl?: StringFieldUpdateOperationsInput | string
+    Run_rightUrl?: StringFieldUpdateOperationsInput | string
+    Run_upUrl?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateManyWithoutAvatarNestedInput
   }
 
   export type AvatarUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    Idle_downUrl?: StringFieldUpdateOperationsInput | string
+    Idle_leftUrl?: StringFieldUpdateOperationsInput | string
+    Idle_rightUrl?: StringFieldUpdateOperationsInput | string
+    Idle_upUrl?: StringFieldUpdateOperationsInput | string
+    Run_downUrl?: StringFieldUpdateOperationsInput | string
+    Run_leftUrl?: StringFieldUpdateOperationsInput | string
+    Run_rightUrl?: StringFieldUpdateOperationsInput | string
+    Run_upUrl?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUncheckedUpdateManyWithoutAvatarNestedInput
   }
 
   export type AvatarCreateManyInput = {
     id?: string
-    imageUrl?: string | null
+    Idle_downUrl: string
+    Idle_leftUrl: string
+    Idle_rightUrl: string
+    Idle_upUrl: string
+    Run_downUrl: string
+    Run_leftUrl: string
+    Run_rightUrl: string
+    Run_upUrl: string
     name?: string | null
   }
 
   export type AvatarUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    Idle_downUrl?: StringFieldUpdateOperationsInput | string
+    Idle_leftUrl?: StringFieldUpdateOperationsInput | string
+    Idle_rightUrl?: StringFieldUpdateOperationsInput | string
+    Idle_upUrl?: StringFieldUpdateOperationsInput | string
+    Run_downUrl?: StringFieldUpdateOperationsInput | string
+    Run_leftUrl?: StringFieldUpdateOperationsInput | string
+    Run_rightUrl?: StringFieldUpdateOperationsInput | string
+    Run_upUrl?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type AvatarUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    Idle_downUrl?: StringFieldUpdateOperationsInput | string
+    Idle_leftUrl?: StringFieldUpdateOperationsInput | string
+    Idle_rightUrl?: StringFieldUpdateOperationsInput | string
+    Idle_upUrl?: StringFieldUpdateOperationsInput | string
+    Run_downUrl?: StringFieldUpdateOperationsInput | string
+    Run_leftUrl?: StringFieldUpdateOperationsInput | string
+    Run_rightUrl?: StringFieldUpdateOperationsInput | string
+    Run_upUrl?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -12290,19 +12472,40 @@ export namespace Prisma {
 
   export type AvatarCountOrderByAggregateInput = {
     id?: SortOrder
-    imageUrl?: SortOrder
+    Idle_downUrl?: SortOrder
+    Idle_leftUrl?: SortOrder
+    Idle_rightUrl?: SortOrder
+    Idle_upUrl?: SortOrder
+    Run_downUrl?: SortOrder
+    Run_leftUrl?: SortOrder
+    Run_rightUrl?: SortOrder
+    Run_upUrl?: SortOrder
     name?: SortOrder
   }
 
   export type AvatarMaxOrderByAggregateInput = {
     id?: SortOrder
-    imageUrl?: SortOrder
+    Idle_downUrl?: SortOrder
+    Idle_leftUrl?: SortOrder
+    Idle_rightUrl?: SortOrder
+    Idle_upUrl?: SortOrder
+    Run_downUrl?: SortOrder
+    Run_leftUrl?: SortOrder
+    Run_rightUrl?: SortOrder
+    Run_upUrl?: SortOrder
     name?: SortOrder
   }
 
   export type AvatarMinOrderByAggregateInput = {
     id?: SortOrder
-    imageUrl?: SortOrder
+    Idle_downUrl?: SortOrder
+    Idle_leftUrl?: SortOrder
+    Idle_rightUrl?: SortOrder
+    Idle_upUrl?: SortOrder
+    Run_downUrl?: SortOrder
+    Run_leftUrl?: SortOrder
+    Run_rightUrl?: SortOrder
+    Run_upUrl?: SortOrder
     name?: SortOrder
   }
 
@@ -12934,13 +13137,27 @@ export namespace Prisma {
 
   export type AvatarCreateWithoutUserInput = {
     id?: string
-    imageUrl?: string | null
+    Idle_downUrl: string
+    Idle_leftUrl: string
+    Idle_rightUrl: string
+    Idle_upUrl: string
+    Run_downUrl: string
+    Run_leftUrl: string
+    Run_rightUrl: string
+    Run_upUrl: string
     name?: string | null
   }
 
   export type AvatarUncheckedCreateWithoutUserInput = {
     id?: string
-    imageUrl?: string | null
+    Idle_downUrl: string
+    Idle_leftUrl: string
+    Idle_rightUrl: string
+    Idle_upUrl: string
+    Run_downUrl: string
+    Run_leftUrl: string
+    Run_rightUrl: string
+    Run_upUrl: string
     name?: string | null
   }
 
@@ -12991,13 +13208,27 @@ export namespace Prisma {
 
   export type AvatarUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    Idle_downUrl?: StringFieldUpdateOperationsInput | string
+    Idle_leftUrl?: StringFieldUpdateOperationsInput | string
+    Idle_rightUrl?: StringFieldUpdateOperationsInput | string
+    Idle_upUrl?: StringFieldUpdateOperationsInput | string
+    Run_downUrl?: StringFieldUpdateOperationsInput | string
+    Run_leftUrl?: StringFieldUpdateOperationsInput | string
+    Run_rightUrl?: StringFieldUpdateOperationsInput | string
+    Run_upUrl?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type AvatarUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    Idle_downUrl?: StringFieldUpdateOperationsInput | string
+    Idle_leftUrl?: StringFieldUpdateOperationsInput | string
+    Idle_rightUrl?: StringFieldUpdateOperationsInput | string
+    Idle_upUrl?: StringFieldUpdateOperationsInput | string
+    Run_downUrl?: StringFieldUpdateOperationsInput | string
+    Run_leftUrl?: StringFieldUpdateOperationsInput | string
+    Run_rightUrl?: StringFieldUpdateOperationsInput | string
+    Run_upUrl?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
   }
 

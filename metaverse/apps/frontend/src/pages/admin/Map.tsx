@@ -1,38 +1,59 @@
-import React, { useEffect, useState } from 'react';
-import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/ui/card'; // Added CardDescription
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input'; // Added Input component
-import { Label } from '@/components/ui/label';
-import UploadExample from '@/components/ui/imageupload'; // Assuming this is your beautifully styled uploader
-import { elementService } from '@/service/elementService';
-import { backgroundService } from '@/service/backgroundService';
-import { mapService, type MapItem } from '@/service/mapservice';
-import { CanvasEditor, type Asset, type Background, type CanvasJSON } from './MapEditor'; // Ensure CanvasEditor is styled below
-import { PlusCircle, Map, Loader2, ArrowLeft, ImageUp, Save, LayoutGrid } from 'lucide-react'; // Added Lucide Icons
-import  { AnimatedPageWrapper } from '@/components/ui/AnimatedPageWrapper';
+import React, { useEffect, useState } from "react";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardDescription,
+} from "@/components/ui/card"; // Added CardDescription
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input"; // Added Input component
+import { Label } from "@/components/ui/label";
+import UploadExample from "@/components/ui/imageupload"; // Assuming this is your beautifully styled uploader
+import { elementService } from "@/service/elementService";
+import { backgroundService } from "@/service/backgroundService";
+import { mapService, type MapItem } from "@/service/mapservice";
+import {
+  CanvasEditor,
+  type Asset,
+  type Background,
+  type CanvasJSON,
+} from "./MapEditor"; // Ensure CanvasEditor is styled below
+import {
+  PlusCircle,
+  Map,
+  Loader2,
+  ArrowLeft,
+  ImageUp,
+  Save,
+  LayoutGrid,
+} from "lucide-react"; // Added Lucide Icons
+import { AnimatedPageWrapper } from "@/components/ui/AnimatedPageWrapper";
 
 const MapDashboard: React.FC = () => {
   const [maps, setMaps] = useState<MapItem[]>([]);
   const [editing, setEditing] = useState(false);
-  const [mapName, setMapName] = useState('');
-  const [thumbnailUrl, setThumbnailUrl] = useState('');
+  const [mapName, setMapName] = useState("");
+  const [thumbnailUrl, setThumbnailUrl] = useState("");
   const [assets, setAssets] = useState<Asset[]>([]);
   const [backgrounds, setBackgrounds] = useState<Background[]>([]);
   const [canvasData, setCanvasData] = useState<CanvasJSON | null>(null);
   const [isLoadingData, setIsLoadingData] = useState(true); // For initial data fetch
   const [isSavingMap, setIsSavingMap] = useState(false); // For map save action
-  const [isThumbnailUploadComplete, setIsThumbnailUploadComplete] = useState(false); // For thumbnail upload state
+  const [isThumbnailUploadComplete, setIsThumbnailUploadComplete] =
+    useState(false); // For thumbnail upload state
 
   // fetch elements and backgrounds
   useEffect(() => {
     const fetchData = async () => {
       setIsLoadingData(true);
       try {
-        const [elementsResponse, backgroundsResponse, mapsResponse] = await Promise.all([
-          elementService.list(),
-          backgroundService.list(),
-          mapService.list(),
-        ]);
+        const [elementsResponse, backgroundsResponse, mapsResponse] =
+          await Promise.all([
+            elementService.list(),
+            backgroundService.list(),
+            mapService.list(),
+          ]);
 
         const items: Asset[] = elementsResponse.map((e: any) => ({
           id: e.id,
@@ -50,7 +71,7 @@ const MapDashboard: React.FC = () => {
 
         setMaps(mapsResponse);
       } catch (error) {
-        console.error('Error fetching dashboard data:', error);
+        console.error("Error fetching dashboard data:", error);
         // TODO: Display a user-friendly error message
       } finally {
         setIsLoadingData(false);
@@ -66,15 +87,15 @@ const MapDashboard: React.FC = () => {
   // save map using backend schema
   const saveMap = async () => {
     if (!mapName.trim()) {
-      alert('Please enter a map name.');
+      alert("Please enter a map name.");
       return;
     }
     if (!thumbnailUrl || !isThumbnailUploadComplete) {
-      alert('Please upload a map thumbnail and wait for it to complete.');
+      alert("Please upload a map thumbnail and wait for it to complete.");
       return;
     }
     if (!canvasData) {
-      alert('Map canvas is empty. Please design your map first.');
+      alert("Map canvas is empty. Please design your map first.");
       return;
     }
 
@@ -99,10 +120,10 @@ const MapDashboard: React.FC = () => {
         defaultElements,
       };
       const res = await mapService.create(payload);
-      console.log('Map created with id:', res.id);
+      console.log("Map created with id:", res.id);
       setEditing(false);
-      setMapName(''); // Reset form fields
-      setThumbnailUrl('');
+      setMapName(""); // Reset form fields
+      setThumbnailUrl("");
       setCanvasData(null);
       setIsThumbnailUploadComplete(false);
       // reload maps
@@ -110,7 +131,7 @@ const MapDashboard: React.FC = () => {
       setMaps(all);
     } catch (err) {
       console.error(err);
-      alert('Failed to save map. ' + (err instanceof Error ? err.message : ''));
+      alert("Failed to save map. " + (err instanceof Error ? err.message : ""));
     } finally {
       setIsSavingMap(false);
     }
@@ -125,7 +146,9 @@ const MapDashboard: React.FC = () => {
       {!editing ? (
         <div className="space-y-8">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-            <h3 className="text-3xl font-semibold text-slate-100">Existing Maps</h3>
+            <h3 className="text-3xl font-semibold text-slate-100">
+              Existing Maps
+            </h3>
             <Button
               onClick={() => setEditing(true)}
               className="px-6 py-3 bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-700 hover:to-cyan-600 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105"
@@ -153,9 +176,12 @@ const MapDashboard: React.FC = () => {
                 >
                   <CardHeader className="p-4 border-b border-slate-700">
                     <CardTitle className="text-lg font-semibold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">
-                      <LayoutGrid className="inline-block h-5 w-5 mr-2 text-purple-300" /> {m.name}
+                      <LayoutGrid className="inline-block h-5 w-5 mr-2 text-purple-300" />{" "}
+                      {m.name}
                     </CardTitle>
-                    <CardDescription className="text-slate-400">ID: {m.id.substring(0, 8)}...</CardDescription>
+                    <CardDescription className="text-slate-400">
+                      ID: {m.id.substring(0, 8)}...
+                    </CardDescription>
                   </CardHeader>
                   <CardContent className="p-4">
                     <div className="w-full h-40 bg-slate-700 rounded-md overflow-hidden flex items-center justify-center border border-slate-600">
@@ -166,7 +192,8 @@ const MapDashboard: React.FC = () => {
                           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                           onError={(e) => {
                             const target = e.target as HTMLImageElement;
-                            target.src = "https://placehold.co/600x400/334155/e2e8f0?text=Image+Error";
+                            target.src =
+                              "https://placehold.co/600x400/334155/e2e8f0?text=Image+Error";
                           }}
                         />
                       ) : (
@@ -174,7 +201,10 @@ const MapDashboard: React.FC = () => {
                       )}
                     </div>
                     <p className="mt-4 text-slate-300 text-sm">
-                      Dimensions: <span className="font-medium">{m.height} x {m.width}</span>
+                      Dimensions:{" "}
+                      <span className="font-medium">
+                        {m.height} x {m.width}
+                      </span>
                     </p>
                     {/* Add Edit/Delete buttons here if desired */}
                   </CardContent>
@@ -190,13 +220,17 @@ const MapDashboard: React.FC = () => {
               Design New Game Map
             </CardTitle>
             <CardDescription className="text-slate-400 text-base">
-              Set up your map properties and drag-and-drop elements onto the canvas.
+              Set up your map properties and drag-and-drop elements onto the
+              canvas.
             </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-6 mb-8">
               <div className="space-y-2">
-                <Label htmlFor="mapName" className="block text-slate-300 text-base font-medium flex items-center gap-2">
+                <Label
+                  htmlFor="mapName"
+                  className="block text-slate-300 text-base font-medium flex items-center gap-2"
+                >
                   <Map className="h-5 w-5 text-purple-400" /> Map Name
                 </Label>
                 <Input
@@ -209,8 +243,12 @@ const MapDashboard: React.FC = () => {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="thumbnail" className="block text-slate-300 text-base font-medium mb-1 flex items-center gap-2">
-                  <ImageUp className="h-5 w-5 text-cyan-400" /> Map Thumbnail Image
+                <Label
+                  htmlFor="thumbnail"
+                  className="block text-slate-300 text-base font-medium mb-1 flex items-center gap-2"
+                >
+                  <ImageUp className="h-5 w-5 text-cyan-400" /> Map Thumbnail
+                  Image
                 </Label>
                 <UploadExample
                   onUpload={(url) => setThumbnailUrl(url)}
@@ -218,7 +256,8 @@ const MapDashboard: React.FC = () => {
                 />
                 {thumbnailUrl && (
                   <p className="mt-2 text-sm text-slate-400 break-all">
-                    Uploaded URL: <span className="font-medium">{thumbnailUrl}</span>
+                    Uploaded URL:{" "}
+                    <span className="font-medium">{thumbnailUrl}</span>
                   </p>
                 )}
               </div>
@@ -236,7 +275,13 @@ const MapDashboard: React.FC = () => {
             <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mt-8">
               <Button
                 onClick={saveMap}
-                disabled={isSavingMap || !mapName.trim() || !thumbnailUrl || !isThumbnailUploadComplete || !canvasData}
+                disabled={
+                  isSavingMap ||
+                  !mapName.trim() ||
+                  !thumbnailUrl ||
+                  !isThumbnailUploadComplete ||
+                  !canvasData
+                }
                 className="flex-1 px-6 py-3 bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-700 hover:to-cyan-600 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105"
               >
                 {isSavingMap ? (
@@ -244,7 +289,7 @@ const MapDashboard: React.FC = () => {
                 ) : (
                   <Save className="mr-2 h-5 w-5" />
                 )}
-                {isSavingMap ? 'Saving Map...' : 'Save Map'}
+                {isSavingMap ? "Saving Map..." : "Save Map"}
               </Button>
               <Button
                 variant="outline"

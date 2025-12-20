@@ -1,14 +1,14 @@
 // components/GlitterBackground.tsx
-import React from 'react';
-import { useCallback } from 'react';
-import Particles from 'react-tsparticles';
-import { loadSlim } from 'tsparticles-slim'; // loads tsparticles-slim
+import React from "react";
+import { useCallback } from "react";
+import Particles from "react-tsparticles";
+import { loadSlim } from "tsparticles-slim"; // loads tsparticles-slim
 
 interface GlitterBackgroundProps {
   children?: React.ReactNode;
 }
 
- const GlitterBackground: React.FC<GlitterBackgroundProps> = ({ children }) => {
+const GlitterBackground: React.FC<GlitterBackgroundProps> = ({ children }) => {
   const particlesInit = useCallback(async (engine: any) => {
     await loadSlim(engine);
   }, []);
@@ -18,7 +18,14 @@ interface GlitterBackgroundProps {
   }, []);
 
   return (
-    <div style={{ position: 'relative', width: '100%', height: '100vh', overflow: 'hidden' }}>
+    <div
+      style={{
+        position: "relative",
+        width: "100%",
+        height: "100vh",
+        overflow: "hidden",
+      }}
+    >
       <Particles
         id="tsparticles"
         init={particlesInit}
@@ -26,7 +33,7 @@ interface GlitterBackgroundProps {
         options={{
           background: {
             color: {
-              value: '#0d47a1', // Dark blue background, adjust as needed
+              value: "#0d47a1", // Dark blue background, adjust as needed
             },
           },
           fpsLimit: 60,
@@ -34,11 +41,11 @@ interface GlitterBackgroundProps {
             events: {
               onClick: {
                 enable: true,
-                mode: 'push',
+                mode: "push",
               },
               onHover: {
                 enable: true,
-                mode: 'repulse',
+                mode: "repulse",
               },
               resize: true,
             },
@@ -54,10 +61,10 @@ interface GlitterBackgroundProps {
           },
           particles: {
             color: {
-              value: '#ffffff', // White particles for glitter effect
+              value: "#ffffff", // White particles for glitter effect
             },
             links: {
-              color: '#ffffff',
+              color: "#ffffff",
               distance: 150,
               enable: false, // Set to true if you want lines connecting particles
               opacity: 0.5,
@@ -67,10 +74,10 @@ interface GlitterBackgroundProps {
               enable: true,
             },
             move: {
-              direction: 'none',
+              direction: "none",
               enable: true,
               outModes: {
-                default: 'bounce',
+                default: "bounce",
               },
               random: false,
               speed: 1,
@@ -87,7 +94,7 @@ interface GlitterBackgroundProps {
               value: 0.5,
             },
             shape: {
-              type: 'circle', // Can be 'star', 'triangle', 'square', etc.
+              type: "circle", // Can be 'star', 'triangle', 'square', etc.
             },
             size: {
               value: { min: 1, max: 3 }, // Size range of particles
@@ -96,15 +103,24 @@ interface GlitterBackgroundProps {
           detectRetina: true,
         }}
         style={{
-          position: 'absolute',
+          position: "absolute",
           top: 0,
           left: 0,
-          width: '100%',
-          height: '100%',
+          width: "100%",
+          height: "100%",
           zIndex: -1, // Ensures background
         }}
       />
-      <div style={{ position: 'relative', zIndex: 1, height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <div
+        style={{
+          position: "relative",
+          zIndex: 1,
+          height: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
         {children}
       </div>
     </div>

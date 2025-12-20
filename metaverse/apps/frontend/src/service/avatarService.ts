@@ -1,10 +1,10 @@
-import { BACKEND_URL } from '@/config';
-import axios from 'axios';
+import { BACKEND_URL } from "@/config";
+import axios from "axios";
 
 const API = axios.create({
   baseURL: BACKEND_URL,
   headers: {
-    authorization: `Bearer ${localStorage.getItem('authToken')}`,
+    authorization: `Bearer ${localStorage.getItem("authToken")}`,
   },
 });
 
@@ -31,7 +31,7 @@ export interface Avatar {
 
 export const avatarService = {
   list: async (): Promise<Avatar[]> => {
-    const res = await API.get('/avatar');
+    const res = await API.get("/avatar");
     return res.data.avatars;
   },
 
@@ -52,7 +52,7 @@ export const avatarService = {
     idleUrls: IdleUrls;
     runUrls: RunUrls;
   }): Promise<string> => {
-    const res = await API.post('/avatar', payload);
+    const res = await API.post("/avatar", payload);
     return res.data.avatar.id;
   },
 };

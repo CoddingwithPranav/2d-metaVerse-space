@@ -1,17 +1,17 @@
 // src/services/elementService.ts
-import { BACKEND_URL } from '@/config';
-import axios from 'axios';
+import { BACKEND_URL } from "@/config";
+import axios from "axios";
 const API = axios.create({
   baseURL: BACKEND_URL,
   headers: {
-    authorization: `Bearer ${localStorage.getItem('authToken')}`,
+    authorization: `Bearer ${localStorage.getItem("authToken")}`,
   },
 });
 
 export const elementService = {
   // GET /elements
   list: async () => {
-    const res = await API.get('/elements');
+    const res = await API.get("/elements");
     return res.data.elements as {
       id: string;
       imageUrl: string;
@@ -28,15 +28,12 @@ export const elementService = {
     height: number;
     static: boolean;
   }) => {
-    const res = await API.post('admin/element', payload);
+    const res = await API.post("admin/element", payload);
     return res.data.id as string;
   },
 
   // PUT /element/:id
-  update: async (
-    id: string,
-    payload: { imageUrl: string }
-  ) => {
+  update: async (id: string, payload: { imageUrl: string }) => {
     const res = await API.put(`admin/element/${id}`, payload);
     return res.data.id as string;
   },

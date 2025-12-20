@@ -1,7 +1,7 @@
-import { useEffect, useCallback, useState } from 'react'; // Import useCallback
-import { useZustandAuth } from '@/store/authStore'; // Assuming this path is correct
-import { useNavigate } from 'react-router-dom';
-import { jwtDecode } from 'jwt-decode'; // Import jwtDecode
+import { useEffect, useCallback, useState } from "react"; // Import useCallback
+import { useZustandAuth } from "@/store/authStore"; // Assuming this path is correct
+import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode"; // Import jwtDecode
 
 // Define the expected structure of your JWT payload
 // Adjust these properties based on what your backend sends in the token
@@ -21,27 +21,27 @@ const useAuth = () => {
 
   // Use useCallback for logout to ensure stable reference for useEffect dependency
   const logout = useCallback(() => {
-    localStorage.removeItem('authToken');
+    localStorage.removeItem("authToken");
     clearAuth();
-    navigate('/login'); // Use navigate function directly
+    navigate("/login"); // Use navigate function directly
   }, [clearAuth, navigate]);
 
   const saveAuthData = (newToken: string) => {
-    localStorage.setItem('authToken', newToken);
+    localStorage.setItem("authToken", newToken);
     try {
       const decoded = jwtDecode<DecodedTokenPayload>(newToken);
       const userRole = decoded.role || null; // Extract the role
       setAuth(newToken, userRole); // Store both token and role in Zustand
     } catch (error) {
-      console.error('Error decoding new token:', error);
+      console.error("Error decoding new token:", error);
       // If the new token is invalid, clear authentication
       clearAuth();
-      navigate('/login');
+      navigate("/login");
     }
   };
 
   useEffect(() => {
-    const storedToken = localStorage.getItem('authToken');
+    const storedToken = localStorage.getItem("authToken");
     if (storedToken) {
       try {
         const decoded = jwtDecode<DecodedTokenPayload>(storedToken);
@@ -50,13 +50,16 @@ const useAuth = () => {
         // Check for token expiration
         // JWT `exp` is in seconds, Date.now() is in milliseconds, so multiply by 1000
         if (decoded.exp * 1000 < Date.now()) {
-          console.log('Token expired. Logging out...');
+          console.log("Token expired. Logging out...");
           logout(); // Token expired, clear auth
         } else {
           setAuth(storedToken, userRole); // Set auth state if token is valid and not expired
         }
       } catch (error) {
-        console.error('Invalid or malformed token found in localStorage:', error);
+        console.error(
+          "Invalid or malformed token found in localStorage:",
+          error,
+        );
         logout(); // Clear auth if token is invalid or malformed
       }
     } else {

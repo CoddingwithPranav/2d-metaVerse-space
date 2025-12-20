@@ -1,6 +1,6 @@
 import { useRef, useCallback, useEffect } from "react";
 
-export const  useScrollAnimation = (customThreshold = 0.1) => {
+export const useScrollAnimation = (customThreshold = 0.1) => {
   const observerRef = useRef<IntersectionObserver | null>(null);
   const observedElementsRef = useRef<Set<Element>>(new Set());
 
@@ -12,20 +12,20 @@ export const  useScrollAnimation = (customThreshold = 0.1) => {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
+            entry.target.classList.add("is-visible");
           } else {
             // entry.target.classList.remove('is-visible'); // Uncomment to re-animate on scroll up
           }
         });
       },
-      { threshold: customThreshold }
+      { threshold: customThreshold },
     );
   }, [customThreshold]);
 
   useEffect(() => {
     initObserver();
     const currentObservedElements = new Set(observedElementsRef.current); // Create a copy
-    currentObservedElements.forEach(el => {
+    currentObservedElements.forEach((el) => {
       if (el && observerRef.current) observerRef.current.observe(el);
     });
     return () => {

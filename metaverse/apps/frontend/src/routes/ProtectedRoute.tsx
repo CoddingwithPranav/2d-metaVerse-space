@@ -1,6 +1,6 @@
-import React, { type JSX } from 'react';
-import { Navigate } from 'react-router-dom';
-import useAuth from '@/hooks/Authhook';
+import React, { type JSX } from "react";
+import { Navigate } from "react-router-dom";
+import useAuth from "@/hooks/Authhook";
 
 const ProtectedRoute: React.FC<{ children: JSX.Element }> = ({ children }) => {
   const { token, loading } = useAuth();

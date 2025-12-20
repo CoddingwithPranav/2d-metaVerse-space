@@ -1,11 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardDescription,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import UploadExample from "@/components/ui/imageupload";
 import { avatarService } from "@/service/avatarService";
-import { PlusCircle, Image as ImageIcon, Loader2, ArrowLeft } from "lucide-react";
+import {
+  PlusCircle,
+  Image as ImageIcon,
+  Loader2,
+  ArrowLeft,
+} from "lucide-react";
 import { AnimatedPageWrapper } from "@/components/ui/AnimatedPageWrapper";
 
 interface Avatar {
@@ -32,8 +43,18 @@ export const AvatarsPage: React.FC = () => {
   const [isLoadingAvatars, setIsLoadingAvatars] = useState(true);
 
   const [name, setName] = useState<string>("");
-  const [idleUrls, setIdleUrls] = useState({ down: "", left: "", right: "", up: "" });
-  const [runUrls, setRunUrls] = useState({ down: "", left: "", right: "", up: "" });
+  const [idleUrls, setIdleUrls] = useState({
+    down: "",
+    left: "",
+    right: "",
+    up: "",
+  });
+  const [runUrls, setRunUrls] = useState({
+    down: "",
+    left: "",
+    right: "",
+    up: "",
+  });
 
   const fetchAvatars = async () => {
     setIsLoadingAvatars(true);
@@ -53,7 +74,11 @@ export const AvatarsPage: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || Object.values(idleUrls).some(url => !url) || Object.values(runUrls).some(url => !url)) {
+    if (
+      !name ||
+      Object.values(idleUrls).some((url) => !url) ||
+      Object.values(runUrls).some((url) => !url)
+    ) {
       alert("Please fill all fields");
       return;
     }
@@ -65,7 +90,7 @@ export const AvatarsPage: React.FC = () => {
       setName("");
       setIdleUrls({ down: "", left: "", right: "", up: "" });
       setRunUrls({ down: "", left: "", right: "", up: "" });
-      fetchAvatars(); 
+      fetchAvatars();
     } catch (error) {
       console.error("Create avatar failed:", error);
       alert("Failed to create avatar");
@@ -83,7 +108,9 @@ export const AvatarsPage: React.FC = () => {
       {!showForm ? (
         <div className="space-y-8">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-            <h3 className="text-3xl font-semibold text-slate-100">Avatars Library</h3>
+            <h3 className="text-3xl font-semibold text-slate-100">
+              Avatars Library
+            </h3>
             <Button
               onClick={() => setShowForm(true)}
               className="px-6 py-3 bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-700 hover:to-cyan-600 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105"
@@ -122,11 +149,15 @@ export const AvatarsPage: React.FC = () => {
                           className=" h-full  transition-transform duration-300 hover:scale-110"
                           onError={(e) => {
                             const target = e.target as HTMLImageElement;
-                            target.src = "https://placehold.co/600x400/334155/e2e8f0?text=Image+Error";
+                            target.src =
+                              "https://placehold.co/600x400/334155/e2e8f0?text=Image+Error";
                           }}
                         />
                       ) : (
-                        <ImageIcon size={48} className="text-slate-500 opacity-50" />
+                        <ImageIcon
+                          size={48}
+                          className="text-slate-500 opacity-50"
+                        />
                       )}
                     </div>
                   </CardContent>
@@ -148,7 +179,9 @@ export const AvatarsPage: React.FC = () => {
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="name" className="text-slate-300">Avatar Name</Label>
+                <Label htmlFor="name" className="text-slate-300">
+                  Avatar Name
+                </Label>
                 <Input
                   id="name"
                   type="text"
@@ -160,14 +193,27 @@ export const AvatarsPage: React.FC = () => {
               </div>
 
               <div className="space-y-4">
-                <h4 className="text-slate-300 font-semibold">Idle Animations</h4>
+                <h4 className="text-slate-300 font-semibold">
+                  Idle Animations
+                </h4>
                 <div className="grid grid-cols-2 gap-4">
                   {["down", "left", "right", "up"].map((dir) => (
                     <div key={`idle-${dir}`}>
-                      <Label htmlFor={`idle-${dir}`} className="text-slate-300 capitalize">{dir}</Label>
-                      <UploadExample onUpload={(url: string) => setIdleUrls(prev => ({ ...prev, [dir]: url }))} />
+                      <Label
+                        htmlFor={`idle-${dir}`}
+                        className="text-slate-300 capitalize"
+                      >
+                        {dir}
+                      </Label>
+                      <UploadExample
+                        onUpload={(url: string) =>
+                          setIdleUrls((prev) => ({ ...prev, [dir]: url }))
+                        }
+                      />
                       {idleUrls[dir as keyof typeof idleUrls] && (
-                        <p className="text-sm text-slate-400 break-all pt-2">URL: {idleUrls[dir as keyof typeof idleUrls]}</p>
+                        <p className="text-sm text-slate-400 break-all pt-2">
+                          URL: {idleUrls[dir as keyof typeof idleUrls]}
+                        </p>
                       )}
                     </div>
                   ))}
@@ -179,10 +225,21 @@ export const AvatarsPage: React.FC = () => {
                 <div className="grid grid-cols-2 gap-4">
                   {["down", "left", "right", "up"].map((dir) => (
                     <div key={`run-${dir}`}>
-                      <Label htmlFor={`run-${dir}`} className="text-slate-300 capitalize">{dir}</Label>
-                      <UploadExample onUpload={(url: string) => setRunUrls(prev => ({ ...prev, [dir]: url }))} />
+                      <Label
+                        htmlFor={`run-${dir}`}
+                        className="text-slate-300 capitalize"
+                      >
+                        {dir}
+                      </Label>
+                      <UploadExample
+                        onUpload={(url: string) =>
+                          setRunUrls((prev) => ({ ...prev, [dir]: url }))
+                        }
+                      />
                       {runUrls[dir as keyof typeof runUrls] && (
-                        <p className="text-sm text-slate-400 break-all pt-2">URL: {runUrls[dir as keyof typeof runUrls]}</p>
+                        <p className="text-sm text-slate-400 break-all pt-2">
+                          URL: {runUrls[dir as keyof typeof runUrls]}
+                        </p>
                       )}
                     </div>
                   ))}

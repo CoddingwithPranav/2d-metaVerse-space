@@ -1,14 +1,14 @@
-import { create } from 'zustand';
+import { create } from "zustand";
 interface AuthState {
   token: string | null;
-  role: string | null; 
-  setAuth: (token: string | null, role: string | null) => void; 
+  role: string | null;
+  setAuth: (token: string | null, role: string | null) => void;
   clearAuth: () => void;
 }
 
 export const useZustandAuth = create<AuthState>((set) => ({
   token: null,
-  role: null, 
+  role: null,
   setAuth: (token, role) => set({ token, role }),
-  clearAuth: () => set({ token: null, role: null }), 
+  clearAuth: () => set({ token: null, role: null }),
 }));
