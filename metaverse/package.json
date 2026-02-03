@@ -10,6 +10,7 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "db:generate": "cd packages/db && npx prisma generate && cd ../..",
     "db:migrate": "cd packages/db && npx prisma migrate dev --name init && cd ../..",
+    "db:seed": "cd packages/db && npx tsx prisma/seed.ts && cd ../..",
     "start:http": "cd apps/http && npm run dev",
     "start:ws": "cd apps/ws && npm run dev",
     "start:frontend": "cd apps/frontend && npm run dev"

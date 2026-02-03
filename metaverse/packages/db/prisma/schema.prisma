@@ -17,7 +17,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://neondb_owner:npg_wchbv9X6oEuI@ep-empty-butterfly-a8jqfy2d-pooler.eastus2.azure.neon.tech/neondb?sslmode=require&channel_binding=requirepassword"
+  url      = env("DATABASE_URL")
 }
 
 

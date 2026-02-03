@@ -4,21 +4,27 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "db:seed": "tsx prisma/seed.ts"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@prisma/client": "^6.5.0",
+    "@types/bcrypt": "^5.0.2",
+    "bcrypt": "^6.0.0",
     "dotenv": "^16.5.0"
   },
   "exports": {
     "./client": "./src/index.ts"
   },
   "devDependencies": {
-    "tsx": "^4.19.3",
+    "dotenv": "^16.5.0",
     "prisma": "^6.5.0",
-    "dotenv": "^16.5.0"
+    "tsx": "^4.19.3"
   }
 }
