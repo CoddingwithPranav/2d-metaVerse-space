@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700">
+  <defs>
+    <style>
+      .box { fill: #fff; stroke: #333; stroke-width: 2; }
+      .primary { fill: #4A90E2; }
+      .secondary { fill: #50C878; }
+      .database { fill: #F39C12; }
+      .text { font-family: Arial, sans-serif; font-size: 14px; fill: #333; }
+      .title { font-size: 16px; font-weight: bold; fill: #fff; }
+      .arrow { stroke: #666; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+      .label { font-size: 12px; fill: #666; font-style: italic; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#666" />
+    </marker>
+  </defs>
+  
+  <!-- Title -->
+  <text x="450" y="30" text-anchor="middle" class="text" style="font-size: 24px; font-weight: bold;">2D Metaverse Architecture</text>
+  
+  <!-- Frontend -->
+  <rect x="350" y="60" width="200" height="80" class="box primary" rx="5"/>
+  <text x="450" y="90" text-anchor="middle" class="title">Frontend (Next.js)</text>
+  <text x="450" y="110" text-anchor="middle" class="text" style="fill: #fff; font-size: 12px;">React + TypeScript</text>
+  <text x="450" y="125" text-anchor="middle" class="text" style="fill: #fff; font-size: 12px;">Port: 3001</text>
+  
+  <!-- HTTP Server -->
+  <rect x="100" y="220" width="180" height="100" class="box secondary" rx="5"/>
+  <text x="190" y="250" text-anchor="middle" class="title">HTTP Server</text>
+  <text x="190" y="270" text-anchor="middle" class="text" style="fill: #fff; font-size: 12px;">REST API</text>
+  <text x="190" y="285" text-anchor="middle" class="text" style="fill: #fff; font-size: 12px;">Express + Node.js</text>
+  <text x="190" y="300" text-anchor="middle" class="text" style="fill: #fff; font-size: 12px;">Port: 3000</text>
+  
+  <!-- WebSocket Server -->
+  <rect x="620" y="220" width="180" height="100" class="box secondary" rx="5"/>
+  <text x="710" y="250" text-anchor="middle" class="title">WebSocket Server</text>
+  <text x="710" y="270" text-anchor="middle" class="text" style="fill: #fff; font-size: 12px;">Real-time Communication</text>
+  <text x="710" y="285" text-anchor="middle" class="text" style="fill: #fff; font-size: 12px;">Node.js + WS</text>
+  <text x="710" y="300" text-anchor="middle" class="text" style="fill: #fff; font-size: 12px;">Port: 8080</text>
+  
+  <!-- Shared Packages -->
+  <rect x="350" y="400" width="200" height="100" class="box" rx="5" style="fill: #E8E8E8;"/>
+  <text x="450" y="425" text-anchor="middle" class="text" style="font-weight: bold;">Shared Packages</text>
+  <text x="450" y="445" text-anchor="middle" class="text" style="font-size: 12px;">@repo/db (Prisma)</text>
+  <text x="450" y="465" text-anchor="middle" class="text" style="font-size: 12px;">@repo/ui</text>
+  <text x="450" y="485" text-anchor="middle" class="text" style="font-size: 12px;">@repo/typescript-config</text>
+  
+  <!-- Database -->
+  <rect x="350" y="570" width="200" height="80" class="box database" rx="5"/>
+  <text x="450" y="600" text-anchor="middle" class="title">PostgreSQL</text>
+  <text x="450" y="620" text-anchor="middle" class="text" style="fill: #fff; font-size: 12px;">Database Container</text>
+  <text x="450" y="635" text-anchor="middle" class="text" style="fill: #fff; font-size: 12px;">Port: 5432</text>
+  
+  <!-- Arrows -->
+  <!-- Frontend to HTTP -->
+  <path d="M 400 140 L 220 220" class="arrow"/>
+  <text x="300" y="170" class="label">REST API</text>
+  
+  <!-- Frontend to WS -->
+  <path d="M 500 140 L 680 220" class="arrow"/>
+  <text x="600" y="170" class="label">WebSocket</text>
+  
+  <!-- HTTP to Shared -->
+  <path d="M 250 320 L 380 400" class="arrow"/>
+  
+  <!-- WS to Shared -->
+  <path d="M 650 320 L 520 400" class="arrow"/>
+  
+  <!-- Shared to DB -->
+  <path d="M 450 500 L 450 570" class="arrow"/>
+  <text x="470" y="540" class="label">Prisma ORM</text>
+  
+  <!-- Docker Container Box -->
+  <rect x="50" y="180" width="800" height="490" style="fill: none; stroke: #999; stroke-width: 2; stroke-dasharray: 5,5;" rx="5"/>
+  <text x="60" y="200" class="text" style="font-size: 12px; fill: #999;">Docker Compose Environment</text>
+  
+</svg>

@@ -1,84 +1,189 @@
-# Turborepo starter
+# 🌐 2D Metaverse Platform
 
-This Turborepo starter is maintained by the Turborepo core team.
+A real-time multiplayer 2D metaverse platform built with modern web technologies. Users can create avatars, interact in virtual spaces, and communicate in real-time.
 
-## Using this example
+## 🏗️ Architecture
 
-Run the following command:
+![Architecture Diagram](./docs/architecture.svg)
 
-```sh
-npx create-turbo@latest
+The platform follows a microservices architecture with three main components:
+
+- **Frontend (Next.js)**: User interface and client-side logic
+- **HTTP Server**: RESTful API for authentication, user management, and data operations
+- **WebSocket Server**: Real-time communication for multiplayer interactions
+- **PostgreSQL Database**: Persistent data storage
+- **Shared Packages**: Common code and utilities shared across services
+
+## 📦 What's Inside?
+
+This Turborepo monorepo includes the following packages and apps:
+
+### Applications
+
+- **`apps/frontend`**: Next.js application for the user interface (Port: 3001)
+- **`apps/http`**: Express.js REST API server (Port: 3000)
+- **`apps/ws`**: WebSocket server for real-time communication (Port: 8080)
+
+### Shared Packages
+
+- **`@repo/db`**: Prisma database client and schemas
+- **`@repo/ui`**: Shared React component library
+- **`@repo/eslint-config`**: ESLint configurations
+- **`@repo/typescript-config`**: TypeScript configurations
+- **`@repo/prettier-config`**: Prettier configurations
+
+All packages and apps are written in [TypeScript](https://www.typescriptlang.org/).
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- **Node.js** >= 18
+- **Docker** and **Docker Compose**
+- **npm** 11.2.0 or higher
+
+### Setup Instructions
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd metaverse
+   ```
+
+2. **Copy environment variables**
+   ```bash
+   cp .env.example .env
+   ```
+   
+   Edit `.env` and configure your environment variables:
+   - Database credentials
+   - JWT secrets
+   - ImageKit keys (for avatar uploads)
+   - Port configurations
+
+3. **Run the setup script**
+   ```bash
+   ./setup-local.sh
+   ```
+   
+   This script will:
+   - Fix permissions for node_modules
+   - Install all dependencies
+   - Start Docker containers
+   - Run database migrations
+   - Seed initial data
+
+4. **Access the application**
+   - Frontend: http://localhost:3001
+   - HTTP API: http://localhost:3000
+   - WebSocket: ws://localhost:8080
+
+## 🛠️ Development
+
+### Start all services
+```bash
+npm run dev
 ```
 
-## What's inside?
+### Start individual services
+```bash
+npm run start:frontend   # Start Next.js frontend
+npm run start:http      # Start HTTP API server
+npm run start:ws        # Start WebSocket server
+```
 
-This Turborepo includes the following packages/apps:
+### Database Operations
 
-### Apps and Packages
-
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+```bash
+npm run db:generate    # Generate Prisma client
+npm run db:migrate     # Run database migrations
+npm run db:seed        # Seed database with initial data
+```
 
 ### Build
 
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm build
+Build all apps and packages:
+```bash
+npm run build
 ```
 
-### Develop
-
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm dev
+Build specific services:
+```bash
+npm run build-http    # Build HTTP server
+npm run build-ws      # Build WebSocket server
 ```
 
-### Remote Caching
+## 🐳 Docker
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+The project uses Docker Compose to orchestrate services:
 
-Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```
-cd my-turborepo
-npx turbo login
+```bash
+docker compose up      # Start all services
+docker compose down    # Stop all services
+docker compose logs -f # View logs
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+### Services
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+- **postgres**: PostgreSQL database with health checks
+- **http**: HTTP API server with auto-restart
+- **ws**: WebSocket server with hot-reload
 
+## 📝 Environment Variables
+
+Key environment variables (see `.env.example` for full list):
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `POSTGRES_DB` | Database name | mydb |
+| `POSTGRES_USER` | Database user | postgres |
+| `POSTGRES_PASSWORD` | Database password | mysecretpassword |
+| `JWT_SECRET_ADMIN` | Admin JWT secret | - |
+| `JWT_SECRET_USER` | User JWT secret | - |
+| `PORT` | HTTP server port | 3000 |
+| `WS_PORT` | WebSocket server port | 8080 |
+| `IMAGEKIT_PUBLIC_KEY` | ImageKit public key | - |
+| `IMAGEKIT_PRIVATE_KEY` | ImageKit private key | - |
+
+## 🧪 Code Quality
+
+### Linting
+```bash
+npm run lint
 ```
-npx turbo link
+
+### Formatting
+```bash
+npm run format
 ```
 
-## Useful Links
+## 📚 Tech Stack
 
-Learn more about the power of Turborepo:
+- **Frontend**: Next.js, React, TypeScript
+- **Backend**: Node.js, Express.js
+- **Real-time**: WebSocket (ws library)
+- **Database**: PostgreSQL, Prisma ORM
+- **Monorepo**: Turborepo
+- **Containerization**: Docker, Docker Compose
+- **Code Quality**: ESLint, Prettier, TypeScript
 
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+## 🔗 Useful Links
+
+Learn more about the technologies used:
+
+- [Turborepo Documentation](https://turborepo.com/docs)
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Prisma Documentation](https://www.prisma.io/docs)
+- [Docker Documentation](https://docs.docker.com)
