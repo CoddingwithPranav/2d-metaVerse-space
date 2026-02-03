@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "npx esbuild ./src/index.ts --bundle --platform=node --external:bcrypt --outfile=dist/index.js",
+    "build": "npx esbuild ./src/index.ts --bundle --platform=node --external:bcrypt --external:express --external:cors --external:jsonwebtoken --external:imagekit --external:dotenv --external:zod --outfile=dist/index.js",
     "start": "node dist/index.js",
     "dev": "cross-env HOST=0.0.0.0 nodemon --watch src --ext ts --exec \"npm run build && node dist/index.js\""
   },

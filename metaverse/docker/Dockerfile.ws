@@ -8,11 +8,14 @@ RUN npm install -g nodemon
 # Copy root-level files for dependency resolution
 COPY package*.json turbo.json ./
 COPY apps/ws/package*.json apps/ws/
-COPY packages packages
-# COPY apps/ws/package*.json apps/ws/ 
+COPY packages/db/package*.json packages/db/
+COPY packages/typescript-config/package*.json packages/typescript-config/
 
 # Install workspace dependencies
 RUN npm install --workspaces
+
+# Install ws app dependencies explicitly
+RUN cd apps/ws && npm install
 
 # Now copy source files (after installing deps to avoid cache busting)
 COPY apps apps

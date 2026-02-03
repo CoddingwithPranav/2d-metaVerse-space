@@ -27,6 +27,7 @@ services:
       - .env
     volumes:
       - ./apps/http:/usr/app/metaverse/apps/http
+      - /usr/app/metaverse/apps/http/node_modules  # ← Preserves node_modules
       - ./packages:/usr/app/metaverse/packages
     environment:
       - JWT_SECRET_ADMIN=${JWT_SECRET_ADMIN}
@@ -52,6 +53,7 @@ services:
       - .env
     volumes:
       - ./apps/ws:/usr/app/metaverse/apps/ws
+      - /usr/app/metaverse/apps/ws/node_modules  # ← Preserves node_modules
       - ./packages:/usr/app/metaverse/packages
     environment:
       - DATABASE_URL=${DATABASE_URL}
