@@ -6,6 +6,16 @@ const prisma = new PrismaClient();
 async function main() {
   console.log("Starting database seeding...");
 
+  // Check if database is already seeded
+  const existingAdmin = await prisma.user.findUnique({
+    where: { username: "admin@gmail.com" },
+  });
+
+  if (existingAdmin) {
+    console.log("✓ Database already seeded, skipping...");
+    return;
+  }
+
   const hashedPassword = await bcrypt.hash("password", 10);
 
   const himmel = await prisma.avatar.upsert({
@@ -29,13 +39,13 @@ async function main() {
 
   // Create Admin User
   const admin = await prisma.user.upsert({
-    where: { username: "admin" },
+    where: { username: "admin@gmail.com" },
     update: {},
     create: {
-      username: "admin",
+      username: "admin@gmail.com",
       password: hashedPassword,
       displayName: "Administrator",
-      profileImage: "https://ik.imagekit.io/sekvmxelf/admin_avatar.png",
+      profileImage: "https://img.freepik.com/free-vector/business-user-cog_78370-7040.jpg?semt=ais_hybrid&w=740&q=80",
       role: "Admin",
       avatarId: himmel.id,
     },
