@@ -187,6 +187,14 @@ export class User {
           case "move": {
             const { x: movX, y: movY } = parseData.payload;
 
+            if (!this.spaceId) {
+              this.send({
+                type: "movement-rejected",
+                payload: { x: this.x, y: this.y },
+              });
+              break;
+            }
+
             const inBounds =
               movX >= 0 &&
               movY >= 0 &&
@@ -200,11 +208,11 @@ export class User {
               (xDisplacement === 0 && yDisplacement === 1);
 
             let overlaps = false;
-            if (inBounds && isValidMove && this.spaceId) {
+            if (inBounds && isValidMove) {
               const userLeft = movX * this.CELL_SIZE;
-              const userRight = (movX + 1) * this.CELL_SIZE;
+              const userRight = userLeft + this.RENDER_CHARACTER_WIDTH;
               const userTop = movY * this.CELL_SIZE;
-              const userBottom = (movY + 1) * this.CELL_SIZE;
+              const userBottom = userTop + this.RENDER_CHARACTER_HEIGHT;
 
               overlaps = this.space.elements.some((el) => {
                 if (!el.mapElement.static) return false;
@@ -221,7 +229,7 @@ export class User {
               });
             }
 
-            if (true) {
+            if (inBounds && isValidMove && !overlaps) {
               this.x = movX;
               this.y = movY;
               RoomManager.getInstance().broadcast(
@@ -230,12 +238,16 @@ export class User {
                   payload: { id: this.userId, x: this.x, y: this.y },
                 },
                 this,
-                this.spaceId!
+                this.spaceId
               );
+              this.send({
+                type: "user-moved",
+                payload: { id: this.userId, x: this.x, y: this.y },
+              });
             } else {
               this.send({
                 type: "movement-rejected",
-                payload: { x: this.userId, y: this.y },
+                payload: { x: this.x, y: this.y },
               });
             }
             break;

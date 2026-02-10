@@ -109,24 +109,13 @@ export const useWebSocket = ({
               },
             };
           });
-          if (msg.payload.id === selfId) setIsMovingSelf(false);
+          // Always reset movement lock when we receive server confirmation
+          setIsMovingSelf(false);
           break;
 
         case "movement-rejected":
-          if (selfId) {
-            setUsers((prev) => ({
-              ...prev,
-              [selfId]: { ...prev[selfId], x: msg.payload.x, y: msg.payload.y },
-            }));
-            setAnimatedPositions((prev) => ({
-              ...prev,
-              [selfId]: {
-                currentPixelX: msg.payload.x * CELL_SIZE,
-                currentPixelY: msg.payload.y * CELL_SIZE,
-              },
-            }));
-            setIsMovingSelf(false);
-          }
+          // Reset movement lock on rejection
+          setIsMovingSelf(false);
           break;
 
         case "user-left":
@@ -172,7 +161,7 @@ export const useWebSocket = ({
           break;
       }
     },
-    [selfId, loadUserAvatar],
+    [loadUserAvatar],
   );
 
   useEffect(() => {
@@ -200,6 +189,8 @@ export const useWebSocket = ({
     (x: number, y: number) => {
       if (!selfId || !connected || isMovingSelf || !users[selfId]) return;
       setIsMovingSelf(true);
+      
+      // Update direction immediately for visual feedback
       setUsers((prev) => {
         if (!prev[selfId]) return prev;
         const dx = x - prev[selfId].x;
@@ -209,10 +200,14 @@ export const useWebSocket = ({
         else if (dx === -1) direction = "left";
         else if (dy === 1) direction = "down";
         else if (dy === -1) direction = "up";
-        return { ...prev, [selfId]: { ...prev[selfId], x, y, direction } };
+        return { ...prev, [selfId]: { ...prev[selfId], direction } };
       });
+      
+      // Send move request to server (position will update only on server approval)
       wsServiceRef.current?.move(x, y);
-      setTimeout(() => setIsMovingSelf(false), 100);
+      
+      // Fallback timeout to reset movement lock if server doesn't respond
+      setTimeout(() => setIsMovingSelf(false), 300);
     },
     [selfId, connected, isMovingSelf, users],
   );
