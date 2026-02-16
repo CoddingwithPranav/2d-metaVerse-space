@@ -31,6 +31,7 @@ export const AppRoutes: React.FC = () => (
         <Route path="/maps" element={<MapList />} />
         <Route path="/spaces" element={<UserSpace />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/arena/:spaceId" element={<Arena />} />
       </Route>
       <Route
         element={

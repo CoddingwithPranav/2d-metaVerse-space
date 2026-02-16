@@ -7,9 +7,8 @@ dotenv.config();
 
 const app = express();
 
-// Apply CORS middleware before any routes
 app.use(cors({
-  origin: "*", // ⚠️ In production, set this to a specific domain
+  origin: "*", //  In production, set this to a specific domain
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"]
 }));

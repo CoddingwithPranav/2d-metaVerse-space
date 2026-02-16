@@ -81,22 +81,18 @@ export const MapList: React.FC = () => {
     setDetailsDialogOpen(true);
   };
 
-  // Handler to create a new space from a map
   const handleConfirmCreate = async () => {
     if (!selectedMap) return;
     try {
-      // Assuming 'authToken' is stored in localStorage after login
       const authToken = localStorage.getItem("authToken");
       await axios.post(
         `${BACKEND_URL}/space`,
         { mapId: selectedMap.id, name: selectedMap.name },
         { headers: { Authorization: `Bearer ${authToken}` } },
       );
-      // Navigate to the user's spaces page after creation
-      navigate(`/user/spaces`);
+      navigate(`/spaces`);
     } catch (err) {
       console.error("Failed to create space", err);
-      // You could show a toast notification here
       alert("Failed to create space. Please try again.");
     } finally {
       setCreateDialogOpen(false);
@@ -162,13 +158,9 @@ export const MapList: React.FC = () => {
         id="maps"
         className="bg-white"
       >
-        <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 text-black">
+        <h2 className="text-4xl md:text-5xl font-bold text-center mb-6 text-black">
           Discover Maps
         </h2>
-        <p className="text-lg text-gray-600 text-center mb-12 max-w-2xl mx-auto">
-          Journey through diverse landscapes. Each map offers a unique
-          foundation for your own space.
-        </p>
         <div className="max-w-md mx-auto mb-12">
           <Input
             placeholder="Search maps by name..."

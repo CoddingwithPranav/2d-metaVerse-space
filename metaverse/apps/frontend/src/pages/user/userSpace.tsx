@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-// UI & Wrapper Components
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,11 +14,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-// Services
 import { spaceService } from "@/service/spaceService";
 import { AnimatedPageWrapper } from "@/components/ui/AnimatedPageWrapper";
 
-// Define the data structure for a Space
 interface Space {
   id: string;
   name: string;
@@ -38,7 +35,6 @@ export const UserSpace: React.FC = () => {
   const [isLoading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  // Fetch the user's spaces on component mount
   useEffect(() => {
     const fetchSpaces = async () => {
       setLoading(true);
@@ -56,7 +52,6 @@ export const UserSpace: React.FC = () => {
     fetchSpaces();
   }, []);
 
-  // Effect to filter spaces based on the search input
   useEffect(() => {
     const results = spaces.filter((space) =>
       space.name.toLowerCase().includes(search.toLowerCase()),
@@ -64,10 +59,9 @@ export const UserSpace: React.FC = () => {
     setFilteredSpaces(results);
   }, [search, spaces]);
 
-  // Handler to enter a space's arena after confirmation
   const handleConfirmEnter = () => {
     if (selectedSpace) {
-      navigate(`/user/arena/${selectedSpace.id}`);
+      navigate(`/arena/${selectedSpace.id}`);
     }
   };
 
@@ -118,7 +112,7 @@ export const UserSpace: React.FC = () => {
             <Button
               variant="outline"
               className="flex-1 border-gray-300 text-black hover:bg-gray-50"
-              onClick={() => navigate(`/user/spaces/${space.id}/edit`)}
+              onClick={() => navigate(`/spaces/${space.id}/edit`)}
             >
               Manage
             </Button>
@@ -160,13 +154,9 @@ export const UserSpace: React.FC = () => {
       id="spaces"
       className="bg-gray-50"
     >
-      <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 text-black">
+      <h2 className="text-4xl md:text-5xl font-bold text-center mb-6 text-black">
         My Spaces
       </h2>
-      <p className="text-lg text-gray-600 text-center mb-12 max-w-2xl mx-auto">
-        Here are all of the spaces you've created. Manage them or jump right
-        into the action.
-      </p>
 
       <div className="max-w-md mx-auto mb-12">
         <Input

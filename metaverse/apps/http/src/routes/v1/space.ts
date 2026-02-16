@@ -35,6 +35,7 @@ spaceRouter.post("/", userMiddleware, async (req, res) => {
       select: {
         width: true,
         height: true,
+        thumbnail: true,
         background:true,
         elements: {
           select: {
@@ -58,6 +59,7 @@ spaceRouter.post("/", userMiddleware, async (req, res) => {
           width: map.width,
           height: map.height,
           backgroundUrl:map.background?.Url,
+          thumbnail: map.thumbnail,
           creatorId: req.userId!,
         },
       });
