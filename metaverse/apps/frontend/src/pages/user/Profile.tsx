@@ -2,12 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Pencil, LayoutDashboard, UploadCloud } from "lucide-react"; // Added UploadCloud icon
+import { Pencil, LayoutDashboard, UploadCloud } from "lucide-react"; 
 import { useNavigate } from "react-router-dom";
 import { authService } from "@/service/authService";
-import "../../App.css"; // Assuming this imports global styles if needed
+import "../../App.css"; 
 
-// Shadcn UI Components (Ensuring these are themed via Tailwind/global CSS)
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -39,7 +38,6 @@ import {
 import UploadExample from "@/components/ui/imageupload";
 import { AnimatedPageWrapper } from "@/components/ui/AnimatedPageWrapper";
 
-// Zod schema for profile form validation
 const profileFormSchema = z.object({
   displayName: z
     .string()
@@ -54,7 +52,6 @@ const profileFormSchema = z.object({
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
-// Main Profile Component
 export const Profile: React.FC = () => {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -71,14 +68,13 @@ export const Profile: React.FC = () => {
     defaultValues: { displayName: "", profileImage: "" },
   });
 
-  // Fetch user profile on component mount
   useEffect(() => {
     const fetchUserProfile = async () => {
       setLoading(true);
       try {
         const data = await authService.profile();
         setUser(data);
-        const imageUrl = data.profileImage || ""; // Ensure it's an empty string for default
+        const imageUrl = data.profileImage || ""; 
         form.reset({
           displayName: data.displayName || "",
           profileImage: imageUrl,
@@ -86,7 +82,6 @@ export const Profile: React.FC = () => {
         setNewImageUrl(imageUrl);
       } catch (err) {
         console.error("Failed to fetch user profile:", err);
-        // TODO: Handle error elegantly, e.g., show a toast or redirect
       } finally {
         setLoading(false);
       }
@@ -94,7 +89,6 @@ export const Profile: React.FC = () => {
     fetchUserProfile();
   }, [form]);
 
-  // Form submission handler
   const onSubmit = async (values: ProfileFormValues) => {
     setLoading(true);
     try {
@@ -115,7 +109,6 @@ export const Profile: React.FC = () => {
 
   const handleCancelEdit = () => {
     setIsEditing(false);
-    // Reset form and image to original state
     form.reset({
       displayName: user.displayName,
       profileImage: user.profileImage || "",
@@ -148,9 +141,6 @@ export const Profile: React.FC = () => {
       id="profile"
       className="bg-gray-50"
     >
-      <h2 className="text-4xl md:text-5xl font-bold text-center mb-12 text-black">
-        Your Profile
-      </h2>
       <Card className="max-w-3xl mx-auto bg-white p-6 sm:p-8 rounded-xl shadow-lg border border-gray-200 transition-all duration-300">
         <CardHeader className="text-center pb-6">
           {" "}

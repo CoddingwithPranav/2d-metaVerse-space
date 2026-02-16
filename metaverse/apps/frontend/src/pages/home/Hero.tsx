@@ -1,48 +1,22 @@
-import { useScrollAnimation } from "@/hooks/ScrollHook";
 import { ArrowRight } from "lucide-react";
-import { useRef, useEffect } from "react";
-import { PixelCharacter } from "./PixcelCharacter";
+import { useRef} from "react";
 import "../../App.css";
 
 export const Hero = () => {
-  const addToObserve = useScrollAnimation();
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const buttonRef = useRef<HTMLDivElement>(null);
   const characterRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    // const elements = [
-    //   { ref: titleRef, delay: 200 },
-    //   { ref: subtitleRef, delay: 400 },
-    //   { ref: buttonRef, delay: 600 },
-    //   { ref: characterRef, delay: 300 }
-    // ];
-    // elements.forEach(el => {
-    //   if (el.ref.current) {
-    //     (el.ref.current as HTMLElement).style.transitionDelay = `${el.delay}ms`;
-    //     el.ref.current.classList.add(
-    //       'opacity-0',
-    //       'transform',
-    //       'translate-y-8',
-    //       'motion-safe:transition-all',
-    //       'motion-safe:duration-700',
-    //       'motion-safe:ease-out'
-    //     );
-    //     addToObserve(el.ref.current);
-    //   }
-    // });
-  }, [addToObserve]);
   return (
     <section
       id="hero"
       className="min-h-screen flex items-center justify-center pt-20 bg-white relative overflow-hidden"
     >
-      <div className="container mx-auto px-4 md:px-6 text-center relative z-10">
+      <div className="container flex justify-between mx-auto px-4 md:px-6 text-center relative z-10">
         <div className="flex flex-col items-center justify-center gap-8 max-w-4xl mx-auto">
           <div ref={characterRef} className="mb-4">
-            <PixelCharacter />
           </div>
-          <div className="text-center">
+          <div className="text-center relative">
             <h1
               ref={titleRef}
               className="text-5xl sm:text-6xl md:text-7xl font-extrabold mb-6 text-black"
@@ -72,6 +46,12 @@ export const Hero = () => {
               </button>
             </div>
           </div>
+
+        </div>
+        
+        <div>
+
+          <img src="/warrior.gif" alt="Hero Character" className="w-64 md:w-96 pointer-events-none" />
         </div>
       </div>
     </section>
