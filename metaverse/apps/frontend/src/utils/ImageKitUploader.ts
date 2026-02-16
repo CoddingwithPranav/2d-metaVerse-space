@@ -7,21 +7,11 @@ import {
   upload,
 } from "@imagekit/react";
 
-/**
- * Handles the file upload process using ImageKit.
- *
- * @param file - The file to upload.
- * @param onProgress - Callback function to track upload progress.
- * @param abortSignal - Optional AbortSignal to cancel the upload.
- * @returns A promise that resolves with the uploaded file URL, or null on error.
- * @throws  If authentication fails.
- */
 export const handleImageKitUpload = async (
   file: File,
   onProgress: (progress: number) => void = () => {},
   abortSignal?: AbortSignal,
 ): Promise<string | null> => {
-  // Define the type for the authentication parameters.
   interface AuthParams {
     signature: string;
     expire: number;
@@ -29,7 +19,6 @@ export const handleImageKitUpload = async (
     publicKey: string;
   }
 
-  // Retrieve authentication parameters for the upload.
   let authParams: AuthParams;
   try {
     const response = await authService.imageToken();
@@ -42,7 +31,6 @@ export const handleImageKitUpload = async (
   const { signature, expire, token, publicKey } = authParams;
 
   try {
-    // Use the 'Response' type from imagekitio-js
     const uploadResponse: any = await upload({
       expire,
       token,

@@ -12,7 +12,7 @@ A real-time multiplayer 2D metaverse platform where users can create avatars, in
 
 ## 🏗️ Tech Stack
 
-- **Frontend**: Next.js, React, TypeScript
+- **Frontend**:  React, TypeScript
 - **Backend**: Node.js, Express.js, WebSocket
 - **Database**: PostgreSQL with Prisma ORM
 - **Infrastructure**: Docker, Turborepo Monorepo
@@ -32,7 +32,7 @@ cp .env.example .env
 npm run dev
 ```
 
-Access the platform at http://localhost:3001
+Access the platform at http://localhost:5432
 
 ## 📁 Project Structure
 

@@ -35,9 +35,9 @@ export const PixelCharacter = () => {
         <rect x="5" y="15" width="2" height="1" fill="#7B4F2E" />{" "}
         <rect x="9" y="15" width="2" height="1" fill="#7B4F2E" />
       </svg>
-      <div className="hi-bubble-animation absolute -top-4 -right-10 md:-right-12 bg-gradient-to-br from-purple-500 to-cyan-500 text-white px-3 py-1.5 rounded-lg shadow-xl text-sm font-bold">
+      <div className="hi-bubble-animation absolute -top-4 -right-10 md:-right-12 bg-[#9ef01a] text-black px-3 py-1.5 rounded-lg shadow-xl text-sm font-bold">
         Hi!
-        <div className="absolute left-2 bottom-[-6px] w-0 h-0 border-l-[7px] border-l-transparent border-t-[7px] border-t-purple-500 border-r-[7px] border-r-transparent"></div>
+        <div className="absolute left-2 bottom-[-6px] w-0 h-0 border-l-[7px] border-l-transparent border-t-[7px] border-t-[#9ef01a] border-r-[7px] border-r-transparent"></div>
       </div>
     </div>
   );

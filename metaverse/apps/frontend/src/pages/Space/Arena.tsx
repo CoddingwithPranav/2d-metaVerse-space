@@ -129,10 +129,10 @@ export default function ArenaPage() {
   });
   if (!token || !spaceId) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-slate-900 p-4">
-        <Card className="w-96 bg-slate-800 text-slate-100">
+      <div className="flex min-h-screen items-center justify-center bg-white p-4">
+        <Card className="w-96 bg-white border-gray-200 text-black">
           <CardHeader>
-            <CardTitle className="text-red-400">
+            <CardTitle className="text-red-500">
               Authentication Required
             </CardTitle>
           </CardHeader>
@@ -146,22 +146,22 @@ export default function ArenaPage() {
 
   if (!isConnecting) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-slate-900 to-slate-800 p-6">
-        <Card className="w-full max-w-md bg-slate-800/90 backdrop-blur-md border-slate-700 text-slate-100 shadow-2xl">
+      <div className="flex min-h-screen flex-col items-center justify-center bg-white p-6">
+        <Card className="w-full max-w-md bg-white backdrop-blur-md border-gray-200 text-black shadow-2xl">
           <CardHeader className="text-center">
-            <CardTitle className="text-2xl text-indigo-400">
+            <CardTitle className="text-2xl text-black">
               Join Space:{" "}
-              <span className="font-mono text-slate-50">{spaceId}</span>
+              <span className="font-mono text-gray-700">{spaceId}</span>
             </CardTitle>
           </CardHeader>
           <CardContent className="flex flex-col items-center space-y-6 pt-4">
-            <p className="text-center text-slate-300">
+            <p className="text-center text-gray-600">
               Ready to enter the arena?
             </p>
             <Button
               onClick={() => setIsConnecting(true)}
               size="lg"
-              className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold"
+              className="w-full bg-[#9ef01a] hover:opacity-90 text-black font-semibold"
             >
               Connect to Arena
             </Button>
@@ -173,15 +173,15 @@ export default function ArenaPage() {
 
   if (!criticalImagesLoaded && !imageLoadError) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-slate-900 p-4">
-        <Card className="w-80 bg-slate-800 text-slate-100">
+      <div className="flex min-h-screen items-center justify-center bg-white p-4">
+        <Card className="w-80 bg-white border-gray-200 text-black">
           <CardHeader>
-            <CardTitle className="text-indigo-400">Loading Assets...</CardTitle>
+            <CardTitle className="text-[#9ef01a]">Loading Assets...</CardTitle>
           </CardHeader>
           <CardContent className="flex items-center justify-center space-x-2">
-            <div className="h-4 w-4 animate-pulse rounded-full bg-indigo-500 delay-0"></div>
-            <div className="h-4 w-4 animate-pulse rounded-full bg-indigo-500 delay-150"></div>
-            <div className="h-4 w-4 animate-pulse rounded-full bg-indigo-500 delay-300"></div>
+            <div className="h-4 w-4 animate-pulse rounded-full bg-[#9ef01a] delay-0"></div>
+            <div className="h-4 w-4 animate-pulse rounded-full bg-[#9ef01a] delay-150"></div>
+            <div className="h-4 w-4 animate-pulse rounded-full bg-[#9ef01a] delay-300"></div>
           </CardContent>
         </Card>
       </div>
@@ -190,15 +190,15 @@ export default function ArenaPage() {
 
   if (imageLoadError) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-slate-900 p-4">
-        <Card className="w-96 bg-slate-800 text-slate-100">
+      <div className="flex min-h-screen items-center justify-center bg-white p-4">
+        <Card className="w-96 bg-white border-gray-200 text-black">
           <CardHeader>
-            <CardTitle className="text-amber-400">
+            <CardTitle className="text-amber-600">
               Asset Loading Failed
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <p className="text-slate-300">{imageLoadError}</p>
+            <p className="text-gray-700">{imageLoadError}</p>
             <Button
               onClick={() => {
                 setIsConnecting(false);
@@ -217,13 +217,13 @@ export default function ArenaPage() {
 
   if (wsError) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-slate-900 p-4">
-        <Card className="w-96 bg-slate-800 text-slate-100">
+      <div className="flex min-h-screen items-center justify-center bg-white p-4">
+        <Card className="w-96 bg-white border-gray-200 text-black">
           <CardHeader>
-            <CardTitle className="text-red-400">Connection Error</CardTitle>
+            <CardTitle className="text-red-500">Connection Error</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <p className="text-red-300">{wsError}</p>
+            <p className="text-red-600">{wsError}</p>
             <Button
               onClick={() => setIsConnecting(false)}
               variant="destructive"
@@ -238,7 +238,7 @@ export default function ArenaPage() {
   }
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-slate-900 to-slate-800 p-4 pt-24">
+    <div className="relative min-h-screen overflow-hidden bg-white p-4 pt-24">
       <div className="mx-auto max-w-5xl">
         <CanvasRenderer
           users={users}
@@ -265,7 +265,7 @@ export default function ArenaPage() {
 
       {showMessageInput && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
-          <Card className="w-full max-w-md bg-slate-800 text-slate-100">
+          <Card className="w-full max-w-md bg-white border-gray-200 text-black">
             <CardHeader>
               <CardTitle>Send Message</CardTitle>
             </CardHeader>
@@ -285,7 +285,7 @@ export default function ArenaPage() {
                   }
                 }}
                 placeholder="Type a message..."
-                className="w-full rounded-md border border-slate-600 bg-slate-700 p-3 text-slate-100 placeholder-slate-400 focus:border-indigo-500 focus:ring-indigo-500"
+                className="w-full rounded-md border border-gray-300 bg-gray-100 p-3 text-black placeholder-gray-500 focus:border-[#9ef01a] focus:ring-[#9ef01a]"
                 maxLength={100}
                 autoFocus
               />
@@ -314,21 +314,21 @@ export default function ArenaPage() {
         </div>
       )}
 
-      <div className="fixed bottom-4 left-1/2 -translate-x-1/2 rounded-lg bg-slate-800/90 p-4 text-sm text-slate-300 backdrop-blur-md">
+      <div className="fixed bottom-4 left-1/2 -translate-x-1/2 rounded-lg bg-white/90 p-4 text-sm text-gray-700 backdrop-blur-md border border-gray-200">
         <div className="flex items-center gap-6">
           <button
             onClick={() => setShowEmojiPanel((v) => !v)}
-            className="flex items-center gap-2 rounded px-3 py-1 hover:bg-slate-700"
+            className="flex items-center gap-2 rounded px-3 py-1 hover:bg-gray-100"
           >
             <span>Emojis</span>{" "}
-            <span className="font-mono text-indigo-400">H</span>
+            <span className="font-mono text-[#9ef01a]">H</span>
           </button>
           <button
             onClick={() => setShowMessageInput(true)}
-            className="flex items-center gap-2 rounded px-3 py-1 hover:bg-slate-700"
+            className="flex items-center gap-2 rounded px-3 py-1 hover:bg-gray-100"
           >
             <span>Chat</span>{" "}
-            <span className="font-mono text-indigo-400">I</span>
+            <span className="font-mono text-[#9ef01a]">I</span>
           </button>
           {selfId && users[selfId] && (
             <div className="text-xs">

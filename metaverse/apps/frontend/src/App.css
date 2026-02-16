@@ -36,20 +36,8 @@ html {
   left: 0;
   right: 0;
   bottom: 0;
-  background: conic-gradient(
-    from var(--angle),
-    #a855f7,
-    #38bdf8,
-    #ec4899,
-    #6366f1,
-    #a855f7
-  );
+  background: var(--brand-primary);
   border-radius: inherit;
-  animation: rotateBorder 3s linear infinite paused;
-}
-
-.animated-border-button:hover::before {
-  animation-play-state: running;
 }
 
 .animated-border-button > .inner-content {
@@ -58,7 +46,7 @@ html {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #0f172a;
+  background-color: var(--brand-primary);
   transition: background-color 0.2s ease-in-out;
 }
 
@@ -80,5 +68,5 @@ html {
 }
 
 .animated-border-button:hover > .inner-content {
-  background-color: #1e293b;
+  opacity: 0.9;
 }

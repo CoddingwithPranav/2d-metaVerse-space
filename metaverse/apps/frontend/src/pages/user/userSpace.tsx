@@ -74,7 +74,7 @@ export const UserSpace: React.FC = () => {
   const renderSpaceCards = () => {
     if (isLoading) {
       return (
-        <p className="col-span-full text-center text-slate-400">
+        <p className="col-span-full text-center text-gray-600">
           Loading your spaces...
         </p>
       );
@@ -82,9 +82,9 @@ export const UserSpace: React.FC = () => {
 
     if (filteredSpaces.length === 0) {
       return (
-        <div className="col-span-full text-center p-10 bg-slate-800/50 border-2 border-dashed border-slate-700 rounded-2xl shadow-inner">
-          <p className="text-slate-400">You haven't created any spaces yet.</p>
-          <Button onClick={() => navigate("/maps")} className="mt-4">
+        <div className="col-span-full text-center p-10 bg-gray-100 border-2 border-dashed border-gray-300 rounded-2xl shadow-inner">
+          <p className="text-gray-600">You haven't created any spaces yet.</p>
+          <Button onClick={() => navigate("/maps")} className="mt-4 bg-[#9ef01a] hover:opacity-90 text-black font-semibold">
             Create a Space from a Map
           </Button>
         </div>
@@ -94,7 +94,7 @@ export const UserSpace: React.FC = () => {
     return filteredSpaces.map((space) => (
       <Card
         key={space.id}
-        className="bg-slate-800/70 border-slate-700 rounded-xl shadow-lg overflow-hidden flex flex-col"
+        className="bg-white border-gray-200 rounded-xl shadow-lg overflow-hidden flex flex-col"
       >
         <img
           src={space.thumbnail}
@@ -106,7 +106,7 @@ export const UserSpace: React.FC = () => {
           }}
         />
         <CardContent className="p-4 flex flex-col flex-grow">
-          <h3 className="text-lg font-semibold text-slate-100 flex-grow">
+          <h3 className="text-lg font-semibold text-black flex-grow">
             {space.name}
           </h3>
           {space.map && (
@@ -117,7 +117,7 @@ export const UserSpace: React.FC = () => {
           <div className="flex gap-2 pt-4 mt-auto">
             <Button
               variant="outline"
-              className="flex-1"
+              className="flex-1 border-gray-300 text-black hover:bg-gray-50"
               onClick={() => navigate(`/user/spaces/${space.id}/edit`)}
             >
               Manage
@@ -125,26 +125,27 @@ export const UserSpace: React.FC = () => {
             <Dialog>
               <DialogTrigger asChild>
                 <Button
-                  className="flex-1"
+                  className="flex-1 bg-[#9ef01a] hover:opacity-90 text-black font-semibold"
                   onClick={() => setSelectedSpace(space)}
                 >
                   Enter
                 </Button>
               </DialogTrigger>
-              <DialogContent>
-                <DialogTitle>Enter Space</DialogTitle>
-                <DialogDescription>
+              <DialogContent className="bg-white border-gray-200">
+                <DialogTitle className="text-black">Enter Space</DialogTitle>
+                <DialogDescription className="text-gray-600">
                   Are you sure you want to enter the space "
                   {selectedSpace?.name}"?
                 </DialogDescription>
                 <DialogFooter className="pt-4">
                   <Button
                     variant="ghost"
+                    className="text-gray-700 hover:bg-gray-100"
                     onClick={() => setSelectedSpace(null)}
                   >
                     Cancel
                   </Button>
-                  <Button onClick={handleConfirmEnter}>Confirm & Enter</Button>
+                  <Button className="bg-[#9ef01a] hover:opacity-90 text-black font-semibold" onClick={handleConfirmEnter}>Confirm & Enter</Button>
                 </DialogFooter>
               </DialogContent>
             </Dialog>
@@ -157,12 +158,12 @@ export const UserSpace: React.FC = () => {
   return (
     <AnimatedPageWrapper
       id="spaces"
-      className="bg-gradient-to-b from-slate-900 to-slate-950"
+      className="bg-gray-50"
     >
-      <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">
+      <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 text-black">
         My Spaces
       </h2>
-      <p className="text-lg text-slate-400 text-center mb-12 max-w-2xl mx-auto">
+      <p className="text-lg text-gray-600 text-center mb-12 max-w-2xl mx-auto">
         Here are all of the spaces you've created. Manage them or jump right
         into the action.
       </p>
@@ -173,7 +174,7 @@ export const UserSpace: React.FC = () => {
           placeholder="Search your spaces..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full bg-slate-800/70 border-slate-700 placeholder:text-slate-500"
+          className="w-full bg-white border-gray-300 placeholder:text-gray-400"
         />
       </div>
 

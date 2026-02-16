@@ -33,13 +33,13 @@ export const FeatureCard = ({
   return (
     <div
       ref={cardRef}
-      className="bg-slate-800/70 p-6 rounded-xl shadow-xl border border-slate-700 hover:border-cyan-500/50 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-cyan-500/20"
+      className="bg-white/10 p-6 rounded-xl shadow-xl border border-gray-300 hover:border-[#9ef01a]/50 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-[#9ef01a]/20"
     >
-      <div className="flex items-center justify-center w-16 h-16 mb-6 rounded-full bg-gradient-to-br from-purple-600 to-cyan-500 text-white shadow-lg">
+      <div className="flex items-center justify-center w-16 h-16 mb-6 rounded-full bg-gradient-to-br from-[#9ef01a] to-[#9ef01a] text-white shadow-lg">
         <Icon size={32} />
       </div>
-      <h3 className="text-2xl font-semibold text-slate-100 mb-3">{title}</h3>
-      <p className="text-slate-400 leading-relaxed">{description}</p>
+      <h3 className="text-2xl font-semibold text-white mb-3">{title}</h3>
+      <p className="text-gray-300 leading-relaxed">{description}</p>
     </div>
   );
 };

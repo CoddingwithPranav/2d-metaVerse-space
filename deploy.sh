@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Quick deployment script for Metaverse Application
-# This script builds the application and starts all services
-
 set -e
 
 PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -18,7 +15,7 @@ if ! command -v pm2 &> /dev/null; then
     read -p "Would you like to install PM2? (y/n) " -n 1 -r
     echo
     if [[ $REPLY =~ ^[Yy]$ ]]; then
-        sudo npm install -g pm2
+         npm install -g pm2
     else
         echo "❌ PM2 is required. Please install it manually: sudo npm install -g pm2"
         exit 1

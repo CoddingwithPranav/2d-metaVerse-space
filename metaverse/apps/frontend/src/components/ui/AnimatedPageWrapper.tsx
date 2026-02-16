@@ -1,7 +1,6 @@
 import { useScrollAnimation } from "@/hooks/ScrollHook";
 import { type ReactNode, useRef, useEffect } from "react";
 
-// Animated wrapper component (Slightly adjusted for better animation kickoff)
 export const AnimatedPageWrapper = ({
   children,
   className,
@@ -34,7 +33,7 @@ export const AnimatedPageWrapper = ({
     <div
       ref={sectionRef}
       id={id}
-      className={`pt-28 pb-16 min-h-screen ${className}`}
+      className={`pt-28 pb-16 min-h-screen bg-white ${className}`}
     >
       <div className="container mx-auto px-4 md:px-6">{children}</div>
     </div>

@@ -72,12 +72,12 @@ function useImage(url: string) {
 // 3. AssetPalette Component (Styled)
 // ---------------------------
 const AssetPalette: FC<{ assets: Asset[] }> = ({ assets }) => (
-  <div className="w-56 bg-slate-900 border-r border-slate-700 p-4 flex flex-col space-y-4 overflow-y-auto custom-scrollbar shadow-lg">
-    <h4 className="text-xl font-semibold text-slate-100 flex items-center gap-2 pb-2 border-b border-slate-700">
-      <Layers className="h-5 w-5 text-purple-400" /> Assets
+  <div className="w-56 bg-gray-50 border-r border-gray-200 p-4 flex flex-col space-y-4 overflow-y-auto custom-scrollbar shadow-lg">
+    <h4 className="text-xl font-semibold text-black flex items-center gap-2 pb-2 border-b border-gray-200">
+      <Layers className="h-5 w-5 text-[#9ef01a]" /> Assets
     </h4>
     {assets.length === 0 ? (
-      <p className="text-slate-500 text-sm text-center py-4 px-2">
+      <p className="text-gray-500 text-sm text-center py-4 px-2">
         No assets available. Drag here from another source or add in your asset
         manager!
       </p>
@@ -86,8 +86,8 @@ const AssetPalette: FC<{ assets: Asset[] }> = ({ assets }) => (
         {assets.map((a) => (
           <div
             key={a.id}
-            className="group relative bg-slate-800 p-2 rounded-lg border border-slate-700 cursor-grab active:cursor-grabbing
-                        transition-all duration-200 hover:scale-105 hover:border-cyan-500 hover:shadow-md flex flex-col items-center justify-center"
+            className="group relative bg-white p-2 rounded-lg border border-gray-200 cursor-grab active:cursor-grabbing
+                        transition-all duration-200 hover:scale-105 hover:border-[#9ef01a] hover:shadow-md flex flex-col items-center justify-center"
             draggable
             onDragStart={(e) => {
               e.dataTransfer.setData("assetId", a.id);
@@ -98,7 +98,7 @@ const AssetPalette: FC<{ assets: Asset[] }> = ({ assets }) => (
               dragImage.style.height = "50px";
               dragImage.style.objectFit = "contain";
               dragImage.style.borderRadius = "4px";
-              dragImage.style.backgroundColor = "var(--slate-700)"; // Use CSS variable for consistency
+              dragImage.style.backgroundColor = "var(--gray-100)"; // Use CSS variable for consistency
               document.body.appendChild(dragImage); // Temporarily append to body
               e.dataTransfer.setDragImage(dragImage, 25, 25); // Position it centrally
               setTimeout(() => document.body.removeChild(dragImage), 0); // Remove it after drag starts
@@ -108,15 +108,15 @@ const AssetPalette: FC<{ assets: Asset[] }> = ({ assets }) => (
               src={a.url}
               width={80}
               height={80}
-              className="w-full h-20 object-contain rounded-md mb-1 bg-slate-700 transition-transform duration-200 group-hover:scale-105"
+              className="w-full h-20 object-contain rounded-md mb-1 bg-gray-100 transition-transform duration-200 group-hover:scale-105"
               alt={a.id}
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
                 target.src =
-                  "https://placehold.co/80x80/334155/e2e8f0?text=Error"; // Placeholder on error
+                  "https://placehold.co/80x80/f0f0f0/cccccc?text=Error"; // Placeholder on error
               }}
             />
-            <p className="text-xs text-slate-400 truncate w-full text-center">
+            <p className="text-xs text-gray-500 truncate w-full text-center">
               {a.id.substring(0, 6)}...
             </p>
           </div>
@@ -195,9 +195,9 @@ const DraggableImage: FC<{
           }}
           rotateEnabled={false} // Disable rotation for simplicity, can be enabled
           resizeEnabled={true}
-          anchorFill="#8b5cf6" // Tailwind purple-500 hex
-          anchorStroke="#22d3ee" // Tailwind cyan-500 hex
-          borderStroke="#8b5cf6" // Tailwind purple-500 hex
+          anchorFill="#9ef01a" // Tailwind green hex
+          anchorStroke="#9ef01a" // Tailwind green hex
+          borderStroke="#9ef01a" // Tailwind green hex
           borderDash={[6, 3]} // Dotted border
         />
       )}
@@ -255,18 +255,18 @@ const PreviewCanvas: FC<{
 
   return (
     <div
-      className={`flex flex-col space-y-4 p-4 bg-slate-900 rounded-lg border border-slate-700 shadow-xl ${isFullScreen ? "fixed inset-0 z-50 m-auto max-w-full max-h-full overflow-auto" : "max-w-sm w-full"}`}
+      className={`flex flex-col space-y-4 p-4 bg-white rounded-lg border border-gray-200 shadow-xl ${isFullScreen ? "fixed inset-0 z-50 m-auto max-w-full max-h-full overflow-auto" : "max-w-sm w-full"}`}
     >
-      <div className="flex justify-between items-center pb-2 border-b border-slate-700">
-        <h4 className="text-xl font-semibold text-slate-100 flex items-center gap-2">
-          <Eye className="h-5 w-5 text-cyan-400" /> Map Preview
+      <div className="flex justify-between items-center pb-2 border-b border-gray-200">
+        <h4 className="text-xl font-semibold text-black flex items-center gap-2">
+          <Eye className="h-5 w-5 text-[#9ef01a]" /> Map Preview
         </h4>
         <div className="flex gap-2">
           <Button
             onClick={toggleFullScreen}
             variant="ghost"
             size="icon"
-            className="text-slate-400 hover:text-slate-100 hover:bg-slate-700"
+            className="text-gray-500 hover:text-black hover:bg-gray-100"
             title={isFullScreen ? "Exit Full Screen" : "Full Screen Preview"}
           >
             {isFullScreen ? (
@@ -279,7 +279,7 @@ const PreviewCanvas: FC<{
             onClick={onClose}
             variant="ghost"
             size="icon"
-            className="text-red-400 hover:text-red-100 hover:bg-red-700"
+            className="text-red-500 hover:text-red-600 hover:bg-red-50"
             title="Close Preview"
           >
             <XCircle className="h-5 w-5" />
@@ -288,14 +288,14 @@ const PreviewCanvas: FC<{
       </div>
 
       <div
-        className="border border-slate-600 rounded-md overflow-hidden bg-slate-700 flex items-center justify-center"
+        className="border border-gray-300 rounded-md overflow-hidden bg-gray-100 flex items-center justify-center"
         style={{ width: previewWidth, height: previewHeight }}
       >
         <Stage
           width={data.width}
           height={data.height}
           style={{
-            backgroundColor: "#2d3748",
+            backgroundColor: "#f5f5f5",
             maxWidth: "100%",
             maxHeight: "100%",
           }}
@@ -322,14 +322,14 @@ const PreviewCanvas: FC<{
 
       <Label
         htmlFor="json-data"
-        className="text-slate-300 text-sm flex items-center gap-2"
+        className="text-gray-600 text-sm flex items-center gap-2"
       >
-        <Download className="h-4 w-4 text-purple-400" /> Canvas JSON Data
+        <Download className="h-4 w-4 text-[#9ef01a]" /> Canvas JSON Data
       </Label>
       <textarea
         id="json-data"
         readOnly
-        className="w-full h-48 bg-slate-700 border border-slate-600 text-slate-300 rounded-md p-3 font-mono text-xs overflow-auto resize-y focus:outline-none focus:ring-1 focus:ring-cyan-500"
+        className="w-full h-48 bg-gray-50 border border-gray-300 text-gray-700 rounded-md p-3 font-mono text-xs overflow-auto resize-y focus:outline-none focus:ring-1 focus:ring-[#9ef01a]"
         value={JSON.stringify(data, null, 2)}
       />
     </div>
@@ -423,33 +423,33 @@ export const CanvasEditor: FC<{
   };
 
   return (
-    <div className="flex flex-col lg:flex-row h-[calc(100vh-250px)] bg-slate-900 rounded-lg overflow-hidden shadow-2xl">
+    <div className="flex flex-col lg:flex-row h-[calc(100vh-250px)] bg-white rounded-lg overflow-hidden shadow-2xl">
       <AssetPalette assets={assets} />
 
       <div className="flex-1 flex flex-col min-w-0">
         {/* Canvas Controls */}
-        <div className="p-4 border-b border-slate-700 bg-slate-800 flex flex-wrap items-center gap-6 shadow-md">
+        <div className="p-4 border-b border-gray-200 bg-gray-50 flex flex-wrap items-center gap-6 shadow-md">
           <div className="flex items-center gap-2">
             <Label
               htmlFor="background-select"
-              className="text-slate-300 text-sm flex items-center gap-2 font-medium"
+              className="text-gray-700 text-sm flex items-center gap-2 font-medium"
             >
-              <Layers className="h-4 w-4 text-purple-400" /> Background:
+              <Layers className="h-4 w-4 text-[#9ef01a]" /> Background:
             </Label>
             <Select
               value={bgId}
               onValueChange={setBgId}
               disabled={backgrounds.length === 0}
             >
-              <SelectTrigger className="w-[180px] bg-slate-700 border-slate-600 text-slate-100 focus:ring-cyan-500 data-[placeholder]:text-slate-400">
+              <SelectTrigger className="w-[180px] bg-white border-gray-200 text-black focus:ring-[#9ef01a] data-[placeholder]:text-gray-400">
                 <SelectValue placeholder="Select a background" />
               </SelectTrigger>
-              <SelectContent className="bg-slate-800 border-slate-700 text-slate-100">
+              <SelectContent className="bg-white border-gray-200 text-black">
                 {backgrounds.length === 0 ? (
                   <SelectItem
                     value="no-background"
                     disabled
-                    className="text-slate-500"
+                    className="text-gray-500"
                   >
                     No backgrounds available
                   </SelectItem>
@@ -458,7 +458,7 @@ export const CanvasEditor: FC<{
                     <SelectItem
                       key={b.id}
                       value={b.id}
-                      className="hover:bg-slate-700 focus:bg-slate-700"
+                      className="hover:bg-gray-100 focus:bg-gray-100"
                     >
                       {b.id.substring(0, 8)}...
                     </SelectItem>
@@ -471,9 +471,9 @@ export const CanvasEditor: FC<{
           <div className="flex items-center gap-2">
             <Label
               htmlFor="width-input"
-              className="text-slate-300 text-sm flex items-center gap-2 font-medium"
+              className="text-gray-700 text-sm flex items-center gap-2 font-medium"
             >
-              <Ruler className="h-4 w-4 text-cyan-400" /> Width:
+              <Ruler className="h-4 w-4 text-[#9ef01a]" /> Width:
             </Label>
             <Input
               id="width-input"
@@ -482,7 +482,7 @@ export const CanvasEditor: FC<{
               onChange={(e) =>
                 setSize({ ...size, width: Math.max(1, Number(e.target.value)) })
               }
-              className="w-24 bg-slate-700 border-slate-600 text-slate-100 focus:border-purple-500"
+              className="w-24 bg-white border-gray-200 text-black focus:border-[#9ef01a]"
               min={100}
               placeholder="Width"
             />
@@ -491,9 +491,9 @@ export const CanvasEditor: FC<{
           <div className="flex items-center gap-2">
             <Label
               htmlFor="height-input"
-              className="text-slate-300 text-sm flex items-center gap-2 font-medium"
+              className="text-gray-700 text-sm flex items-center gap-2 font-medium"
             >
-              <Ruler className="h-4 w-4 text-cyan-400" /> Height:
+              <Ruler className="h-4 w-4 text-[#9ef01a]" /> Height:
             </Label>
             <Input
               id="height-input"
@@ -505,7 +505,7 @@ export const CanvasEditor: FC<{
                   height: Math.max(1, Number(e.target.value)),
                 })
               }
-              className="w-24 bg-slate-700 border-slate-600 text-slate-100 focus:border-purple-500"
+              className="w-24 bg-white border-gray-200 text-black focus:border-[#9ef01a]"
               min={100}
               placeholder="Height"
             />
@@ -514,18 +514,18 @@ export const CanvasEditor: FC<{
           <div className="flex items-center gap-2">
             <Label
               htmlFor="num-elements"
-              className="text-slate-300 text-sm flex items-center gap-2 font-medium"
+              className="text-gray-700 text-sm flex items-center gap-2 font-medium"
             >
-              <Square className="h-4 w-4 text-teal-400" /> Elements:
+              <Square className="h-4 w-4 text-[#9ef01a]" /> Elements:
             </Label>
-            <span id="num-elements" className="text-slate-100 font-bold">
+            <span id="num-elements" className="text-black font-bold">
               {elements.length}
             </span>
           </div>
 
           <Button
             onClick={exportForPreview}
-            className="px-5 py-2 bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 text-white font-semibold rounded-lg shadow-md transition-all duration-300 transform hover:scale-105"
+            className="px-5 py-2 bg-gradient-to-r from-[#9ef01a] to-[#8dd919] hover:from-[#8dd919] hover:to-[#7bc618] text-black font-semibold rounded-lg shadow-md transition-all duration-300 transform hover:scale-105"
             title="Export current canvas data and show preview"
           >
             <Download className="h-4 w-4 mr-2" /> Export & Preview
@@ -533,7 +533,7 @@ export const CanvasEditor: FC<{
 
           <Button
             onClick={togglePreview}
-            className="px-5 py-2 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-semibold rounded-lg shadow-md transition-all duration-300 transform hover:scale-105"
+            className="px-5 py-2 bg-gradient-to-r from-[#9ef01a] to-blue-500 hover:from-[#8dd919] hover:to-blue-600 text-black font-semibold rounded-lg shadow-md transition-all duration-300 transform hover:scale-105"
             title={showPreview ? "Hide Preview Panel" : "Show Preview Panel"}
           >
             {showPreview ? (
@@ -560,7 +560,7 @@ export const CanvasEditor: FC<{
 
         {/* Canvas Area */}
         <div
-          className="flex-1 p-6 flex justify-center items-center bg-slate-950 overflow-auto relative"
+          className="flex-1 p-6 flex justify-center items-center bg-gray-100 overflow-auto relative"
           onDragOver={(e) => e.preventDefault()}
           onDrop={handleDrop}
           onClick={(e) => {
@@ -571,7 +571,7 @@ export const CanvasEditor: FC<{
           }}
         >
           {elements.length === 0 && (
-            <div className="absolute inset-0 flex items-center justify-center text-slate-500 text-lg pointer-events-none">
+            <div className="absolute inset-0 flex items-center justify-center text-gray-400 text-lg pointer-events-none">
               Drag assets from the left palette onto the canvas to start
               designing!
             </div>
@@ -580,7 +580,7 @@ export const CanvasEditor: FC<{
             width={size.width}
             height={size.height}
             ref={stageRef}
-            className="border border-slate-700 rounded-lg shadow-xl bg-slate-800"
+            className="border border-gray-300 rounded-lg shadow-xl bg-white"
             style={{ minWidth: size.width, minHeight: size.height }}
           >
             <Layer>
@@ -616,7 +616,7 @@ export const CanvasEditor: FC<{
       {/* Preview Section - Conditional rendering and responsive styling */}
       {showPreview && previewData && (
         <div
-          className={`w-full lg:w-96 bg-slate-900 border-t lg:border-t-0 lg:border-l border-slate-700 p-4 flex flex-col space-y-4 overflow-y-auto custom-scrollbar shadow-lg ${isFullScreen ? "fixed inset-0 z-50" : ""}`}
+          className={`w-full lg:w-96 bg-white border-t lg:border-t-0 lg:border-l border-gray-200 p-4 flex flex-col space-y-4 overflow-y-auto custom-scrollbar shadow-lg ${isFullScreen ? "fixed inset-0 z-50" : ""}`}
         >
           <PreviewCanvas
             data={previewData}

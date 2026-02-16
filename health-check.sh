@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Health check script for Metaverse Application
-# Verifies all services are running and accessible
-
 echo "🏥 Metaverse Application Health Check"
 echo "======================================"
 echo ""
@@ -116,7 +113,7 @@ echo ""
 
 # Check ports
 echo "🔌 Port Status:"
-check_port "HTTP API (3000)" 3000
+check_port "HTTP API (5432)" 5432
 check_port "WebSocket (8080)" 8080
 if [ "$MODE" = "production" ]; then
     check_port "Nginx HTTP (80)" 80

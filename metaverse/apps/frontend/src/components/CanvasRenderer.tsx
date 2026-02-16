@@ -165,7 +165,7 @@ export const CanvasRenderer = ({
       autoFocus
       tabIndex={0}
       ref={canvasRef}
-      className="border-2 border-slate-600 rounded-xl"
+      className="border-2 border-gray-200 rounded-xl"
       style={{ imageRendering: "pixelated" }}
     />
   );

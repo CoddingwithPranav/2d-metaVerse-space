@@ -34,12 +34,12 @@ export const ItemCard: React.FC<ItemCardProps> = ({ item, delay }) => {
     }
   }, [addToObserve, delay]);
 
-  const placeholderBg = `bg-gradient-to-br from-${["indigo", "sky", "rose", "teal"][Math.floor(Math.random() * 4)]}-700 to-slate-800`;
+  const placeholderBg = `bg-gradient-to-br from-[#9ef01a]/80 to-gray-100`;
 
   return (
     <div
       ref={cardRef}
-      className="bg-slate-800 rounded-xl shadow-xl overflow-hidden group transition-all duration-300 hover:shadow-cyan-500/30 transform hover:scale-105 border border-slate-700 hover:border-cyan-500/50"
+      className="bg-white rounded-xl shadow-xl overflow-hidden group transition-all duration-300 hover:shadow-[#9ef01a]/30 transform hover:scale-105 border border-gray-200 hover:border-[#9ef01a]/50"
     >
       <div
         className={`w-full h-56 ${item.imageUrl ? "" : placeholderBg} flex items-center justify-center overflow-hidden`}
@@ -51,29 +51,29 @@ export const ItemCard: React.FC<ItemCardProps> = ({ item, delay }) => {
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
             onError={(e) => {
               (e.target as HTMLImageElement).src =
-                `https://placehold.co/600x400/334155/e2e8f0?text=Error`;
+                `https://placehold.co/600x400/f5f5f5/cccccc?text=Error`;
             }}
           />
         ) : (
-          <Layers size={64} className="text-slate-500 opacity-50" /> // Default icon
+          <Layers size={64} className="text-gray-300 opacity-50" /> // Default icon
         )}
       </div>
       <div className="p-6">
         {item.type && (
-          <span className="inline-block bg-purple-500/20 text-purple-300 text-xs font-semibold px-2.5 py-1 rounded-full mb-2">
+          <span className="inline-block bg-[#9ef01a]/15 text-[#9ef01a] text-xs font-semibold px-2.5 py-1 rounded-full mb-2">
             {item.type}
           </span>
         )}
-        <h3 className="text-xl font-semibold text-slate-100 mb-2">
+        <h3 className="text-xl font-semibold text-black mb-2">
           {item.title}
         </h3>
-        <p className="text-slate-400 text-sm leading-relaxed line-clamp-3 mb-3">
+        <p className="text-gray-600 text-sm leading-relaxed line-clamp-3 mb-3">
           {item.description}
         </p>
         {item.details && (
-          <p className="text-xs text-slate-500">{item.details}</p>
+          <p className="text-xs text-gray-500">{item.details}</p>
         )}
-        <button className="inline-flex items-center mt-4 text-cyan-400 hover:text-cyan-300 font-medium group/link">
+        <button className="inline-flex items-center mt-4 text-[#9ef01a] hover:text-[#8dd919] font-medium group/link">
           Explore{" "}
           <ArrowRight
             size={16}
