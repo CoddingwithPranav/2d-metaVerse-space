@@ -27,32 +27,32 @@ const InputField: React.FC<{
   onChange,
   disabled,
 }) => (
-  <div>
-    <label
-      htmlFor={id}
-      className="block text-sm font-medium text-gray-700 mb-2"
-    >
-      {label}
-    </label>
-    <div className="relative">
-      {Icon && (
-        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <Icon className="text-gray-400" size={18} />
-        </div>
-      )}
-      <input
-        type={type}
-        id={id}
-        name={id}
-        placeholder={placeholder}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        disabled={disabled}
-        className={`w-full py-2.5 ${Icon ? "pl-10" : "px-3"} pr-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-400 focus:ring-2 focus:ring-[#9ef01a] focus:border-[#9ef01a] outline-none transition-all ${disabled ? "opacity-50 cursor-not-allowed" : ""}`}
-      />
+    <div>
+      <label
+        htmlFor={id}
+        className="block text-sm font-medium text-gray-700 mb-2"
+      >
+        {label}
+      </label>
+      <div className="relative">
+        {Icon && (
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <Icon className="text-gray-400" size={18} />
+          </div>
+        )}
+        <input
+          type={type}
+          id={id}
+          name={id}
+          placeholder={placeholder}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          disabled={disabled}
+          className={`w-full py-2.5 ${Icon ? "pl-10" : "px-3"} pr-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-400 focus:ring-2 focus:ring-[#9ef01a] focus:border-[#9ef01a] outline-none transition-all ${disabled ? "opacity-50 cursor-not-allowed" : ""}`}
+        />
+      </div>
     </div>
-  </div>
-);
+  );
 
 const Authentication: React.FC = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -141,8 +141,9 @@ const Authentication: React.FC = () => {
   return (
     <AnimatedPageWrapper
       id="auth"
-      className="flex items-center justify-center bg-gray-50 min-h-screen"
-    >
+      className="flex  items-center justify-center bg-green-500 min-h-screen"
+    > 
+      <div className="flex justify-center ">
       <div
         ref={formRef}
         className="w-full max-w-md bg-white p-8 rounded-xl shadow-lg border border-gray-200 opacity-0"
@@ -208,11 +209,10 @@ const Authentication: React.FC = () => {
                     <div
                       key={avatar.id}
                       onClick={() => setSelectedAvatarId(avatar.id)}
-                      className={`cursor-pointer p-3 rounded-lg transition-all hover:scale-105 border-2 ${
-                        selectedAvatarId === avatar.id
+                      className={`cursor-pointer p-3 rounded-lg transition-all hover:scale-105 border-2 ${selectedAvatarId === avatar.id
                           ? "border-[#9ef01a] bg-[#9ef01a]/10"
                           : "border-gray-200 hover:border-gray-300 bg-white"
-                      }`}
+                        }`}
                     >
                       <img
                         src={avatar.idleUrls.down}
@@ -259,6 +259,7 @@ const Authentication: React.FC = () => {
             {isLogin ? "Sign Up" : "Login"}
           </button>
         </p>
+      </div>
       </div>
     </AnimatedPageWrapper>
   );
