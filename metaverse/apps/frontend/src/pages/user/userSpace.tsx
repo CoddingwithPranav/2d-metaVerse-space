@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -34,6 +34,7 @@ export const UserSpace: React.FC = () => {
   const [selectedSpace, setSelectedSpace] = useState<Space | null>(null);
   const [isLoading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const fetchSpaces = async () => {
@@ -50,7 +51,7 @@ export const UserSpace: React.FC = () => {
       }
     };
     fetchSpaces();
-  }, []);
+  }, [location]);
 
   useEffect(() => {
     const results = spaces.filter((space) =>
