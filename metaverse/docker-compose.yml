@@ -16,6 +16,22 @@ services:
       timeout: 5s
       retries: 5
 
+  db-generate:
+    container_name: dbGenerateContainer
+    build:
+      context: ./
+      dockerfile: ./docker/Dockerfile.http
+    env_file:
+      - .env
+    volumes:
+      - ./packages:/usr/app/metaverse/packages
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: sh -c "npm run db:generate"
+
   http:
     container_name: httpContainer
     ports:
@@ -39,7 +55,9 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-    command: sh -c "npm run db:migrate && npm run db:generate && npm run db:seed && npm run start:http"
+      db-generate:
+        condition: service_completed_successfully
+    command: sh -c "npm run start:http"
 
   ws:
     container_name: wsContainer
@@ -60,7 +78,9 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-    command: sh -c "npm run db:migrate && npm run db:generate && npm run db:seed && npm run start:ws"
+      db-generate:
+        condition: service_completed_successfully
+    command: sh -c "npm run start:ws"
 
   frontend:
     container_name: frontendContainer

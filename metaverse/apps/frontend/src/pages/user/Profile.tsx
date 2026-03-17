@@ -2,12 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Pencil, LayoutDashboard, UploadCloud } from "lucide-react"; // Added UploadCloud icon
+import { Pencil, LayoutDashboard, UploadCloud } from "lucide-react"; 
 import { useNavigate } from "react-router-dom";
 import { authService } from "@/service/authService";
-import "../../App.css"; // Assuming this imports global styles if needed
+import "../../App.css"; 
 
-// Shadcn UI Components (Ensuring these are themed via Tailwind/global CSS)
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -39,7 +38,6 @@ import {
 import UploadExample from "@/components/ui/imageupload";
 import { AnimatedPageWrapper } from "@/components/ui/AnimatedPageWrapper";
 
-// Zod schema for profile form validation
 const profileFormSchema = z.object({
   displayName: z
     .string()
@@ -54,7 +52,6 @@ const profileFormSchema = z.object({
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
-// Main Profile Component
 export const Profile: React.FC = () => {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -71,14 +68,13 @@ export const Profile: React.FC = () => {
     defaultValues: { displayName: "", profileImage: "" },
   });
 
-  // Fetch user profile on component mount
   useEffect(() => {
     const fetchUserProfile = async () => {
       setLoading(true);
       try {
         const data = await authService.profile();
         setUser(data);
-        const imageUrl = data.profileImage || ""; // Ensure it's an empty string for default
+        const imageUrl = data.profileImage || ""; 
         form.reset({
           displayName: data.displayName || "",
           profileImage: imageUrl,
@@ -86,7 +82,6 @@ export const Profile: React.FC = () => {
         setNewImageUrl(imageUrl);
       } catch (err) {
         console.error("Failed to fetch user profile:", err);
-        // TODO: Handle error elegantly, e.g., show a toast or redirect
       } finally {
         setLoading(false);
       }
@@ -94,7 +89,6 @@ export const Profile: React.FC = () => {
     fetchUserProfile();
   }, [form]);
 
-  // Form submission handler
   const onSubmit = async (values: ProfileFormValues) => {
     setLoading(true);
     try {
@@ -115,7 +109,6 @@ export const Profile: React.FC = () => {
 
   const handleCancelEdit = () => {
     setIsEditing(false);
-    // Reset form and image to original state
     form.reset({
       displayName: user.displayName,
       profileImage: user.profileImage || "",
@@ -125,8 +118,8 @@ export const Profile: React.FC = () => {
 
   if (loading && !user) {
     return (
-      <AnimatedPageWrapper className="bg-gradient-to-b from-slate-900 to-slate-950 flex items-center justify-center">
-        <div className="text-xl text-slate-300 animate-pulse">
+      <AnimatedPageWrapper className="bg-gray-50 flex items-center justify-center">
+        <div className="text-xl text-gray-600 animate-pulse">
           Loading profile...
         </div>
       </AnimatedPageWrapper>
@@ -135,8 +128,8 @@ export const Profile: React.FC = () => {
 
   if (!user) {
     return (
-      <AnimatedPageWrapper className="bg-gradient-to-b from-slate-900 to-slate-950 flex items-center justify-center">
-        <div className="text-xl text-red-400">Could not load user profile.</div>
+      <AnimatedPageWrapper className="bg-gray-50 flex items-center justify-center">
+        <div className="text-xl text-red-500">Could not load user profile.</div>
       </AnimatedPageWrapper>
     );
   }
@@ -146,19 +139,16 @@ export const Profile: React.FC = () => {
   return (
     <AnimatedPageWrapper
       id="profile"
-      className="bg-gradient-to-b from-slate-900 to-slate-950"
+      className="bg-gray-50"
     >
-      <h2 className="text-4xl md:text-5xl font-bold text-center mb-12 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">
-        Your Profile
-      </h2>
-      <Card className="max-w-3xl mx-auto bg-slate-800/70 p-6 sm:p-8 rounded-xl shadow-2xl border border-slate-700 transition-all duration-300 hover:shadow-purple-500/30">
+      <Card className="max-w-3xl mx-auto bg-white p-6 sm:p-8 rounded-xl shadow-lg border border-gray-200 transition-all duration-300">
         <CardHeader className="text-center pb-6">
           {" "}
           {/* Added padding-bottom */}
-          <CardTitle className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 mb-2">
+          <CardTitle className="text-3xl font-extrabold text-black mb-2">
             Manage Your Info
           </CardTitle>
-          <CardDescription className="text-slate-400 text-base">
+          <CardDescription className="text-gray-600 text-base">
             {" "}
             {/* Adjusted text color and size */}
             View or update your display name and profile image.
@@ -171,9 +161,9 @@ export const Profile: React.FC = () => {
           <div className="relative group">
             {" "}
             {/* Added group for hover effect */}
-            <Avatar className="w-36 h-36 border-4 border-purple-500 shadow-xl transition-all duration-300 group-hover:scale-105 group-hover:border-cyan-400">
+            <Avatar className="w-36 h-36 border-4 border-gray-300 shadow-lg transition-all duration-300 group-hover:scale-105 group-hover:border-[#9ef01a]">
               <AvatarImage src={displayedImage} alt={user.displayName} />
-              <AvatarFallback className="text-6xl font-bold bg-purple-600 text-white flex items-center justify-center">
+              <AvatarFallback className="text-6xl font-bold bg-[#9ef01a] text-black flex items-center justify-center">
                 {user.displayName?.charAt(0).toUpperCase() || "?"}
               </AvatarFallback>
             </Avatar>
@@ -186,20 +176,20 @@ export const Profile: React.FC = () => {
                   <Button
                     variant="ghost" // Use ghost for a more subtle button that reveals on hover
                     size="icon"
-                    className="absolute bottom-0 right-0 rounded-full bg-slate-700/80 hover:bg-purple-600 border border-slate-600 text-slate-100 p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    className="absolute bottom-0 right-0 rounded-full bg-gray-800/80 hover:bg-[#9ef01a] border border-gray-600 text-black p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                   >
                     <Pencil className="h-5 w-5" />
                     <span className="sr-only">Change profile image</span>
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="bg-slate-800 text-slate-100 border-slate-700 rounded-lg shadow-xl">
+                <DialogContent className="bg-white text-black border-gray-200 rounded-lg shadow-xl">
                   {" "}
                   {/* Themed Dialog */}
                   <DialogHeader>
-                    <DialogTitle className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400 text-2xl font-bold">
+                    <DialogTitle className="text-black text-2xl font-bold">
                       Upload New Profile Image
                     </DialogTitle>
-                    <DialogDescription className="text-slate-400">
+                    <DialogDescription className="text-gray-600">
                       Select a new image for your profile.
                     </DialogDescription>
                   </DialogHeader>
@@ -212,7 +202,7 @@ export const Profile: React.FC = () => {
                         });
                       }}
                     />
-                    <div className="mt-4 text-sm text-slate-500 flex items-center justify-center gap-2">
+                    <div className="mt-4 text-sm text-gray-500 flex items-center justify-center gap-2">
                       <UploadCloud size={16} /> Image will be uploaded upon
                       saving changes.
                     </div>
@@ -220,7 +210,7 @@ export const Profile: React.FC = () => {
                   <DialogFooter className="pt-4">
                     <Button
                       onClick={() => setUploadDialogOpen(false)}
-                      className="bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-md shadow-md transition-all duration-300"
+                      className="bg-[#9ef01a] hover:opacity-90 text-black font-semibold rounded-md shadow-md transition-all duration-300"
                     >
                       Done
                     </Button>
@@ -233,24 +223,24 @@ export const Profile: React.FC = () => {
             <div className="w-full text-center space-y-3">
               {" "}
               {/* Increased space-y */}
-              <p className="text-3xl font-bold text-slate-50">
+              <p className="text-3xl font-bold text-black">
                 {user.displayName}
               </p>{" "}
               {/* Bolder, brighter text */}
-              <p className="text-lg text-purple-400">@{user.username}</p>{" "}
+              <p className="text-lg text-gray-700">@{user.username}</p>{" "}
               {/* More prominent accent */}
               <div className="pt-6 flex flex-col sm:flex-row justify-center gap-4">
                 {" "}
                 {/* Increased pt */}
                 <Button
-                  className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-700 hover:to-cyan-600 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105"
+                  className="w-full sm:w-auto px-6 py-3 bg-[#9ef01a] hover:opacity-90 text-black font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105"
                   onClick={() => setIsEditing(true)}
                   disabled={loading}
                 >
                   Edit Profile
                 </Button>
                 <Button
-                  className="w-full sm:w-auto px-6 py-3 bg-slate-700 hover:bg-slate-600 border border-slate-600 hover:border-purple-500 text-slate-200 font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105"
+                  className="w-full sm:w-auto px-6 py-3 bg-gray-200 hover:bg-gray-300 border border-gray-300 hover:border-gray-400 text-black font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105"
                   onClick={() => navigate("/admin/dashboard")}
                   disabled={loading}
                 >
@@ -268,7 +258,7 @@ export const Profile: React.FC = () => {
                 <div>
                   <Label
                     htmlFor="username-display"
-                    className="block text-sm font-medium text-slate-300 mb-2"
+                    className="block text-sm font-medium text-gray-700 mb-2"
                   >
                     Username
                   </Label>{" "}
@@ -277,7 +267,7 @@ export const Profile: React.FC = () => {
                     id="username-display"
                     value={`@${user.username}`}
                     disabled
-                    className="bg-slate-700/50 cursor-not-allowed text-slate-300 border-slate-600 focus:border-purple-500"
+                    className="bg-gray-100 cursor-not-allowed text-gray-600 border-gray-300 focus:border-[#9ef01a]"
                   />
                 </div>
                 <FormField
@@ -285,13 +275,13 @@ export const Profile: React.FC = () => {
                   name="displayName"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-slate-300">
+                      <FormLabel className="text-gray-700">
                         Display Name
                       </FormLabel>{" "}
                       {/* Themed label */}
                       <FormControl>
                         <Input
-                          className="text-slate-100 bg-slate-700 border-slate-600 focus:border-purple-500 placeholder:text-slate-500" // Themed input
+                          className="text-black bg-white border-gray-300 focus:border-[#9ef01a] placeholder:text-gray-400" // Themed input
                           placeholder="Your awesome display name"
                           {...field}
                         />
@@ -306,7 +296,7 @@ export const Profile: React.FC = () => {
                   {/* Increased pt */}
                   <Button
                     type="submit"
-                    className="flex-1 bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-700 hover:to-cyan-600 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
+                    className="flex-1 bg-[#9ef01a] hover:opacity-90 text-black font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
                     disabled={loading}
                   >
                     {loading ? "Saving..." : "Save Changes"}
@@ -314,7 +304,7 @@ export const Profile: React.FC = () => {
                   <Button
                     type="button"
                     variant="outline"
-                    className="flex-1 bg-slate-700 hover:bg-slate-600 border border-slate-600 hover:border-red-500 text-red-400 font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-300" // Themed cancel button
+                    className="flex-1 bg-gray-200 hover:bg-gray-300 border border-gray-300 hover:border-red-400 text-red-600 font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-300" // Themed cancel button
                     onClick={handleCancelEdit}
                   >
                     Cancel

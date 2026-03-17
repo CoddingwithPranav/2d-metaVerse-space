@@ -20,7 +20,7 @@ This Turborepo monorepo includes the following packages and apps:
 
 ### Applications
 
-- **`apps/frontend`**: Next.js application for the user interface (Port: 3001)
+- **`apps/frontend`**: React application for the user interface (Port: 5432)
 - **`apps/http`**: Express.js REST API server (Port: 3000)
 - **`apps/ws`**: WebSocket server for real-time communication (Port: 8080)
 
@@ -74,7 +74,7 @@ All packages and apps are written in [TypeScript](https://www.typescriptlang.org
    - Seed initial data
 
 4. **Access the application**
-   - Frontend: http://localhost:3001
+   - Frontend: http://localhost:5432
    - HTTP API: http://localhost:3000
    - WebSocket: ws://localhost:8080
 
@@ -156,17 +156,6 @@ npm run lint
 ```bash
 npm run format
 ```
-
-## 📚 Tech Stack
-
-- **Frontend**: Next.js, React, TypeScript
-- **Backend**: Node.js, Express.js
-- **Real-time**: WebSocket (ws library)
-- **Database**: PostgreSQL, Prisma ORM
-- **Monorepo**: Turborepo
-- **Containerization**: Docker, Docker Compose
-- **Code Quality**: ESLint, Prettier, TypeScript
-
 ## 🤝 Contributing
 
 1. Fork the repository

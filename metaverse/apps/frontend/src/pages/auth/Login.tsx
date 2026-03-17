@@ -8,7 +8,6 @@ import { AlertCircle } from "lucide-react";
 import { AnimatedPageWrapper } from "@/components/ui/AnimatedPageWrapper";
 import { avatarService } from "@/service/avatarService";
 
-// Utility InputField component
 const InputField: React.FC<{
   id: string;
   type: string;
@@ -28,32 +27,32 @@ const InputField: React.FC<{
   onChange,
   disabled,
 }) => (
-  <div>
-    <label
-      htmlFor={id}
-      className="block text-sm font-medium text-slate-300 mb-1"
-    >
-      {label}
-    </label>
-    <div className="relative">
-      {Icon && (
-        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <Icon className="text-slate-500" size={18} />
-        </div>
-      )}
-      <input
-        type={type}
-        id={id}
-        name={id}
-        placeholder={placeholder}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        disabled={disabled}
-        className={`w-full py-2.5 ${Icon ? "pl-10" : "px-3"} pr-3 bg-slate-700 border border-slate-600 rounded-md text-slate-100 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-colors ${disabled ? "opacity-50 cursor-not-allowed" : ""}`}
-      />
+    <div>
+      <label
+        htmlFor={id}
+        className="block text-sm font-medium text-gray-700 mb-2"
+      >
+        {label}
+      </label>
+      <div className="relative">
+        {Icon && (
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <Icon className="text-gray-400" size={18} />
+          </div>
+        )}
+        <input
+          type={type}
+          id={id}
+          name={id}
+          placeholder={placeholder}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          disabled={disabled}
+          className={`w-full py-2.5 ${Icon ? "pl-10" : "px-3"} pr-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-400 focus:ring-2 focus:ring-[#9ef01a] focus:border-[#9ef01a] outline-none transition-all ${disabled ? "opacity-50 cursor-not-allowed" : ""}`}
+        />
+      </div>
     </div>
-  </div>
-);
+  );
 
 const Authentication: React.FC = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -96,25 +95,25 @@ const Authentication: React.FC = () => {
     setError(null);
     setLoading(true);
 
-    // Basic validation
-    if (
-      !email.trim() ||
-      !password.trim() ||
-      (!isLogin && !username.trim()) ||
-      (!isLogin && password !== confirmPassword)
-    ) {
-      if (!email.trim() || !password.trim()) {
-        setError("Email and password are required.");
-      } else if (!isLogin && !username.trim()) {
-        setError("Username is required for signup.");
-      } else if (!isLogin && password !== confirmPassword) {
-        setError("Passwords do not match.");
-      }
+    // Validation
+    if (!email.trim() || !password.trim()) {
+      setError("Email and password are required.");
       setLoading(false);
       return;
     }
 
-    // Avatar validation for signup
+    if (!isLogin && !username.trim()) {
+      setError("Username is required for signup.");
+      setLoading(false);
+      return;
+    }
+
+    if (!isLogin && password !== confirmPassword) {
+      setError("Passwords do not match.");
+      setLoading(false);
+      return;
+    }
+
     if (!isLogin && !selectedAvatarId) {
       setError("Please select an avatar.");
       setLoading(false);
@@ -123,30 +122,17 @@ const Authentication: React.FC = () => {
 
     try {
       if (isLogin) {
-        // Login flow
         const data = await authService.login(email, password);
         saveAuthData(data.token);
         navigate("/");
       } else {
-        // Signup flow with avatar
-        const newUser = await authService.register(
-          email,
-          password,
-          selectedAvatarId!,
-        );
-        if (newUser) {
-          const loginData = await authService.login(email, password);
-          saveAuthData(loginData.token);
-          navigate("/");
-          setIsLogin(true);
-        }
+        await authService.register(email, password, selectedAvatarId!);
+        const loginData = await authService.login(email, password);
+        saveAuthData(loginData.token);
+        navigate("/");
       }
     } catch (err: any) {
-      if (err.response?.data?.message) {
-        setError(err.response.data.message);
-      } else {
-        setError("An error occurred during authentication.");
-      }
+      setError(err.response?.data?.message || "Authentication failed. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -155,16 +141,17 @@ const Authentication: React.FC = () => {
   return (
     <AnimatedPageWrapper
       id="auth"
-      className="flex items-center justify-center bg-gradient-to-br from-slate-950 via-slate-900 to-gray-900"
-    >
+      className="flex  items-center justify-center bg-green-500 min-h-screen"
+    > 
+      <div className="flex justify-center ">
       <div
         ref={formRef}
-        className="w-full max-w-md bg-slate-800/80 backdrop-blur-sm p-8 rounded-xl shadow-2xl border border-slate-700 opacity-0"
+        className="w-full max-w-md bg-white p-8 rounded-xl shadow-lg border border-gray-200 opacity-0"
       >
-        <h2 className="text-3xl font-bold text-center mb-2 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">
-          {isLogin ? "Welcome Back!" : "Join PixelVerse"}
+        <h2 className="text-3xl font-bold text-center mb-2 text-black">
+          {isLogin ? "Welcome Back!" : "Join MetaVerse"}
         </h2>
-        <p className="text-center text-slate-400 mb-8">
+        <p className="text-center text-gray-600 mb-8">
           {isLogin
             ? "Login to continue your adventure."
             : "Create an account to start exploring."}
@@ -213,28 +200,31 @@ const Authentication: React.FC = () => {
           )}
           {!isLogin && (
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-1">
+              <label className="block text-sm font-medium text-gray-700 mb-3">
                 Select Avatar
               </label>
               {avatars.length > 0 ? (
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-3 gap-3">
                   {avatars.map((avatar) => (
                     <div
                       key={avatar.id}
                       onClick={() => setSelectedAvatarId(avatar.id)}
-                      className={`cursor-pointer p-2 rounded-md ${selectedAvatarId === avatar.id ? "bg-purple-500/30" : ""}`}
+                      className={`cursor-pointer p-3 rounded-lg transition-all hover:scale-105 border-2 ${selectedAvatarId === avatar.id
+                          ? "border-[#9ef01a] bg-[#9ef01a]/10"
+                          : "border-gray-200 hover:border-gray-300 bg-white"
+                        }`}
                     >
                       <img
                         src={avatar.idleUrls.down}
                         alt={avatar.name}
-                        className="w-24 h-24 object-cover rounded-md"
+                        className="w-full h-20 object-contain rounded-md mx-auto"
                       />
-                      <p className="text-center text-sm mt-1">{avatar.name}</p>
+                      <p className="text-center text-xs mt-2 text-gray-700 font-medium">{avatar.name}</p>
                     </div>
                   ))}
                 </div>
               ) : (
-                <p className="text-slate-400">Loading avatars...</p>
+                <p className="text-gray-500">Loading avatars...</p>
               )}
             </div>
           )}
@@ -249,28 +239,27 @@ const Authentication: React.FC = () => {
 
           <button
             type="submit"
-            className={`w-full animated-border-button rounded-md ${loading ? "cursor-not-allowed opacity-50" : ""}`}
+            className={`w-full bg-[#9ef01a] hover:opacity-90 text-black font-semibold py-3 rounded-lg transition-all ${loading ? "cursor-not-allowed opacity-50" : ""}`}
             disabled={loading}
           >
-            <span className="inner-content w-full py-3 text-white font-semibold">
-              {loading ? "Loading..." : isLogin ? "Login" : "Create Account"}
-            </span>
+            {loading ? "Loading..." : isLogin ? "Login" : "Create Account"}
           </button>
         </form>
 
-        <p className="mt-8 text-center text-sm text-slate-400">
+        <p className="mt-6 text-center text-sm text-gray-600">
           {isLogin ? "Don't have an account?" : "Already have an account?"}
           <button
             onClick={() => {
               setIsLogin(!isLogin);
               setError(null);
-              setSelectedAvatarId(null); // Reset avatar selection when switching
+              setSelectedAvatarId(null);
             }}
-            className="ml-1 font-medium text-purple-400 hover:text-purple-300"
+            className="ml-2 font-semibold text-black hover:underline"
           >
             {isLogin ? "Sign Up" : "Login"}
           </button>
         </p>
+      </div>
       </div>
     </AnimatedPageWrapper>
   );

@@ -132,27 +132,27 @@ const UploadExample: React.FC<UploadExampleProps> = ({
   };
 
   return (
-    <div className="space-y-4 p-4 rounded-lg border border-slate-700 bg-slate-800 shadow-lg">
+    <div className="space-y-4 p-4 rounded-lg border border-gray-400 bg-white/5 shadow-lg">
       <Label
         htmlFor="file-upload"
-        className="block text-sm font-medium text-slate-300 mb-2 flex items-center gap-2"
+        className="block text-sm font-medium text-gray-200 mb-2 flex items-center gap-2"
       >
-        <FileInput className="h-4 w-4 text-purple-400" /> Select Image File
+        <FileInput className="h-4 w-4 text-[#9ef01a]" /> Select Image File
       </Label>
       <input
         id="file-upload"
         type="file"
         ref={fileInputRef}
         onChange={handleFileChange} // Use the new handler
-        className="block w-full text-sm text-slate-300
+        className="block w-full text-sm text-gray-200
                     file:mr-4 file:py-2 file:px-4
                     file:rounded-lg file:border-0
                     file:text-sm file:font-semibold
-                    file:bg-purple-600 file:text-white
-                    hover:file:bg-purple-700
+                    file:bg-[#9ef01a] file:text-black
+                    hover:file:bg-[#8fd01a]
                     cursor-pointer
-                    bg-slate-700 rounded-lg border border-slate-600 outline-none
-                    focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500"
+                    bg-white/5 rounded-lg border border-gray-400 outline-none
+                    focus:border-[#9ef01a] focus:ring-1 focus:ring-[#9ef01a]"
         accept="image/*" // Suggest image files
       />
 
@@ -160,7 +160,7 @@ const UploadExample: React.FC<UploadExampleProps> = ({
         <Button
           onClick={handleUpload}
           disabled={isUploading || !selectedFile} // Disable if uploading or no file selected
-          className="flex-1 px-6 py-3 bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-700 hover:to-cyan-600 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105"
+          className="flex-1 px-6 py-3 bg-gradient-to-r from-[#9ef01a] to-[#9ef01a] hover:from-[#8fd01a] hover:to-[#8fd01a] text-black font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105"
         >
           {isUploading ? (
             <RotateCw className="mr-2 h-4 w-4 animate-spin" />
@@ -173,7 +173,7 @@ const UploadExample: React.FC<UploadExampleProps> = ({
           variant="outline"
           onClick={handleCancel}
           disabled={!isUploading && !localUrl && !error && !selectedFile} // Enable if something to cancel
-          className="flex-1 px-6 py-3 bg-slate-700 hover:bg-slate-600 border border-slate-600 hover:border-red-500 text-red-400 font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105"
+          className="flex-1 px-6 py-3 bg-white/5 hover:bg-white/10 border border-gray-400 hover:border-red-500 text-red-400 font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105"
         >
           <XCircle className="mr-2 h-5 w-5" /> Cancel
         </Button>
@@ -184,9 +184,9 @@ const UploadExample: React.FC<UploadExampleProps> = ({
           <Progress
             value={progress}
             max={100}
-            className="w-full h-2 bg-slate-700 [&::-webkit-progress-bar]:bg-slate-700 [&::-webkit-progress-value]:bg-gradient-to-r [&::-webkit-progress-value]:from-purple-500 [&::-webkit-progress-value]:to-cyan-500 rounded-full"
+            className="w-full h-2 bg-white/10 [&::-webkit-progress-bar]:bg-white/10 [&::-webkit-progress-value]:bg-gradient-to-r [&::-webkit-progress-value]:from-[#9ef01a] [&::-webkit-progress-value]:to-[#9ef01a] rounded-full"
           />
-          <p className="text-sm text-slate-400 text-right">
+          <p className="text-sm text-gray-300 text-right">
             {progress.toFixed(0)}%
           </p>
         </div>
@@ -203,16 +203,16 @@ const UploadExample: React.FC<UploadExampleProps> = ({
       {previewUrl &&
         !isUploading &&
         !localUrl && ( // Show preview if a file is selected and not yet uploaded/failed
-          <div className="border border-slate-700 rounded-lg p-4 bg-slate-700 shadow-md flex flex-col items-center text-center">
-            <Label className="text-lg font-semibold text-slate-100 flex items-center gap-2 mb-3">
-              <ImageOff className="h-6 w-6 text-orange-400" /> Image Preview:
+          <div className="border border-gray-400 rounded-lg p-4 bg-white/5 shadow-md flex flex-col items-center text-center">
+            <Label className="text-lg font-semibold text-white flex items-center gap-2 mb-3">
+              <ImageOff className="h-6 w-6 text-[#9ef01a]" /> Image Preview:
             </Label>
             <img
               src={previewUrl}
               alt="Selected Preview"
-              className="w-full max-h-64 object-contain rounded-md border border-slate-600 bg-slate-600 p-1"
+              className="w-full max-h-64 object-contain rounded-md border border-gray-400 bg-white/5 p-1"
             />
-            <p className="text-xs text-slate-400 mt-2 break-all">
+            <p className="text-xs text-gray-300 mt-2 break-all">
               File: {selectedFile?.name || "N/A"} (
               {selectedFile ? (selectedFile.size / 1024).toFixed(2) : 0} KB)
             </p>
@@ -223,23 +223,23 @@ const UploadExample: React.FC<UploadExampleProps> = ({
       {localUrl &&
         !isUploading &&
         !error && ( // Display uploaded image and URL after successful upload
-          <div className="border border-slate-700 rounded-lg p-4 bg-slate-700 shadow-md flex flex-col items-center text-center">
-            <Label className="text-lg font-semibold text-slate-100 flex items-center gap-2 mb-3">
+          <div className="border border-gray-400 rounded-lg p-4 bg-white/5 shadow-md flex flex-col items-center text-center">
+            <Label className="text-lg font-semibold text-white flex items-center gap-2 mb-3">
               <CheckCircle2 className="h-6 w-6 text-green-400" /> Uploaded
               Image:
             </Label>
             <img
               src={localUrl}
               alt="Uploaded"
-              className="w-full max-h-64 object-contain rounded-md border border-slate-600 bg-slate-600 p-1"
+              className="w-full max-h-64 object-contain rounded-md border border-gray-400 bg-white/5 p-1"
             />
-            <p className="text-xs text-slate-400 mt-4 break-all">
+            <p className="text-xs text-gray-300 mt-4 break-all">
               URL:{" "}
               <a
                 href={localUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-cyan-400 hover:underline transition-colors"
+                className="text-[#9ef01a] hover:underline transition-colors"
               >
                 {localUrl}
               </a>

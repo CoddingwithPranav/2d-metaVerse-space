@@ -138,32 +138,32 @@ const MapDashboard: React.FC = () => {
   };
 
   return (
-    <AnimatedPageWrapper id="map-dashboard" className="bg-slate-950">
-      <h2 className="text-4xl md:text-5xl font-bold text-center mb-12 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">
+    <AnimatedPageWrapper id="map-dashboard" className="bg-white">
+      <h2 className="text-4xl md:text-5xl font-bold text-center mb-12 text-black">
         Game Maps Management
       </h2>
 
       {!editing ? (
         <div className="space-y-8">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-            <h3 className="text-3xl font-semibold text-slate-100">
+            <h3 className="text-3xl font-semibold text-black">
               Existing Maps
             </h3>
             <Button
               onClick={() => setEditing(true)}
-              className="px-6 py-3 bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-700 hover:to-cyan-600 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105"
+              className="px-6 py-3 bg-[#9ef01a] hover:opacity-90 text-black font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105"
             >
               <PlusCircle className="h-5 w-5 mr-2" /> Create New Map
             </Button>
           </div>
 
           {isLoadingData ? (
-            <div className="text-slate-400 text-center text-lg py-10 flex items-center justify-center space-x-2">
+            <div className="text-gray-600 text-center text-lg py-10 flex items-center justify-center space-x-2">
               <Loader2 className="h-6 w-6 animate-spin" />
               <span>Loading maps and assets...</span>
             </div>
           ) : maps.length === 0 ? (
-            <div className="text-slate-400 text-center text-lg py-10">
+            <div className="text-gray-600 text-center text-lg py-10">
               No maps found. Click "Create New Map" to get started!
             </div>
           ) : (
@@ -171,20 +171,20 @@ const MapDashboard: React.FC = () => {
               {maps.map((m) => (
                 <Card
                   key={m.id}
-                  className="bg-slate-800 border border-slate-700 text-slate-100 rounded-xl shadow-xl overflow-hidden
-                             transition-all duration-300 hover:shadow-purple-500/30 transform hover:scale-105 group"
+                  className="bg-white border border-gray-200 text-black rounded-xl shadow-xl overflow-hidden
+                             transition-all duration-300 hover:shadow-lg transform hover:scale-105 group"
                 >
-                  <CardHeader className="p-4 border-b border-slate-700">
-                    <CardTitle className="text-lg font-semibold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">
-                      <LayoutGrid className="inline-block h-5 w-5 mr-2 text-purple-300" />{" "}
+                  <CardHeader className="p-4 border-b border-gray-200">
+                    <CardTitle className="text-lg font-semibold text-black">
+                      <LayoutGrid className="inline-block h-5 w-5 mr-2 text-[#9ef01a]" />{" "}
                       {m.name}
                     </CardTitle>
-                    <CardDescription className="text-slate-400">
+                    <CardDescription className="text-gray-600">
                       ID: {m.id.substring(0, 8)}...
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="p-4">
-                    <div className="w-full h-40 bg-slate-700 rounded-md overflow-hidden flex items-center justify-center border border-slate-600">
+                    <div className="w-full h-40 bg-gray-100 rounded-md overflow-hidden flex items-center justify-center border border-gray-300">
                       {m.thumbnail ? (
                         <img
                           src={m.thumbnail}
@@ -193,14 +193,14 @@ const MapDashboard: React.FC = () => {
                           onError={(e) => {
                             const target = e.target as HTMLImageElement;
                             target.src =
-                              "https://placehold.co/600x400/334155/e2e8f0?text=Image+Error";
+                              "https://placehold.co/600x400/f3f4f6/d1d5db?text=Image+Error";
                           }}
                         />
                       ) : (
-                        <Map className="text-slate-500 opacity-50 h-16 w-16" />
+                        <Map className="text-gray-400 opacity-50 h-16 w-16" />
                       )}
                     </div>
-                    <p className="mt-4 text-slate-300 text-sm">
+                    <p className="mt-4 text-gray-700 text-sm">
                       Dimensions:{" "}
                       <span className="font-medium">
                         {m.height} x {m.width}
@@ -214,12 +214,12 @@ const MapDashboard: React.FC = () => {
           )}
         </div>
       ) : (
-        <Card className="max-w-4xl mx-auto bg-slate-800/70 p-6 sm:p-8 rounded-xl shadow-2xl border border-slate-700 animate-in fade-in slide-in-from-bottom-12 duration-500">
+        <Card className="max-w-4xl mx-auto bg-white p-6 sm:p-8 rounded-xl shadow-2xl border border-gray-200 animate-in fade-in slide-in-from-bottom-12 duration-500">
           <CardHeader className="pb-6 text-center">
-            <CardTitle className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 mb-2">
+            <CardTitle className="text-3xl font-extrabold text-black mb-2">
               Design New Game Map
             </CardTitle>
-            <CardDescription className="text-slate-400 text-base">
+            <CardDescription className="text-gray-600 text-base">
               Set up your map properties and drag-and-drop elements onto the
               canvas.
             </CardDescription>
@@ -229,9 +229,9 @@ const MapDashboard: React.FC = () => {
               <div className="space-y-2">
                 <Label
                   htmlFor="mapName"
-                  className="block text-slate-300 text-base font-medium flex items-center gap-2"
+                  className="block text-gray-700 text-base font-medium flex items-center gap-2"
                 >
-                  <Map className="h-5 w-5 text-purple-400" /> Map Name
+                  <Map className="h-5 w-5 text-[#9ef01a]" /> Map Name
                 </Label>
                 <Input
                   id="mapName"
@@ -239,15 +239,15 @@ const MapDashboard: React.FC = () => {
                   value={mapName}
                   onChange={(e) => setMapName(e.target.value)}
                   placeholder="e.g., Forest Adventure Level 1"
-                  className="bg-slate-700 border-slate-600 text-slate-100 focus:border-purple-500 placeholder:text-slate-500"
+                  className="bg-gray-100 border-gray-300 text-black focus:border-[#9ef01a] placeholder:text-gray-400"
                 />
               </div>
               <div className="space-y-2">
                 <Label
                   htmlFor="thumbnail"
-                  className="block text-slate-300 text-base font-medium mb-1 flex items-center gap-2"
+                  className="block text-gray-700 text-base font-medium mb-1 flex items-center gap-2"
                 >
-                  <ImageUp className="h-5 w-5 text-cyan-400" /> Map Thumbnail
+                  <ImageUp className="h-5 w-5 text-[#9ef01a]" /> Map Thumbnail
                   Image
                 </Label>
                 <UploadExample
@@ -255,7 +255,7 @@ const MapDashboard: React.FC = () => {
                   setIsUploadCompleted={setIsThumbnailUploadComplete} // Pass setter to control parent button
                 />
                 {thumbnailUrl && (
-                  <p className="mt-2 text-sm text-slate-400 break-all">
+                  <p className="mt-2 text-sm text-gray-600 break-all">
                     Uploaded URL:{" "}
                     <span className="font-medium">{thumbnailUrl}</span>
                   </p>
@@ -264,7 +264,7 @@ const MapDashboard: React.FC = () => {
             </div>
 
             {/* Canvas Editor */}
-            <div className="border border-slate-700 rounded-lg overflow-hidden shadow-xl bg-slate-900">
+            <div className="border border-gray-200 rounded-lg overflow-hidden shadow-xl bg-white">
               <CanvasEditor
                 assets={assets}
                 backgrounds={backgrounds}
@@ -282,7 +282,7 @@ const MapDashboard: React.FC = () => {
                   !isThumbnailUploadComplete ||
                   !canvasData
                 }
-                className="flex-1 px-6 py-3 bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-700 hover:to-cyan-600 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105"
+                className="flex-1 px-6 py-3 bg-[#9ef01a] hover:opacity-90 text-black font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105"
               >
                 {isSavingMap ? (
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -294,7 +294,7 @@ const MapDashboard: React.FC = () => {
               <Button
                 variant="outline"
                 onClick={() => setEditing(false)}
-                className="flex-1 px-6 py-3 bg-slate-700 hover:bg-slate-600 border border-slate-600 hover:border-red-500 text-red-400 font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105"
+                className="flex-1 px-6 py-3 bg-white hover:bg-gray-50 border border-gray-300 text-gray-700 font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105"
               >
                 <ArrowLeft className="mr-2 h-5 w-5" /> Back to Maps List
               </Button>

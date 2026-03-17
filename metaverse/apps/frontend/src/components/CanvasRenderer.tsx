@@ -101,7 +101,6 @@ export const CanvasRenderer = ({
           Math.abs(targetX - pos.currentPixelX) > 1 ||
           Math.abs(targetY - pos.currentPixelY) > 1;
         const sprite = getSprite(userId, user.direction, isMoving);
-
         if (sprite) {
           ctx.drawImage(
             sprite.img,
@@ -132,19 +131,59 @@ export const CanvasRenderer = ({
           ctx.font = "24px Arial";
           ctx.fillText(
             emoji.emoji,
-            pos.currentPixelX + RENDER_CHARACTER_WIDTH / 2,
+            pos.currentPixelX + RENDER_CHARACTER_WIDTH / 5,
             pos.currentPixelY - 15,
           );
         }
-
         chatMessages
           .filter((m) => m.userId === userId)
           .forEach((msg, i) => {
-            const y = pos.currentPixelY - 45 - i * 25;
-            ctx.fillStyle = "rgba(255,255,255,0.9)";
-            ctx.fillRect(pos.currentPixelX, y, 100, 20);
-            ctx.fillStyle = "black";
-            ctx.fillText(msg.message, pos.currentPixelX + 50, y + 15);
+            const padding = 8;
+            ctx.font = "bold 14px Inter, sans-serif";
+
+            // 1. Measure text to make bubble width dynamic
+            const textMetrics = ctx.measureText(msg.message);
+            const bubbleWidth = textMetrics.width + padding * 2;
+            const bubbleHeight = 28;
+
+            // 2. Position (Stacked above the character)
+            const x = pos.currentPixelX + (RENDER_CHARACTER_WIDTH / 2) - (bubbleWidth / 2);
+            const y = pos.currentPixelY - 40 - (i * (bubbleHeight + 5));
+
+            // 3. Draw Shadow for depth
+            ctx.fillStyle = "rgba(0, 0, 0, 0.15)";
+            ctx.beginPath();
+            ctx.roundRect(x + 2, y + 2, bubbleWidth, bubbleHeight, 8);
+            ctx.fill();
+
+            // 4. Draw Bubble Body
+            ctx.fillStyle = "white";
+            ctx.strokeStyle = "#e2e8f0"; // Light gray border
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.roundRect(x, y, bubbleWidth, bubbleHeight, 8);
+            ctx.fill();
+            ctx.stroke();
+
+            // 5. Draw the "Tail" (Little triangle pointing down)
+            // Only draw for the bottom-most message
+            if (i === 0) {
+              ctx.fillStyle = "white";
+              ctx.beginPath();
+              ctx.moveTo(pos.currentPixelX + (RENDER_CHARACTER_WIDTH / 2) - 5, y + bubbleHeight);
+              ctx.lineTo(pos.currentPixelX + (RENDER_CHARACTER_WIDTH / 2) + 5, y + bubbleHeight);
+              ctx.lineTo(pos.currentPixelX + (RENDER_CHARACTER_WIDTH / 2), y + bubbleHeight + 6);
+              ctx.fill();
+              // Tail border
+              ctx.strokeStyle = "#e2e8f0";
+              ctx.stroke();
+            }
+
+            // 6. Draw Text
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillStyle = "#1e293b"; // Slate-800
+            ctx.fillText(msg.message, x + bubbleWidth / 2, y + bubbleHeight / 2 + 1);
           });
       });
   }, [
@@ -165,7 +204,7 @@ export const CanvasRenderer = ({
       autoFocus
       tabIndex={0}
       ref={canvasRef}
-      className="border-2 border-slate-600 rounded-xl"
+      className="border-2 border-gray-200 rounded-xl"
       style={{ imageRendering: "pixelated" }}
     />
   );

@@ -12,7 +12,7 @@ A real-time multiplayer 2D metaverse platform where users can create avatars, in
 
 ## 🏗️ Tech Stack
 
-- **Frontend**: Next.js, React, TypeScript
+- **Frontend**:  React, TypeScript
 - **Backend**: Node.js, Express.js, WebSocket
 - **Database**: PostgreSQL with Prisma ORM
 - **Infrastructure**: Docker, Turborepo Monorepo
@@ -32,7 +32,7 @@ cp .env.example .env
 npm run dev
 ```
 
-Access the platform at http://localhost:3001
+Access the platform at http://localhost:5432
 
 ## 📁 Project Structure
 
@@ -41,8 +41,39 @@ Access the platform at http://localhost:3001
 │   ├── apps/          # Frontend, HTTP API, WebSocket server
 │   ├── packages/      # Shared packages and utilities
 │   └── README.md      # Detailed documentation
-└── tests/             # Test suites
+├── tests/             # Test suites
+├── nginx.conf         # Nginx configuration for production
+├── setup-nginx.sh     # Automated Nginx & SSL setup script
+├── deploy.sh          # Quick deployment script
+├── ecosystem.config.js # PM2 configuration
+└── DEPLOYMENT.md      # Production deployment guide
 ```
+
+## 🌐 Production Deployment
+
+This project includes complete production deployment setup with Nginx and SSL:
+
+### Quick Production Deploy
+
+```bash
+# 1. Setup Nginx and SSL (one-time)
+sudo ./setup-nginx.sh
+
+# 2. Build and deploy application
+./deploy.sh
+```
+
+### Domain Configuration
+
+Production site: **https://metaverse.pranavmisrhra.dev**
+
+Endpoints:
+- Frontend: `https://metaverse.pranavmisrhra.dev/`
+- API: `https://metaverse.pranavmisrhra.dev/api`
+- WebSocket: `wss://metaverse.pranavmisrhra.dev/ws`
+
+For detailed deployment instructions, troubleshooting, and service management:
+👉 **[See DEPLOYMENT.md](./DEPLOYMENT.md)**
 
 ## 📚 Learn More
 

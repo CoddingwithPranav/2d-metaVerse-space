@@ -3,8 +3,6 @@ import { useZustandAuth } from "@/store/authStore";
 import axios from "axios";
 
 const API = axios.create({ baseURL: BACKEND_URL });
-// const { token, role } = useZustandAuth.getState(); // ✅ This works outside of React
-const token = localStorage.getItem("authToken");
 
 export const authService = {
   login: async (email: string, password: string) => {
@@ -29,6 +27,7 @@ export const authService = {
     return res.data;
   },
   profile: async () => {
+    const token = localStorage.getItem("authToken");
     const res = await API.get("/user/profile", {
       headers: {
         Authorization: `Bearer ${token}`,

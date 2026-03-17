@@ -81,22 +81,18 @@ export const MapList: React.FC = () => {
     setDetailsDialogOpen(true);
   };
 
-  // Handler to create a new space from a map
   const handleConfirmCreate = async () => {
     if (!selectedMap) return;
     try {
-      // Assuming 'authToken' is stored in localStorage after login
       const authToken = localStorage.getItem("authToken");
       await axios.post(
         `${BACKEND_URL}/space`,
         { mapId: selectedMap.id, name: selectedMap.name },
         { headers: { Authorization: `Bearer ${authToken}` } },
       );
-      // Navigate to the user's spaces page after creation
-      navigate(`/user/spaces`);
+      navigate(`/spaces`);
     } catch (err) {
       console.error("Failed to create space", err);
-      // You could show a toast notification here
       alert("Failed to create space. Please try again.");
     } finally {
       setCreateDialogOpen(false);
@@ -106,14 +102,14 @@ export const MapList: React.FC = () => {
   const renderMapCards = () => {
     if (isLoading) {
       return (
-        <p className="col-span-full text-center text-slate-400">
+        <p className="col-span-full text-center text-gray-400">
           Loading maps...
         </p>
       );
     }
     if (filteredMaps.length === 0) {
       return (
-        <Card className="col-span-full p-6 text-center text-slate-500 border-dashed border-2 bg-slate-800/50 border-slate-700">
+        <Card className="col-span-full p-6 text-center text-gray-500 border-dashed border-2 bg-gray-50 border-gray-200">
           No maps found.
         </Card>
       );
@@ -121,7 +117,7 @@ export const MapList: React.FC = () => {
     return filteredMaps.map((map) => (
       <Card
         key={map.id}
-        className="bg-slate-800/70 border-slate-700 rounded-xl shadow-lg overflow-hidden flex flex-col"
+        className="bg-white border-gray-200 rounded-xl shadow-lg overflow-hidden flex flex-col"
       >
         <img
           src={map.thumbnail}
@@ -129,23 +125,23 @@ export const MapList: React.FC = () => {
           className="w-full h-40 object-cover"
           onError={(e) => {
             (e.target as HTMLImageElement).src =
-              `https://placehold.co/600x400/1e293b/94a3b8?text=Image+Error`;
+              `https://placehold.co/600x400/e5e7eb/d1d5db?text=Image+Error`;
           }}
         />
         <CardContent className="p-4 flex flex-col flex-grow">
-          <h3 className="text-lg font-semibold text-slate-100 flex-grow">
+          <h3 className="text-lg font-semibold text-black flex-grow">
             {map.name}
           </h3>
           <Badge variant="secondary" className="mt-2 self-start">
             {map.width} x {map.height}
           </Badge>
           <div className="flex gap-2 pt-4 mt-auto">
-            <Button className="flex-1" onClick={() => openCreateDialog(map)}>
+            <Button className="flex-1 bg-[#9ef01a] hover:opacity-90 text-black" onClick={() => openCreateDialog(map)}>
               Create Space
             </Button>
             <Button
               variant="outline"
-              className="flex-1"
+              className="flex-1 border-gray-200 text-black hover:bg-gray-50"
               onClick={() => openDetailsDialog(map)}
             >
               Details
@@ -160,21 +156,17 @@ export const MapList: React.FC = () => {
     <>
       <AnimatedPageWrapper
         id="maps"
-        className="bg-gradient-to-b from-slate-900 to-slate-950"
+        className="bg-white"
       >
-        <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">
+        <h2 className="text-4xl md:text-5xl font-bold text-center mb-6 text-black">
           Discover Maps
         </h2>
-        <p className="text-lg text-slate-400 text-center mb-12 max-w-2xl mx-auto">
-          Journey through diverse landscapes. Each map offers a unique
-          foundation for your own space.
-        </p>
         <div className="max-w-md mx-auto mb-12">
           <Input
             placeholder="Search maps by name..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-slate-800/70 border-slate-700 placeholder:text-slate-500"
+            className="w-full bg-white border-gray-200 placeholder:text-gray-400 focus:border-[#9ef01a] focus:ring-[#9ef01a]"
           />
         </div>
 
@@ -198,7 +190,7 @@ export const MapList: React.FC = () => {
                 alt={selectedMap.name}
                 className="w-full h-48 object-cover rounded-md"
               />
-              <div className="text-sm text-slate-400">
+              <div className="text-sm text-gray-600">
                 Map Dimensions:{" "}
                 <Badge variant="outline">
                   {selectedMap.width} x {selectedMap.height}
@@ -209,11 +201,12 @@ export const MapList: React.FC = () => {
           <DialogFooter className="pt-4">
             <Button
               variant="outline"
+              className="border-gray-200 text-black hover:bg-gray-50"
               onClick={() => setCreateDialogOpen(false)}
             >
               Cancel
             </Button>
-            <Button onClick={handleConfirmCreate}>Confirm & Create</Button>
+            <Button className="bg-[#9ef01a] hover:opacity-90 text-black" onClick={handleConfirmCreate}>Confirm & Create</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

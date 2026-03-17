@@ -33,6 +33,7 @@ export const useAvatarLoader = () => {
         const img = new Image();
         img.crossOrigin = "anonymous";
         img.src = url;
+        img.style.objectFit = 'cover';
         (userSpriteCache[userId] as any)[type][dir] = img;
 
         promises.push(
@@ -56,14 +57,14 @@ export const useAvatarLoader = () => {
     if (!cache?.loaded) return null;
     const sheet = isMoving ? cache.run[direction] : cache.idle[direction];
     if (!sheet?.complete) return null;
-
+    const frameCount = isMoving ? 3 : 1;
     const frameIdx = isMoving ? Math.floor(Date.now() / 150) % 3 : 0;
     return {
       img: sheet,
-      sourceX: frameIdx * 50,
+      sourceX: isMoving ? (Math.floor(Date.now() / 150) % 3) * (sheet.width / 3) : 0,
       sourceY: 0,
-      sourceWidth: 50,
-      sourceHeight: 120,
+      sourceWidth: sheet.width / frameCount,
+      sourceHeight: sheet.height,
     };
   };
 

@@ -89,32 +89,32 @@ export const ElementsPage: React.FC = () => {
   };
 
   return (
-    <AnimatedPageWrapper id="elements-page" className="bg-slate-950">
-      <h2 className="text-4xl md:text-5xl font-bold text-center mb-12 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">
+    <AnimatedPageWrapper id="elements-page" className="bg-gray-50">
+      <h2 className="text-4xl md:text-5xl font-bold text-center mb-12 text-black">
         Manage Game Elements
       </h2>
 
       {!showForm ? (
         <div className="space-y-8">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-            <h3 className="text-3xl font-semibold text-slate-100">
+            <h3 className="text-3xl font-semibold text-black">
               Elements Library
             </h3>
             <Button
               onClick={() => setShowForm(true)}
-              className="px-6 py-3 bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-700 hover:to-cyan-600 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105"
+              className="px-6 py-3 bg-[#9ef01a] hover:opacity-90 text-black font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105"
             >
               <PlusCircle className="h-5 w-5 mr-2" /> Add New Element
             </Button>
           </div>
 
           {isLoadingElements ? (
-            <div className="text-slate-400 text-center text-lg py-10 flex items-center justify-center space-x-2">
+            <div className="text-gray-600 text-center text-lg py-10 flex items-center justify-center space-x-2">
               <Loader2 className="h-6 w-6 animate-spin" />
               <span>Loading elements...</span>
             </div>
           ) : elements.length === 0 ? (
-            <div className="text-slate-400 text-center text-lg py-10">
+            <div className="text-gray-600 text-center text-lg py-10">
               No elements found. Click "Add New Element" to get started!
             </div>
           ) : (
@@ -122,16 +122,16 @@ export const ElementsPage: React.FC = () => {
               {elements.map((el) => (
                 <Card
                   key={el.id}
-                  className="bg-slate-800 border border-slate-700 text-slate-100 rounded-xl shadow-xl overflow-hidden
-                             transition-all duration-300 hover:shadow-purple-500/30 transform hover:scale-105"
+                  className="bg-white border border-gray-200 text-black rounded-xl shadow-xl overflow-hidden
+                             transition-all duration-300 hover:shadow-lg transform hover:scale-105"
                 >
-                  <CardHeader className="p-4 border-b border-slate-700">
-                    <CardTitle className="text-lg font-semibold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">
+                  <CardHeader className="p-4 border-b border-gray-200">
+                    <CardTitle className="text-lg font-semibold text-black">
                       Element ID: {el.id.substring(0, 8)}...
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="p-4 space-y-3">
-                    <div className="w-full h-48 bg-slate-700 rounded-md overflow-hidden flex items-center justify-center border border-slate-600">
+                    <div className="w-full h-48 bg-gray-100 rounded-md overflow-hidden flex items-center justify-center border border-gray-300">
                       {el.imageUrl ? (
                         <img
                           src={el.imageUrl}
@@ -140,25 +140,25 @@ export const ElementsPage: React.FC = () => {
                           onError={(e) => {
                             const target = e.target as HTMLImageElement;
                             target.src =
-                              "https://placehold.co/600x400/334155/e2e8f0?text=Image+Error";
+                              "https://placehold.co/600x400/f3f4f6/d1d5db?text=Image+Error";
                           }}
                         />
                       ) : (
                         <ImageIcon
                           size={48}
-                          className="text-slate-500 opacity-50"
+                          className="text-gray-400 opacity-50"
                         />
                       )}
                     </div>
-                    <div className="flex items-center text-slate-300">
-                      <Ruler className="h-4 w-4 mr-2 text-cyan-400" />
+                    <div className="flex items-center text-gray-700">
+                      <Ruler className="h-4 w-4 mr-2 text-[#9ef01a]" />
                       <p>
                         <span className="font-medium">Dimensions:</span>{" "}
                         {el.width} x {el.height}
                       </p>
                     </div>
-                    <div className="flex items-center text-slate-300">
-                      <SquareCheckBig className="h-4 w-4 mr-2 text-purple-400" />
+                    <div className="flex items-center text-gray-700">
+                      <SquareCheckBig className="h-4 w-4 mr-2 text-[#9ef01a]" />
                       <p>
                         <span className="font-medium">Static:</span>{" "}
                         {el.static ? "Yes" : "No"}
@@ -171,14 +171,14 @@ export const ElementsPage: React.FC = () => {
           )}
         </div>
       ) : (
-        <Card className="max-w-xl mx-auto bg-slate-800/70 p-6 sm:p-8 rounded-xl shadow-2xl border border-slate-700 animate-in fade-in slide-in-from-bottom-12 duration-500">
+        <Card className="max-w-xl mx-auto bg-white p-6 sm:p-8 rounded-xl shadow-2xl border border-gray-200 animate-in fade-in slide-in-from-bottom-12 duration-500">
           {" "}
           {/* Themed form card */}
           <CardHeader className="pb-6 text-center">
-            <CardTitle className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 mb-2">
+            <CardTitle className="text-3xl font-extrabold text-black mb-2">
               Create New Element
             </CardTitle>
-            <CardDescription className="text-slate-400 text-base">
+            <CardDescription className="text-gray-600 text-base">
               Add a new game asset with its properties.
             </CardDescription>
           </CardHeader>
@@ -187,13 +187,13 @@ export const ElementsPage: React.FC = () => {
               <div className="space-y-2">
                 <Label
                   htmlFor="upload"
-                  className="text-slate-300 flex items-center gap-2"
+                  className="text-gray-700 flex items-center gap-2"
                 >
-                  <ImageIcon className="h-4 w-4 text-cyan-400" /> Upload Image
+                  <ImageIcon className="h-4 w-4 text-[#9ef01a]" /> Upload Image
                 </Label>
                 <UploadExample onUpload={(url: string) => setImageUrl(url)} />
                 {imageUrl && (
-                  <p className="text-sm text-slate-400 break-all pt-2">
+                  <p className="text-sm text-gray-600 break-all pt-2">
                     <span className="font-medium">URL:</span> {imageUrl}
                   </p>
                 )}
@@ -202,9 +202,9 @@ export const ElementsPage: React.FC = () => {
               <div className="space-y-2">
                 <Label
                   htmlFor="width"
-                  className="text-slate-300 flex items-center gap-2"
+                  className="text-gray-700 flex items-center gap-2"
                 >
-                  <Ruler className="h-4 w-4 text-purple-400" /> Width (pixels)
+                  <Ruler className="h-4 w-4 text-[#9ef01a]" /> Width (pixels)
                 </Label>
                 <Input
                   id="width"
@@ -212,16 +212,16 @@ export const ElementsPage: React.FC = () => {
                   value={width}
                   min={1}
                   onChange={(e) => setWidth(Number(e.target.value))}
-                  className="bg-slate-700 border-slate-600 text-slate-100 focus:border-purple-500 placeholder:text-slate-500"
+                  className="bg-gray-100 border-gray-300 text-black focus:border-[#9ef01a] placeholder:text-gray-400"
                 />
               </div>
 
               <div className="space-y-2">
                 <Label
                   htmlFor="height"
-                  className="text-slate-300 flex items-center gap-2"
+                  className="text-gray-700 flex items-center gap-2"
                 >
-                  <Ruler className="h-4 w-4 text-cyan-400" /> Height (pixels)
+                  <Ruler className="h-4 w-4 text-[#9ef01a]" /> Height (pixels)
                 </Label>
                 <Input
                   id="height"
@@ -229,7 +229,7 @@ export const ElementsPage: React.FC = () => {
                   value={height}
                   min={1}
                   onChange={(e) => setHeight(Number(e.target.value))}
-                  className="bg-slate-700 border-slate-600 text-slate-100 focus:border-cyan-500 placeholder:text-slate-500"
+                  className="bg-gray-100 border-gray-300 text-black focus:border-[#9ef01a] placeholder:text-gray-400"
                 />
               </div>
 
@@ -238,13 +238,13 @@ export const ElementsPage: React.FC = () => {
                   id="static"
                   checked={isStatic}
                   onCheckedChange={(checked) => setIsStatic(!!checked)}
-                  className="bg-slate-700 border-slate-600 data-[state=checked]:bg-purple-600 data-[state=checked]:text-white focus:ring-offset-slate-900 focus:ring-purple-500"
+                  className="bg-gray-100 border-gray-300 data-[state=checked]:bg-[#9ef01a] data-[state=checked]:text-black focus:ring-offset-white focus:ring-[#9ef01a]"
                 />
                 <Label
                   htmlFor="static"
-                  className="text-slate-300 flex items-center gap-2"
+                  className="text-gray-700 flex items-center gap-2"
                 >
-                  <SquareCheckBig className="h-4 w-4 text-purple-400" /> Static
+                  <SquareCheckBig className="h-4 w-4 text-[#9ef01a]" /> Static
                   Element
                 </Label>
               </div>
@@ -253,7 +253,7 @@ export const ElementsPage: React.FC = () => {
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="flex-1 px-6 py-3 bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-700 hover:to-cyan-600 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105"
+                  className="flex-1 px-6 py-3 bg-[#9ef01a] hover:opacity-90 text-black font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105"
                 >
                   {isSubmitting ? (
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -266,7 +266,7 @@ export const ElementsPage: React.FC = () => {
                   type="button"
                   variant="outline"
                   onClick={() => setShowForm(false)}
-                  className="flex-1 px-6 py-3 bg-slate-700 hover:bg-slate-600 border border-slate-600 hover:border-red-500 text-red-400 font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105"
+                  className="flex-1 px-6 py-3 bg-gray-100 hover:bg-gray-300 border border-gray-300 hover:border-red-500 text-red-400 font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105"
                 >
                   <ArrowLeft className="mr-2 h-5 w-5" /> Back to List
                 </Button>

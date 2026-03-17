@@ -7,11 +7,11 @@ export const Navbar: React.FC = () => {
   const { token, logout } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation(); // get current location
+  const location = useLocation();
 
   const navItems = [
     { name: "Home", page: "home", icon: Home },
-    { name: "Maps", page: "maps", icon: Map },
+    { name: "Maps", page: "maps", icon: Map, onlyForLoggedIn: true },
     { name: "Spaces", page: "spaces", icon: Layers, onlyForLoggedIn: true },
     {
       name: "Profile",
@@ -21,9 +21,7 @@ export const Navbar: React.FC = () => {
     },
   ];
 
-  // Helper to check if nav item is active
   const isActive = (page: string) => {
-    // Match root for home, otherwise check if path starts with /page
     if (page === "home")
       return location.pathname === "/" || location.pathname === "/home";
     return location.pathname.startsWith(`/${page}`);
@@ -34,27 +32,27 @@ export const Navbar: React.FC = () => {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-slate-900/80 backdrop-blur-md shadow-lg">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 shadow-sm">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="flex items-center justify-between h-20">
+        <div className="flex items-center justify-between h-16">
           <button
             onClick={() => handleNavClick("home")}
-            className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400 hover:opacity-80 transition-opacity"
+            className="text-2xl font-bold text-black hover:opacity-80 transition-opacity"
           >
-            PixelVerse
+            MetaVerse
           </button>
 
-          <div className="hidden md:flex space-x-2 items-center">
+          <div className="hidden md:flex space-x-1 items-center">
             {navItems
               .filter((item) => !item.onlyForLoggedIn || token)
               .map((item) => (
                 <button
                   key={item.name}
                   onClick={() => handleNavClick(item.page)}
-                  className={`px-3 py-2 rounded-md text-sm font-medium flex items-center space-x-2 transition-colors ${
+                  className={`px-4 py-2 rounded-lg text-sm font-medium flex items-center space-x-2 transition-colors ${
                     isActive(item.page)
-                      ? "text-cyan-400 bg-slate-800"
-                      : "text-slate-300 hover:text-cyan-400"
+                      ? "text-black bg-gray-100"
+                      : "text-gray-600 hover:text-black hover:bg-gray-50"
                   }`}
                 >
                   <item.icon size={18} />
@@ -62,26 +60,17 @@ export const Navbar: React.FC = () => {
                 </button>
               ))}
             <button
-              onClick={() => handleNavClick("login")}
-              className="animated-border-button rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 group ml-3"
+              onClick={() => (token ? logout() : handleNavClick("login"))}
+              className="ml-4 bg-[#9ef01a] hover:opacity-90 text-black px-6 py-2 rounded-lg font-semibold transition-all"
             >
-              <span className="inner-content px-5 py-2.5 text-white font-semibold flex items-center space-x-2">
-                {token ? (
-                  <span onClick={logout}>Logout</span>
-                ) : (
-                  <>
-                    <LogIn size={20} />
-                    <span>Login / Sign Up</span>
-                  </>
-                )}
-              </span>
+              {token ? "Logout" : "Login"}
             </button>
           </div>
 
           <div className="md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-slate-300 hover:text-white focus:outline-none"
+              className="text-gray-600 hover:text-black focus:outline-none"
             >
               {isOpen ? <X size={28} /> : <Menu size={28} />}
             </button>
@@ -90,7 +79,7 @@ export const Navbar: React.FC = () => {
       </div>
 
       {isOpen && (
-        <div className="md:hidden absolute top-20 left-0 right-0 bg-slate-800 shadow-xl rounded-b-lg pb-4">
+        <div className="md:hidden absolute top-16 left-0 right-0 bg-white border-b border-gray-200 shadow-lg">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             {navItems
               .filter((item) => !item.onlyForLoggedIn || token)
@@ -98,10 +87,10 @@ export const Navbar: React.FC = () => {
                 <button
                   key={item.name}
                   onClick={() => handleNavClick(item.page)}
-                  className={`w-full text-left block px-3 py-2 rounded-md text-base font-medium flex items-center space-x-3 transition-colors ${
+                  className={`w-full text-left block px-3 py-2 rounded-lg text-base font-medium flex items-center space-x-3 transition-colors ${
                     isActive(item.page)
-                      ? "bg-slate-700 text-white"
-                      : "text-slate-300 hover:bg-slate-700 hover:text-white"
+                      ? "bg-gray-100 text-black"
+                      : "text-gray-600 hover:bg-gray-50 hover:text-black"
                   }`}
                 >
                   <item.icon size={20} />
@@ -109,21 +98,12 @@ export const Navbar: React.FC = () => {
                 </button>
               ))}
           </div>
-          <div className="px-4 pt-2">
+          <div className="px-4 pt-2 pb-4">
             <button
-              onClick={() => handleNavClick("login")}
-              className="animated-border-button w-full rounded-lg shadow-md hover:shadow-lg transition-all duration-300 group"
+              onClick={() => (token ? logout() : handleNavClick("login"))}
+              className="w-full bg-[#9ef01a] hover:opacity-90 text-black px-6 py-3 rounded-lg font-semibold transition-all"
             >
-              <span className="inner-content w-full px-5 py-3 text-white font-semibold flex items-center justify-center space-x-2">
-                {token ? (
-                  <span onClick={logout}>Logout</span>
-                ) : (
-                  <>
-                    <LogIn size={20} />
-                    <span>Login / Sign Up</span>
-                  </>
-                )}
-              </span>
+              {token ? "Logout" : "Login"}
             </button>
           </div>
         </div>
